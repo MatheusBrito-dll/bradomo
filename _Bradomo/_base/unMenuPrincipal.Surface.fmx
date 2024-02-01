@@ -118,4 +118,10 @@ inherited frmMenuPrincipal_Surface: TfrmMenuPrincipal_Surface
     Position.Y = 1898.000000000000000000
     Size.Width = 1080.000000000000000000
   end
+  inherited Timer1: TTimer [3]
+  end
+  inherited imgS: TImageList [4]
+  end
+  inherited imgIcons: TImageList [5]
+  end
 end

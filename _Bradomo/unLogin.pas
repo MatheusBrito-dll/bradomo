@@ -37,7 +37,10 @@ uses
   FMX.Types, FMX.Controls, FMX.Forms, FMX.Graphics, FMX.Dialogs, FMX.Objects,
   FMX.Edit, FMX.Controls.Presentation, FMX.StdCtrls, FMX.ImgList,
   System.ImageList, FMX.Platform, Winapi.ShellAPI, Winapi.Windows,
-  unMenuPrincipal, FMX.Layouts;
+  unMenuPrincipal, FMX.Layouts,
+  uApi,
+  System.JSON,
+  unmd5;
 
 type
   TfrmLogin = class(TForm)
@@ -113,19 +116,69 @@ end;
 
 procedure TfrmLogin.recEntrarClick(Sender: TObject);
 var
+  ApiLogin      : TApi;
+  Dados         : String;
   LayoutPadraoC : TComponent;
+  JSONValue     : TJSONValue;
+  JSONObject    : TJSONObject;
+  JSONArray     : TJSONArray;
+  senha         : String;
+
 begin
-  recDireitaLogin.Free;
-  picImageLogo.Free;
+  lblAviso.Visible := False;
+  if (Trim(edtUsuario.Text) <> '') and (Trim(edtSenha.Text) <> '') then
+  begin
+    ApiLogin := TApi.Create;
+    Dados := ApiLogin.LoginGet(edtUsuario.Text);
 
-  frmLogin.WindowState := TWindowState.wsMaximized;
+    if (Pos('Erro', Dados) > 0) then
+    begin
+        ShowMessage(Dados);
+    end else
+    begin
+      if Dados <> '[]' then
+      begin
+        JSONValue  := TJSONObject.ParseJSONValue(Dados);
+        JSONArray  := JSONValue as TJSONArray;
+        JSONObject := JSONArray[0] as TJSONObject;
 
-  Application.CreateForm(TfrmMenuPrincipal, frmMenuPrincipal);
+        senha := JSONObject.GetValue('SENHA').Value;
 
-  LayoutPadraoC := frmMenuPrincipal.FindComponent('LayoutMenu');
+        if (JSONObject.GetValue('BLOQ').Value = '1') then
+        begin
+            if (senha = MD5String(edtSenha.Text))  then
+            begin
+              recDireitaLogin.Free;
+              picImageLogo.Free;
 
-  frmLogin.LayoutPadrao.AddObject(TLayout(LayoutPadraoC));
+              frmLogin.WindowState := TWindowState.wsMaximized;
 
+              Application.CreateForm(TfrmMenuPrincipal, frmMenuPrincipal);
+
+              LayoutPadraoC := frmMenuPrincipal.FindComponent('LayoutMenu');
+
+              frmLogin.LayoutPadrao.AddObject(TLayout(LayoutPadraoC));
+            end else
+            begin
+              lblAviso.Text := 'Senha Incorreta!';
+              lblAviso.Visible := True;
+            end;
+        end else
+        begin
+          lblAviso.Text := 'Usuario Bloqueado!';
+          lblAviso.Visible := True;
+        end;
+      end else
+      begin
+        lblAviso.Text := 'Usuáro não encontrado!';
+        lblAviso.Visible := True;
+      end;
+    end;
+  end else
+  begin
+     lblAviso.Text := 'Existem campos obrigatórios!';
+     lblAviso.Visible := True;
+  end;
 end;
 
 

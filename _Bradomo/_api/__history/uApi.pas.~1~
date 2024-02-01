@@ -1,0 +1,104 @@
+unit uApi;
+
+interface
+
+uses
+  IdHTTP, IdAuthentication, IdSSLOpenSSL, SysUtils, IdException, unGlobal,
+  System.JSON, System.Classes, FMX.Dialogs;
+
+type
+  TUnit1 = class
+  private
+    FIdHTTP: TIdHTTP;
+    procedure ConfigurarHTTP;
+  public
+    constructor Create;
+    destructor Destroy; override;
+    function FazerRequisicaoGET(const Usuario, Filial: string): string;
+    function MDFeGET(const Usuario : string): string;
+    function DocGET(const NumMdfe : string): string;
+    function PostDocs(const Json : TJsonObject): string;
+  end;
+
+implementation
+
+{ TApi }
+
+constructor TApi.Create;
+begin
+  FIdHTTP := TIdHTTP.Create(nil);
+  ConfigurarHTTP;
+end;
+
+destructor TApi.Destroy;
+begin
+  FIdHTTP.Free;
+  inherited;
+end;
+
+procedure TApi.ConfigurarHTTP;
+begin
+  FIdHTTP.Request.Clear;
+  FIdHTTP.Request.BasicAuthentication := True;
+  FIdHTTP.Request.Username := '01001002';
+  FIdHTTP.Request.Password := '3752577100029301001002';
+end;
+
+function TApi.DocGET(const NumMdfe: string): string;
+var
+  URL: string;
+begin
+  try
+    URL := 'http://'+ip+':9091/busca_docs_mdfe?nummdfe='+NumMdfe;
+    Result := FIdHTTP.Get(URL);
+  except
+    on E: Exception do
+      Result := 'Erro: ' + E.Message;
+  end;
+end;
+
+function TApi.FazerRequisicaoGET(const Usuario, Filial: string): string;
+var
+  URL: string;
+begin
+  try
+    URL := 'http://'+ip+':9091/login_driver?usuario='+Usuario+'&filial='+Filial;
+    Result := FIdHTTP.Get(URL);
+  except
+    on E: Exception do
+      Result := 'Erro: ' + E.Message;
+  end;
+end;
+
+function TApi.MDFeGET(const Usuario : string): string;
+var
+  URL: string;
+begin
+  try
+    URL := 'http://'+ip+':9091/mdfe_autorizadas_driver?usuario='+Usuario;
+    Result := FIdHTTP.Get(URL);
+  except
+    on E: Exception do
+      Result := 'Erro: ' + E.Message;
+  end;
+end;
+
+function TApi.PostDocs(const Json : TJsonObject): string;
+var
+  requestBody: TStringStream;
+begin
+  try
+
+    FIdHTTP.Request.ContentType := 'application/json';
+
+    requestBody := TStringStream.Create(Json.ToString, TEncoding.UTF8);
+    Result := FIdHTTP.Post('http://'+ip+':9091/atualiza_docs_mdfe', requestBody);
+
+  except
+    on E: Exception do
+      Result := 'Erro: ' + E.Message;
+  end;
+end;
+
+end.
+

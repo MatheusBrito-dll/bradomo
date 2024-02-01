@@ -123,4 +123,10 @@ inherited frmMenuPrincipal_NmXhdpiPh: TfrmMenuPrincipal_NmXhdpiPh
     Position.Y = 593.000000000000000000
     Size.Width = 400.000000000000000000
   end
+  inherited Timer1: TTimer [3]
+  end
+  inherited imgS: TImageList [4]
+  end
+  inherited imgIcons: TImageList [5]
+  end
 end

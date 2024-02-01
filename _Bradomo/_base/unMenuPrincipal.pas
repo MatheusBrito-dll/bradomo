@@ -84,6 +84,8 @@ type
     StatusBar1: TStatusBar;
     Label11: TLabel;
     Label12: TLabel;
+    FloatAnimation10: TFloatAnimation;
+    Timer1: TTimer;
     procedure btnMenuPequenoClick(Sender: TObject);
     procedure anmConfiguracaoFinish(Sender: TObject);
     procedure anmPrivacidadeFinish(Sender: TObject);
@@ -112,6 +114,7 @@ type
     procedure recAHomeMouseLeave(Sender: TObject);
     procedure recAVendaMouseEnter(Sender: TObject);
     procedure recAVendaMouseLeave(Sender: TObject);
+    procedure Timer1Timer(Sender: TObject);
 
   private
     { Private declarations }
@@ -144,6 +147,8 @@ begin
   FloatAnimation7 .Duration := 0.5;
   FloatAnimation8 .Duration := 0.5;
   FloatAnimation9 .Duration := 0.5;
+
+  Timer1.Enabled := True;
 end;
 
 procedure TfrmMenuPrincipal.gMouseEnter(Sender: TObject);
@@ -291,6 +296,11 @@ end;
 procedure TfrmMenuPrincipal.recAVendaMouseLeave(Sender: TObject);
 begin
   recAVenda.Fill.Color := TAlphaColor($FF017CA9);
+end;
+
+procedure TfrmMenuPrincipal.Timer1Timer(Sender: TObject);
+begin
+  FloatAnimation10.Start;
 end;
 
 procedure TfrmMenuPrincipal.btnMenuPequenoClick(Sender: TObject);

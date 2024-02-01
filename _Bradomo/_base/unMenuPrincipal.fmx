@@ -734,6 +734,14 @@ object frmMenuPrincipal: TfrmMenuPrincipal
           Size.Width = 185.000000000000000000
           Size.Height = 76.000000000000000000
           Size.PlatformDefault = False
+          object FloatAnimation10: TFloatAnimation
+            AnimationType = Out
+            Duration = 0.500000000000000000
+            Interpolation = Circular
+            PropertyName = 'RotationAngle'
+            StartValue = 0.000000000000000000
+            StopValue = 360.000000000000000000
+          end
         end
       end
       object VertScrollBox1: TVertScrollBox
@@ -2965,5 +2973,12 @@ object frmMenuPrincipal: TfrmMenuPrincipal
       end>
     Left = 209
     Top = 106
+  end
+  object Timer1: TTimer
+    Enabled = False
+    Interval = 5000
+    OnTimer = Timer1Timer
+    Left = 209
+    Top = 226
   end
 end
