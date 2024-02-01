@@ -221,6 +221,7 @@
         </DCCReference>
         <DCCReference Include="_api\uApi.pas"/>
         <DCCReference Include="_base\unGlobal.pas"/>
+        <DCCReference Include="_criptografia\unMD5.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

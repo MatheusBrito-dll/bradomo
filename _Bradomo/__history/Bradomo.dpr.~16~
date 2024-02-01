@@ -20,8 +20,7 @@ uses
   unLogin in 'unLogin.pas' {frmLogin},
   unMenuPrincipal in '_base\unMenuPrincipal.pas' {frmMenuPrincipal},
   uApi in '_api\uApi.pas',
-  unGlobal in '_base\unGlobal.pas',
-  unMD5 in '_criptografia\unMD5.pas';
+  unGlobal in '_base\unGlobal.pas';
 
 {$R *.res}
 begin
