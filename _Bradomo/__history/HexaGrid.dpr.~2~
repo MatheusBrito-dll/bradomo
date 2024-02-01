@@ -1,0 +1,14 @@
+program HexaGrid;
+
+uses
+  System.StartUpCopy,
+  FMX.Forms,
+  unLogin in 'unLogin.pas' {Form1};
+
+{$R *.res}
+
+begin
+  Application.Initialize;
+  Application.CreateForm(TfrmLogin, frmLogin);
+  Application.Run;
+end.

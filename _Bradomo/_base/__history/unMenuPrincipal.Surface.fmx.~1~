@@ -1,0 +1,55 @@
+inherited frmMenuPrincipal_Surface: TfrmMenuPrincipal_Surface
+  ClientHeight = 1920
+  ClientWidth = 1080
+  DesignerMasterStyle = 3
+  inherited LayoutMenu: TLayout
+    Size.Width = 1080.000000000000000000
+    Size.Height = 1920.000000000000000000
+    inherited recAppBar: TRectangle
+      Size.Width = 895.000000000000000000
+      inherited Image2: TImage
+        Position.X = 717.000000000000000000
+      end
+      inherited Label1: TLabel
+        Position.X = 757.000000000000000000
+        TextSettings.Font.StyleExt = {00060000000000000004000000}
+      end
+      inherited btnMenuPequeno: TRectangle
+        Position.X = 870.000000000000000000
+      end
+    end
+    inherited recSideBar: TRectangle
+      Size.Height = 1920.000000000000000000
+    end
+    inherited recPainelVisu: TRectangle
+      Size.Width = 895.000000000000000000
+      Size.Height = 1878.000000000000000000
+    end
+    inherited MenuAnamation: TRectangle
+      inherited recDButton: TRectangle
+        inherited btnAjuda: TSpeedButton
+          TextSettings.Font.StyleExt = {00070000000000000004000000}
+        end
+      end
+      inherited recABtutton: TRectangle
+        inherited btnConfiguracao: TSpeedButton
+          TextSettings.Font.StyleExt = {00070000000000000004000000}
+        end
+      end
+      inherited recCButton: TRectangle
+        inherited btnAssinatura: TSpeedButton
+          TextSettings.Font.StyleExt = {00070000000000000004000000}
+        end
+      end
+      inherited recBButton: TRectangle
+        inherited btnPrivacidade: TSpeedButton
+          TextSettings.Font.StyleExt = {00070000000000000004000000}
+        end
+      end
+    end
+  end
+  inherited StyleBook1: TStyleBook [1]
+  end
+  inherited imgS: TImageList [2]
+  end
+end

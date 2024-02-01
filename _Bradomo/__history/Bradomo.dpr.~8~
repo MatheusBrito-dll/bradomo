@@ -1,0 +1,34 @@
+program Bradomo;
+
+uses
+  System.StartUpCopy,
+  FMX.Forms,
+  Vcl.Controls,
+  System.SysUtils,
+  unLogin in 'unLogin.pas' {frmLogin},
+  unMenuPrincipal in '_base\unMenuPrincipal.pas' {frmMenuPrincipal};
+
+{$R *.res}
+var
+  login : TfrmLogin;
+  event : TProc = nil;
+begin
+  Application.Initialize;
+
+  login :=  Application.CreateForm(TfrmMenuPrincipal, frmMenuPrincipal);
+  login.ShowModal(
+  procedure(ModalResult : TModalResult)
+  begin
+    if(ModalResult = mrOK) and Assigned(event) then
+      event;
+  end);
+
+  if login.ModalResult = mrOK then
+  begin
+    Application.CreateForm(TfrmMenuPrincipal, frmMenuPrincipal);
+    Application.Run;
+  end else
+  begin
+    frmLogin.DisposeOf;
+  end;
+end.

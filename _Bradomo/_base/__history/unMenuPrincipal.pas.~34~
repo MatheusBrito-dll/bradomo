@@ -1,0 +1,103 @@
+unit unMenuPrincipal;
+
+interface
+
+uses
+  System.SysUtils, System.Types, System.UITypes, System.Classes, System.Variants,
+  FMX.Types, FMX.Controls, FMX.Forms, FMX.Graphics, FMX.Dialogs,
+  FMX.Controls.Presentation, FMX.Edit, FMX.WebBrowser, FMX.StdCtrls, FMX.Layouts,
+  FMX.ImgList, System.ImageList, FMX.Objects, FMX.Ani;
+
+type
+  TfrmMenuPrincipal = class(TForm)
+    LayoutMenu: TLayout;
+    Rectangle1: TRectangle;
+    Rectangle2: TRectangle;
+    Rectangle3: TRectangle;
+    Image1: TImage;
+    Rectangle4: TRectangle;
+    Edit1: TEdit;
+    Image2: TImage;
+    Label1: TLabel;
+    imgS: TImageList;
+    Glyph1: TGlyph;
+    Rectangle5: TRectangle;
+    Image3: TImage;
+    Rectangle6: TRectangle;
+    AnimacaoArrow: TFloatAnimation;
+    btnAssinatura: TButton;
+    AnimacaoBntAssinatura: TFloatAnimation;
+    btnAjuda: TButton;
+    btnConfiguracao: TButton;
+    _1AnimacaoConfig: TFloatAnimation;
+    AnimationAjuda: TFloatAnimation;
+    btnPrivaciade: TButton;
+    AnimacaoBntPrivacidade: TFloatAnimation;
+    procedure Image3Click(Sender: TObject);
+    procedure Rectangle5Click(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
+    procedure _1AnimacaoConfigFinish(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  frmMenuPrincipal: TfrmMenuPrincipal;
+
+implementation
+
+{$R *.fmx}
+
+
+procedure TfrmMenuPrincipal.Image3Click(Sender: TObject);
+begin
+  Application.Terminate;
+end;
+
+
+
+procedure TfrmMenuPrincipal.FormCreate(Sender: TObject);
+begin
+  Rectangle6.Height       := 0;
+  btnConfiguracao.Height  := 0;
+  btnPrivaciade.Height    := 0;
+  btnAssinatura.Height    := 0;
+  btnAjuda.Height         := 0;
+end;
+
+procedure TfrmMenuPrincipal.Rectangle5Click(Sender: TObject);
+begin
+  if Glyph1.ImageIndex = 0 then
+  begin
+
+    AnimacaoArrow.Inverse  := False;
+    AnimacaoArrow.Start;
+
+    _1AnimacaoConfig.Start;
+
+    Glyph1.ImageIndex      := 1;
+  end else
+  begin
+
+    btnConfiguracao .Height := 0;
+    btnPrivaciade  .Height  := 0;
+    btnAssinatura  .Height  := 0;
+    btnAjuda        .Height := 0;
+
+    AnimacaoArrow.Inverse  := True;
+    AnimacaoArrow.Start;
+
+    Glyph1.ImageIndex      := 0;
+  end;
+end;
+
+
+procedure TfrmMenuPrincipal._1AnimacaoConfigFinish(Sender: TObject);
+begin
+  AnimacaoBntPrivacidade.Start;
+  AnimacaoBntAssinatura.Start;
+end;
+
+end.
