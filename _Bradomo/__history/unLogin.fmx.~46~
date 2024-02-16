@@ -3307,7 +3307,6 @@ object frmLogin: TfrmLogin
         end>
       Align = Left
       Locked = True
-      Opacity = 0.000000000000000000
       Size.Width = 336.000000000000000000
       Size.Height = 478.000000000000000000
       Size.PlatformDefault = False

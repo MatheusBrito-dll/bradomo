@@ -69,7 +69,7 @@ app.post('/atualizaSenha', authenticate, (req, res) => {
       if (updateResults.changedRows === 0) {
         return res.status(400).send('A senha fornecida é igual à senha atual.');
       }
-
+      console.log('200 - Troca Senha OK.');
       res.json(updateResults);
     });
   });
@@ -92,7 +92,7 @@ app.get('/getLogin', authenticate, (req, res) => {
       res.status(500).send('Erro interno do servidor!!');
       return;
     }
-
+    console.log('200 - Login OK');
     res.json(results);
     
   });
