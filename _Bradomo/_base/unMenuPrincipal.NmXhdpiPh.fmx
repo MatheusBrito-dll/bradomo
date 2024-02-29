@@ -34,48 +34,53 @@ inherited frmMenuPrincipal_NmXhdpiPh: TfrmMenuPrincipal_NmXhdpiPh
         Size.Height = 355.000000000000000000
         Viewport.Width = 50.000000000000000000
         Viewport.Height = 50.000000000000000000
-        inherited a: TRectangle
+        inherited btnEntradas: TRectangle
           inherited Label3: TLabel
             TextSettings.Font.StyleExt = {00060000000000000004000000}
           end
         end
-        inherited b: TRectangle
+        inherited btnSaidas: TRectangle
           inherited Label9: TLabel
             TextSettings.Font.StyleExt = {00060000000000000004000000}
           end
         end
-        inherited c: TRectangle
+        inherited btnDescontos: TRectangle
           inherited Label8: TLabel
             TextSettings.Font.StyleExt = {00060000000000000004000000}
           end
         end
-        inherited d: TRectangle
+        inherited btnClientes: TRectangle
           inherited Label7: TLabel
             TextSettings.Font.StyleExt = {00060000000000000004000000}
           end
         end
-        inherited e: TRectangle
+        inherited btnFornecedores: TRectangle
           inherited Label6: TLabel
             TextSettings.Font.StyleExt = {00060000000000000004000000}
           end
         end
-        inherited f: TRectangle
+        inherited btnDevolucao: TRectangle
           inherited Label5: TLabel
             TextSettings.Font.StyleExt = {00060000000000000004000000}
           end
         end
-        inherited g: TRectangle
+        inherited btnEstoque: TRectangle
           inherited Label4: TLabel
             TextSettings.Font.StyleExt = {00060000000000000004000000}
           end
         end
-        inherited h: TRectangle
+        inherited btnRelatorios: TRectangle
           inherited Label2: TLabel
             TextSettings.Font.StyleExt = {00060000000000000004000000}
           end
         end
-        inherited i: TRectangle
+        inherited btnFaturamento: TRectangle
           inherited Label10: TLabel
+            TextSettings.Font.StyleExt = {00060000000000000004000000}
+          end
+        end
+        inherited btnMesas: TRectangle
+          inherited Label13: TLabel
             TextSettings.Font.StyleExt = {00060000000000000004000000}
           end
         end
@@ -122,11 +127,5 @@ inherited frmMenuPrincipal_NmXhdpiPh: TfrmMenuPrincipal_NmXhdpiPh
   inherited StatusBar1: TStatusBar
     Position.Y = 593.000000000000000000
     Size.Width = 400.000000000000000000
-  end
-  inherited Timer1: TTimer [3]
-  end
-  inherited imgS: TImageList [4]
-  end
-  inherited imgIcons: TImageList [5]
   end
 end

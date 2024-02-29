@@ -1,0 +1,132 @@
+inherited frmMenuPrincipal_NmXhdpiPh: TfrmMenuPrincipal_NmXhdpiPh
+  ClientHeight = 615
+  ClientWidth = 400
+  DesignerMasterStyle = 3
+  inherited LayoutMenu: TLayout
+    Size.Width = 400.000000000000000000
+    Size.Height = 593.000000000000000000
+    inherited recAppBar: TRectangle
+      Size.Width = 215.000000000000000000
+      inherited recBuscar: TRectangle
+        inherited edtBusca: TEdit
+          Size.Height = 32.000000000000000000
+        end
+      end
+      inherited Image2: TImage
+        Position.X = 175.000000000000000000
+      end
+      inherited Label1: TLabel
+        Position.X = 62.000000000000000000
+        TextSettings.Font.StyleExt = {00060000000000000004000000}
+      end
+      inherited btnMenuPequeno: TRectangle
+        Position.X = 37.000000000000000000
+      end
+    end
+    inherited recSideBar: TRectangle
+      Size.Height = 593.000000000000000000
+      inherited recLogo: TRectangle
+        inherited lblLogo: TLabel
+          Margins.Bottom = 10.000000000000000000
+        end
+      end
+      inherited VertScrollBox1: TVertScrollBox
+        Size.Height = 355.000000000000000000
+        Viewport.Width = 50.000000000000000000
+        Viewport.Height = 50.000000000000000000
+        inherited a: TRectangle
+          inherited Label3: TLabel
+            TextSettings.Font.StyleExt = {00060000000000000004000000}
+          end
+        end
+        inherited b: TRectangle
+          inherited Label9: TLabel
+            TextSettings.Font.StyleExt = {00060000000000000004000000}
+          end
+        end
+        inherited c: TRectangle
+          inherited Label8: TLabel
+            TextSettings.Font.StyleExt = {00060000000000000004000000}
+          end
+        end
+        inherited d: TRectangle
+          inherited Label7: TLabel
+            TextSettings.Font.StyleExt = {00060000000000000004000000}
+          end
+        end
+        inherited e: TRectangle
+          inherited Label6: TLabel
+            TextSettings.Font.StyleExt = {00060000000000000004000000}
+          end
+        end
+        inherited f: TRectangle
+          inherited Label5: TLabel
+            TextSettings.Font.StyleExt = {00060000000000000004000000}
+          end
+        end
+        inherited g: TRectangle
+          inherited Label4: TLabel
+            TextSettings.Font.StyleExt = {00060000000000000004000000}
+          end
+        end
+        inherited h: TRectangle
+          inherited Label2: TLabel
+            TextSettings.Font.StyleExt = {00060000000000000004000000}
+          end
+        end
+        inherited i: TRectangle
+          inherited Label10: TLabel
+            TextSettings.Font.StyleExt = {00060000000000000004000000}
+          end
+        end
+      end
+      inherited recAVenda: TRectangle
+        inherited Label11: TLabel
+          TextSettings.Font.StyleExt = {00070000000000000004000000}
+        end
+      end
+      inherited recAHome: TRectangle
+        Fill.Kind = None
+        inherited Label12: TLabel
+          TextSettings.Font.StyleExt = {00070000000000000004000000}
+        end
+      end
+    end
+    inherited recPainelVisu: TRectangle
+      Size.Width = 215.000000000000000000
+      Size.Height = 551.000000000000000000
+    end
+    inherited MenuAnamation: TRectangle
+      inherited recDButton: TRectangle
+        inherited btnAjuda: TSpeedButton
+          TextSettings.Font.StyleExt = {00070000000000000004000000}
+        end
+      end
+      inherited recABtutton: TRectangle
+        inherited btnConfiguracao: TSpeedButton
+          TextSettings.Font.StyleExt = {00070000000000000004000000}
+        end
+      end
+      inherited recCButton: TRectangle
+        inherited btnAssinatura: TSpeedButton
+          TextSettings.Font.StyleExt = {00070000000000000004000000}
+        end
+      end
+      inherited recBButton: TRectangle
+        inherited btnPrivacidade: TSpeedButton
+          TextSettings.Font.StyleExt = {00070000000000000004000000}
+        end
+      end
+    end
+  end
+  inherited StatusBar1: TStatusBar
+    Position.Y = 593.000000000000000000
+    Size.Width = 400.000000000000000000
+  end
+  inherited Timer1: TTimer [3]
+  end
+  inherited imgS: TImageList [4]
+  end
+  inherited imgIcons: TImageList [5]
+  end
+end

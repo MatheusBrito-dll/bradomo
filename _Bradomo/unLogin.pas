@@ -146,7 +146,7 @@ begin
 
         if (JSONObject.GetValue('BLOQ').Value = '1') then
         begin
-            if (senha = MD5String(edtSenha.Text))  then
+            if (senha.ToUpper = MD5String(edtSenha.Text).ToUpper)  then
             begin
               recDireitaLogin.Free;
               picImageLogo.Free;

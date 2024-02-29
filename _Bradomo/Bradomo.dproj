@@ -222,6 +222,11 @@
         <DCCReference Include="_api\uApi.pas"/>
         <DCCReference Include="_base\unGlobal.pas"/>
         <DCCReference Include="_criptografia\unMD5.pas"/>
+        <DCCReference Include="_frames\fmMesaReservada.pas">
+            <Form>frameMesaReservada</Form>
+            <FormType>fmx</FormType>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

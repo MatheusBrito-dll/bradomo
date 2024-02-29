@@ -39,32 +39,32 @@ type
     lblLogo: TLabel;
     StyleBook1: TStyleBook;
     Image1: TImage;
-    a: TRectangle;
+    btnEntradas: TRectangle;
     Label3: TLabel;
     imgIcons: TImageList;
     Glyph2: TGlyph;
-    h: TRectangle;
+    btnRelatorios: TRectangle;
     Label2: TLabel;
     Glyph3: TGlyph;
-    g: TRectangle;
+    btnEstoque: TRectangle;
     Label4: TLabel;
     Glyph4: TGlyph;
-    f: TRectangle;
+    btnDevolucao: TRectangle;
     Label5: TLabel;
     Glyph5: TGlyph;
-    e: TRectangle;
+    btnFornecedores: TRectangle;
     Label6: TLabel;
     Glyph6: TGlyph;
-    d: TRectangle;
+    btnClientes: TRectangle;
     Label7: TLabel;
     Glyph7: TGlyph;
-    c: TRectangle;
+    btnDescontos: TRectangle;
     Label8: TLabel;
     Glyph8: TGlyph;
-    b: TRectangle;
+    btnSaidas: TRectangle;
     Label9: TLabel;
     Glyph9: TGlyph;
-    i: TRectangle;
+    btnFaturamento: TRectangle;
     Label10: TLabel;
     Glyph10: TGlyph;
     FloatAnimation1: TFloatAnimation;
@@ -86,35 +86,41 @@ type
     Label12: TLabel;
     FloatAnimation10: TFloatAnimation;
     Timer1: TTimer;
+    btnMesas: TRectangle;
+    Label13: TLabel;
+    Glyph11: TGlyph;
+    FloatAnimation11: TFloatAnimation;
     procedure btnMenuPequenoClick(Sender: TObject);
     procedure anmConfiguracaoFinish(Sender: TObject);
     procedure anmPrivacidadeFinish(Sender: TObject);
     procedure anmAssinaturaFinish(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure anmAjudaFinish(Sender: TObject);
-    procedure gMouseEnter(Sender: TObject);
-    procedure gMouseLeave(Sender: TObject);
-    procedure aMouseEnter(Sender: TObject);
-    procedure aMouseLeave(Sender: TObject);
-    procedure bMouseEnter(Sender: TObject);
-    procedure bMouseLeave(Sender: TObject);
-    procedure cMouseEnter(Sender: TObject);
-    procedure cMouseLeave(Sender: TObject);
-    procedure iMouseEnter(Sender: TObject);
-    procedure iMouseLeave(Sender: TObject);
-    procedure dMouseEnter(Sender: TObject);
-    procedure dMouseLeave(Sender: TObject);
-    procedure eMouseEnter(Sender: TObject);
-    procedure eMouseLeave(Sender: TObject);
-    procedure fMouseEnter(Sender: TObject);
-    procedure fMouseLeave(Sender: TObject);
-    procedure hMouseEnter(Sender: TObject);
-    procedure hMouseLeave(Sender: TObject);
+    procedure btnEstoqueMouseEnter(Sender: TObject);
+    procedure btnEstoqueMouseLeave(Sender: TObject);
+    procedure btnEntradasMouseEnter(Sender: TObject);
+    procedure btnEntradasMouseLeave(Sender: TObject);
+    procedure btnSaidasMouseEnter(Sender: TObject);
+    procedure btnSaidasMouseLeave(Sender: TObject);
+    procedure btnDescontosMouseEnter(Sender: TObject);
+    procedure btnDescontosMouseLeave(Sender: TObject);
+    procedure btnFaturamentoMouseEnter(Sender: TObject);
+    procedure btnFaturamentoMouseLeave(Sender: TObject);
+    procedure btnClientesMouseEnter(Sender: TObject);
+    procedure btnClientesMouseLeave(Sender: TObject);
+    procedure btnFornecedoresMouseEnter(Sender: TObject);
+    procedure btnFornecedoresMouseLeave(Sender: TObject);
+    procedure btnDevolucaoMouseEnter(Sender: TObject);
+    procedure btnDevolucaoMouseLeave(Sender: TObject);
+    procedure btnRelatoriosMouseEnter(Sender: TObject);
+    procedure btnRelatoriosMouseLeave(Sender: TObject);
     procedure recAHomeMouseEnter(Sender: TObject);
     procedure recAHomeMouseLeave(Sender: TObject);
     procedure recAVendaMouseEnter(Sender: TObject);
     procedure recAVendaMouseLeave(Sender: TObject);
     procedure Timer1Timer(Sender: TObject);
+    procedure btnMesasMouseEnter(Sender: TObject);
+    procedure btnMesasMouseLeave(Sender: TObject);
 
   private
     { Private declarations }
@@ -130,6 +136,14 @@ implementation
 {$R *.fmx}
 {$R *.NmXhdpiPh.fmx ANDROID}
 {$R *.Surface.fmx MSWINDOWS}
+
+//ENFEITES BORTÕES--------------------------------------------------------------
+{
+  PARA CRIAR UM NOVO BOTÃO NO MENU SIGA ESSES PASSOS
+  1 - CRIE O BOTÃO COMO OS OUTRO (COPIAR COLAR)
+  2 - RENOMEIOS E SO MUDE O FLOATINGANAMATION PARA O ULTIMO NUMERO DISPONIVEL
+  3 - NO FORMCREATE DEFINE A DURATION DAS ANIMATIONS
+}
 
 procedure TfrmMenuPrincipal.FormCreate(Sender: TObject);
 begin
@@ -147,135 +161,150 @@ begin
   FloatAnimation7 .Duration := 0.5;
   FloatAnimation8 .Duration := 0.5;
   FloatAnimation9 .Duration := 0.5;
+  FloatAnimation11 .Duration := 0.5;
 
   Timer1.Enabled := True;
 end;
 
-procedure TfrmMenuPrincipal.gMouseEnter(Sender: TObject);
+procedure TfrmMenuPrincipal.btnEstoqueMouseEnter(Sender: TObject);
 begin
-  g.Fill.Color := TAlphaColor($FF004964);
+  btnEstoque.Fill.Color := TAlphaColor($FF004964);
   FloatAnimation1.Inverse := False;
   FloatAnimation1.Start;
 end;
 
-procedure TfrmMenuPrincipal.gMouseLeave(Sender: TObject);
+procedure TfrmMenuPrincipal.btnEstoqueMouseLeave(Sender: TObject);
 begin
-  g.Fill.Color := TAlphaColor($FF017CA9);
+  btnEstoque.Fill.Color := TAlphaColor($FF017CA9);
   FloatAnimation1.Inverse := True;
   FloatAnimation1.Start;
 end;
 
-procedure TfrmMenuPrincipal.hMouseEnter(Sender: TObject);
+procedure TfrmMenuPrincipal.btnRelatoriosMouseEnter(Sender: TObject);
 begin
-  h.Fill.Color := TAlphaColor($FF004964);
+  btnRelatorios.Fill.Color := TAlphaColor($FF004964);
   FloatAnimation9.Inverse := false;
   FloatAnimation9.Start;
 end;
 
-procedure TfrmMenuPrincipal.hMouseLeave(Sender: TObject);
+procedure TfrmMenuPrincipal.btnRelatoriosMouseLeave(Sender: TObject);
 begin
-  h.Fill.Color := TAlphaColor($FF017CA9);
+  btnRelatorios.Fill.Color := TAlphaColor($FF017CA9);
   FloatAnimation9.Inverse := True;
   FloatAnimation9.Start;
 end;
 
-procedure TfrmMenuPrincipal.aMouseEnter(Sender: TObject);
+procedure TfrmMenuPrincipal.btnEntradasMouseEnter(Sender: TObject);
 begin
-  a.Fill.Color := TAlphaColor($FF004964);
+  btnEntradas.Fill.Color := TAlphaColor($FF004964);
   FloatAnimation2.Inverse := False;
   FloatAnimation2.Start;
 end;
 
-procedure TfrmMenuPrincipal.aMouseLeave(Sender: TObject);
+procedure TfrmMenuPrincipal.btnEntradasMouseLeave(Sender: TObject);
 begin
-  a.Fill.Color := TAlphaColor($FF017CA9);
+  btnEntradas.Fill.Color := TAlphaColor($FF017CA9);
   FloatAnimation2.Inverse := True;
   FloatAnimation2.Start;
 end;
 
 
-procedure TfrmMenuPrincipal.bMouseEnter(Sender: TObject);
+procedure TfrmMenuPrincipal.btnSaidasMouseEnter(Sender: TObject);
 begin
-  b.Fill.Color := TAlphaColor($FF004964);
+  btnSaidas.Fill.Color := TAlphaColor($FF004964);
   FloatAnimation3.Inverse := False;
   FloatAnimation3.Start;
 end;
 
-procedure TfrmMenuPrincipal.bMouseLeave(Sender: TObject);
+procedure TfrmMenuPrincipal.btnSaidasMouseLeave(Sender: TObject);
 begin
-  b.Fill.Color := TAlphaColor($FF017CA9);
+  btnSaidas.Fill.Color := TAlphaColor($FF017CA9);
   FloatAnimation3.Inverse := True;
   FloatAnimation3.Start;
 end;
 
-procedure TfrmMenuPrincipal.cMouseEnter(Sender: TObject);
+procedure TfrmMenuPrincipal.btnDescontosMouseEnter(Sender: TObject);
 begin
-  c.Fill.Color := TAlphaColor($FF004964);
+  btnDescontos.Fill.Color := TAlphaColor($FF004964);
   FloatAnimation4.Inverse := False;
   FloatAnimation4.Start;
 end;
 
-procedure TfrmMenuPrincipal.cMouseLeave(Sender: TObject);
+procedure TfrmMenuPrincipal.btnDescontosMouseLeave(Sender: TObject);
 begin
-  c.Fill.Color := TAlphaColor($FF017CA9);
+  btnDescontos.Fill.Color := TAlphaColor($FF017CA9);
   FloatAnimation4.Inverse := True;
   FloatAnimation4.Start;
 end;
 
-procedure TfrmMenuPrincipal.dMouseEnter(Sender: TObject);
+procedure TfrmMenuPrincipal.btnClientesMouseEnter(Sender: TObject);
 begin
-  d.Fill.Color := TAlphaColor($FF004964);
+  btnClientes.Fill.Color := TAlphaColor($FF004964);
   FloatAnimation6.Inverse := False;
   FloatAnimation6.Start;
 end;
 
-procedure TfrmMenuPrincipal.dMouseLeave(Sender: TObject);
+procedure TfrmMenuPrincipal.btnClientesMouseLeave(Sender: TObject);
 begin
-  d.Fill.Color := TAlphaColor($FF017CA9);
+  btnClientes.Fill.Color := TAlphaColor($FF017CA9);
   FloatAnimation6.Inverse := True;
   FloatAnimation6.Start;
 end;
 
-procedure TfrmMenuPrincipal.eMouseEnter(Sender: TObject);
+procedure TfrmMenuPrincipal.btnFornecedoresMouseEnter(Sender: TObject);
 begin
-  e.Fill.Color := TAlphaColor($FF004964);
+  btnFornecedores.Fill.Color := TAlphaColor($FF004964);
   FloatAnimation7.Inverse := False;
   FloatAnimation7.Start;
 end;
 
-procedure TfrmMenuPrincipal.eMouseLeave(Sender: TObject);
+procedure TfrmMenuPrincipal.btnFornecedoresMouseLeave(Sender: TObject);
 begin
-  e.Fill.Color := TAlphaColor($FF017CA9);
+  btnFornecedores.Fill.Color := TAlphaColor($FF017CA9);
   FloatAnimation7.Inverse := True;
   FloatAnimation7.Start;
 end;
 
-procedure TfrmMenuPrincipal.fMouseEnter(Sender: TObject);
+procedure TfrmMenuPrincipal.btnDevolucaoMouseEnter(Sender: TObject);
 begin
-  f.Fill.Color := TAlphaColor($FF004964);
+  btnDevolucao.Fill.Color := TAlphaColor($FF004964);
   FloatAnimation8.Inverse := false;
   FloatAnimation8.Start;
 end;
 
-procedure TfrmMenuPrincipal.fMouseLeave(Sender: TObject);
+procedure TfrmMenuPrincipal.btnDevolucaoMouseLeave(Sender: TObject);
 begin
-  f.Fill.Color := TAlphaColor($FF017CA9);
+  btnDevolucao.Fill.Color := TAlphaColor($FF017CA9);
   FloatAnimation8.Inverse := True;
   FloatAnimation8.Start;
 end;
 
-procedure TfrmMenuPrincipal.iMouseEnter(Sender: TObject);
+procedure TfrmMenuPrincipal.btnFaturamentoMouseEnter(Sender: TObject);
 begin
-  i.Fill.Color := TAlphaColor($FF004964);
+  btnFaturamento.Fill.Color := TAlphaColor($FF004964);
   FloatAnimation5.Inverse := False;
   FloatAnimation5.Start;
 end;
 
-procedure TfrmMenuPrincipal.iMouseLeave(Sender: TObject);
+procedure TfrmMenuPrincipal.btnFaturamentoMouseLeave(Sender: TObject);
 begin
-  i.Fill.Color := TAlphaColor($FF017CA9);
-  FloatAnimation4.Inverse := True;
-  FloatAnimation4.Start;
+  btnFaturamento.Fill.Color := TAlphaColor($FF017CA9);
+  FloatAnimation5.Inverse := True;
+  FloatAnimation5.Start;
+end;
+
+procedure TfrmMenuPrincipal.btnMesasMouseEnter(Sender: TObject);
+begin
+  btnMesas.Fill.Color := TAlphaColor($FF004964);
+  FloatAnimation11.Inverse := False;
+  FloatAnimation11.Start;
+end;
+
+procedure TfrmMenuPrincipal.btnMesasMouseLeave(Sender: TObject);
+begin
+  btnMesas.Fill.Color := TAlphaColor($FF017CA9);
+  FloatAnimation11.Inverse := True;
+  FloatAnimation11.Start;
 end;
 
 procedure TfrmMenuPrincipal.recAHomeMouseEnter(Sender: TObject);
@@ -378,5 +407,6 @@ begin
     anmAssinatura.Start;
   end;
 end;
+//------------------------------------------------------------------------------
 
 end.

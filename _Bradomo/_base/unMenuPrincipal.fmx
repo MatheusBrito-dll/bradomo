@@ -754,7 +754,7 @@ object frmMenuPrincipal: TfrmMenuPrincipal
         ShowScrollBars = False
         Viewport.Width = 185.000000000000000000
         Viewport.Height = 356.000000000000000000
-        object a: TRectangle
+        object btnEntradas: TRectangle
           Align = Top
           Fill.Color = xFF017CA9
           Margins.Bottom = 2.000000000000000000
@@ -764,8 +764,8 @@ object frmMenuPrincipal: TfrmMenuPrincipal
           Stroke.Kind = None
           XRadius = 6.000000000000000000
           YRadius = 6.000000000000000000
-          OnMouseEnter = aMouseEnter
-          OnMouseLeave = aMouseLeave
+          OnMouseEnter = btnEntradasMouseEnter
+          OnMouseLeave = btnEntradasMouseLeave
           object Label3: TLabel
             Align = Client
             StyledSettings = [Family]
@@ -799,19 +799,19 @@ object frmMenuPrincipal: TfrmMenuPrincipal
             StopValue = 42.000000000000000000
           end
         end
-        object b: TRectangle
+        object btnSaidas: TRectangle
           Align = Top
           Fill.Color = xFF017CA9
           Margins.Bottom = 2.000000000000000000
-          Position.Y = 296.000000000000000000
+          Position.Y = 333.000000000000000000
           Size.Width = 185.000000000000000000
           Size.Height = 35.000000000000000000
           Size.PlatformDefault = False
           Stroke.Kind = None
           XRadius = 6.000000000000000000
           YRadius = 6.000000000000000000
-          OnMouseEnter = bMouseEnter
-          OnMouseLeave = bMouseLeave
+          OnMouseEnter = btnSaidasMouseEnter
+          OnMouseLeave = btnSaidasMouseLeave
           object Label9: TLabel
             Align = Client
             StyledSettings = [Family]
@@ -845,19 +845,19 @@ object frmMenuPrincipal: TfrmMenuPrincipal
             StopValue = 42.000000000000000000
           end
         end
-        object c: TRectangle
+        object btnDescontos: TRectangle
           Align = Top
           Fill.Color = xFF017CA9
           Margins.Bottom = 2.000000000000000000
-          Position.Y = 259.000000000000000000
+          Position.Y = 296.000000000000000000
           Size.Width = 185.000000000000000000
           Size.Height = 35.000000000000000000
           Size.PlatformDefault = False
           Stroke.Kind = None
           XRadius = 6.000000000000000000
           YRadius = 6.000000000000000000
-          OnMouseEnter = cMouseEnter
-          OnMouseLeave = cMouseLeave
+          OnMouseEnter = btnDescontosMouseEnter
+          OnMouseLeave = btnDescontosMouseLeave
           object Label8: TLabel
             Align = Client
             StyledSettings = [Family]
@@ -890,19 +890,19 @@ object frmMenuPrincipal: TfrmMenuPrincipal
             StopValue = 42.000000000000000000
           end
         end
-        object d: TRectangle
+        object btnClientes: TRectangle
           Align = Top
           Fill.Color = xFF017CA9
           Margins.Bottom = 2.000000000000000000
-          Position.Y = 222.000000000000000000
+          Position.Y = 259.000000000000000000
           Size.Width = 185.000000000000000000
           Size.Height = 35.000000000000000000
           Size.PlatformDefault = False
           Stroke.Kind = None
           XRadius = 6.000000000000000000
           YRadius = 6.000000000000000000
-          OnMouseEnter = dMouseEnter
-          OnMouseLeave = dMouseLeave
+          OnMouseEnter = btnClientesMouseEnter
+          OnMouseLeave = btnClientesMouseLeave
           object Label7: TLabel
             Align = Client
             StyledSettings = [Family]
@@ -936,19 +936,19 @@ object frmMenuPrincipal: TfrmMenuPrincipal
             StopValue = 42.000000000000000000
           end
         end
-        object e: TRectangle
+        object btnFornecedores: TRectangle
           Align = Top
           Fill.Color = xFF017CA9
           Margins.Bottom = 2.000000000000000000
-          Position.Y = 185.000000000000000000
+          Position.Y = 222.000000000000000000
           Size.Width = 185.000000000000000000
           Size.Height = 35.000000000000000000
           Size.PlatformDefault = False
           Stroke.Kind = None
           XRadius = 6.000000000000000000
           YRadius = 6.000000000000000000
-          OnMouseEnter = eMouseEnter
-          OnMouseLeave = eMouseLeave
+          OnMouseEnter = btnFornecedoresMouseEnter
+          OnMouseLeave = btnFornecedoresMouseLeave
           object Label6: TLabel
             Align = Client
             StyledSettings = [Family]
@@ -982,19 +982,19 @@ object frmMenuPrincipal: TfrmMenuPrincipal
             StopValue = 42.000000000000000000
           end
         end
-        object f: TRectangle
+        object btnDevolucao: TRectangle
           Align = Top
           Fill.Color = xFF017CA9
           Margins.Bottom = 2.000000000000000000
-          Position.Y = 148.000000000000000000
+          Position.Y = 185.000000000000000000
           Size.Width = 185.000000000000000000
           Size.Height = 35.000000000000000000
           Size.PlatformDefault = False
           Stroke.Kind = None
           XRadius = 6.000000000000000000
           YRadius = 6.000000000000000000
-          OnMouseEnter = fMouseEnter
-          OnMouseLeave = fMouseLeave
+          OnMouseEnter = btnDevolucaoMouseEnter
+          OnMouseLeave = btnDevolucaoMouseLeave
           object Label5: TLabel
             Align = Client
             StyledSettings = [Family]
@@ -1028,19 +1028,19 @@ object frmMenuPrincipal: TfrmMenuPrincipal
             StopValue = 42.000000000000000000
           end
         end
-        object g: TRectangle
+        object btnEstoque: TRectangle
           Align = Top
           Fill.Color = xFF017CA9
           Margins.Bottom = 2.000000000000000000
-          Position.Y = 111.000000000000000000
+          Position.Y = 148.000000000000000000
           Size.Width = 185.000000000000000000
           Size.Height = 35.000000000000000000
           Size.PlatformDefault = False
           Stroke.Kind = None
           XRadius = 6.000000000000000000
           YRadius = 6.000000000000000000
-          OnMouseEnter = gMouseEnter
-          OnMouseLeave = gMouseLeave
+          OnMouseEnter = btnEstoqueMouseEnter
+          OnMouseLeave = btnEstoqueMouseLeave
           object Label4: TLabel
             Align = Client
             StyledSettings = [Family]
@@ -1074,19 +1074,19 @@ object frmMenuPrincipal: TfrmMenuPrincipal
             StopValue = 42.000000000000000000
           end
         end
-        object h: TRectangle
+        object btnRelatorios: TRectangle
           Align = Top
           Fill.Color = xFF017CA9
           Margins.Bottom = 2.000000000000000000
-          Position.Y = 74.000000000000000000
+          Position.Y = 111.000000000000000000
           Size.Width = 185.000000000000000000
           Size.Height = 35.000000000000000000
           Size.PlatformDefault = False
           Stroke.Kind = None
           XRadius = 6.000000000000000000
           YRadius = 6.000000000000000000
-          OnMouseEnter = hMouseEnter
-          OnMouseLeave = hMouseLeave
+          OnMouseEnter = btnRelatoriosMouseEnter
+          OnMouseLeave = btnRelatoriosMouseLeave
           object Label2: TLabel
             Align = Client
             StyledSettings = [Family]
@@ -1120,19 +1120,19 @@ object frmMenuPrincipal: TfrmMenuPrincipal
             StopValue = 42.000000000000000000
           end
         end
-        object i: TRectangle
+        object btnFaturamento: TRectangle
           Align = Top
           Fill.Color = xFF017CA9
           Margins.Bottom = 2.000000000000000000
-          Position.Y = 37.000000000000000000
+          Position.Y = 74.000000000000000000
           Size.Width = 185.000000000000000000
           Size.Height = 35.000000000000000000
           Size.PlatformDefault = False
           Stroke.Kind = None
           XRadius = 6.000000000000000000
           YRadius = 6.000000000000000000
-          OnMouseEnter = iMouseEnter
-          OnMouseLeave = iMouseLeave
+          OnMouseEnter = btnFaturamentoMouseEnter
+          OnMouseLeave = btnFaturamentoMouseLeave
           object Label10: TLabel
             Align = Client
             StyledSettings = [Family]
@@ -1158,6 +1158,52 @@ object frmMenuPrincipal: TfrmMenuPrincipal
             Images = imgIcons
           end
           object FloatAnimation5: TFloatAnimation
+            AnimationType = Out
+            Duration = 0.300000011920929000
+            Interpolation = Circular
+            PropertyName = 'Height'
+            StartValue = 35.000000000000000000
+            StopValue = 42.000000000000000000
+          end
+        end
+        object btnMesas: TRectangle
+          Align = Top
+          Fill.Color = xFF017CA9
+          Margins.Bottom = 2.000000000000000000
+          Position.Y = 37.000000000000000000
+          Size.Width = 185.000000000000000000
+          Size.Height = 35.000000000000000000
+          Size.PlatformDefault = False
+          Stroke.Kind = None
+          XRadius = 6.000000000000000000
+          YRadius = 6.000000000000000000
+          OnMouseEnter = btnMesasMouseEnter
+          OnMouseLeave = btnMesasMouseLeave
+          object Label13: TLabel
+            Align = Client
+            StyledSettings = [Family]
+            Margins.Left = 10.000000000000000000
+            Size.Width = 140.000000000000000000
+            Size.Height = 35.000000000000000000
+            Size.PlatformDefault = False
+            TextSettings.Font.Size = 14.000000000000000000
+            TextSettings.Font.StyleExt = {00060000000000000004000000}
+            TextSettings.FontColor = claWhite
+            TextSettings.Trimming = None
+            Text = 'Mesas'
+            TabOrder = 0
+          end
+          object Glyph11: TGlyph
+            Margins.Right = 10.000000000000000000
+            Align = Right
+            Position.X = 150.000000000000000000
+            Size.Width = 25.000000000000000000
+            Size.Height = 35.000000000000000000
+            Size.PlatformDefault = False
+            ImageIndex = 10
+            Images = imgIcons
+          end
+          object FloatAnimation11: TFloatAnimation
             AnimationType = Out
             Duration = 0.300000011920929000
             Interpolation = Circular
@@ -2237,6 +2283,13 @@ object frmMenuPrincipal: TfrmMenuPrincipal
     Size.PlatformDefault = False
     TabOrder = 4
   end
+  object Timer1: TTimer
+    Enabled = False
+    Interval = 5000
+    OnTimer = Timer1Timer
+    Left = 209
+    Top = 226
+  end
   object imgS: TImageList
     Source = <
       item
@@ -2889,6 +2942,80 @@ object frmMenuPrincipal: TfrmMenuPrincipal
             FileName = 'C:\Users\Matheus.Brito\Downloads\venda-imperdivel.png'
           end>
         Name = 'DESCONTO'
+      end
+      item
+        MultiResBitmap.Height = 64
+        MultiResBitmap.Width = 64
+        MultiResBitmap = <
+          item
+            Width = 64
+            Height = 64
+            PNG = {
+              89504E470D0A1A0A0000000D4948445200000040000000400806000000AA6971
+              DE0000000473424954080808087C0864880000077349444154789CED9A6BAC1E
+              4519C77FD39E5E28BD585BAAA714CEE90D308A6829A20D5A95082A56235A13A4
+              5123B1A28941E0037EE113A61F34518C1A635053A50A68624C931A23D5043025
+              162A49C522C5D6735AB0D49648DA53E8E5B43F3FCC6CBB67BBEF65DFF35E2CF1
+              9F6C6677E79999FFF3EC5C9E7976023D80FA19E0EDC063C0666029D0076C0D21
+              D80B4E5D837A8DB57167B7F9F475BB41E0B3C05E6026302BBDDB0A3C0DBCD203
+              3EDD853A35A513D555EA077BCDA9E35017A98BEBE44F5097AB73BBC9AB2B506F
+              C98DF19DEA6FD47FA9BF57CF4F32DF4EF9A3EA9FD43FAAFBD5AFF79AFFB8A1EE
+              A833E9AD4C32EF550F97E4BFDA6BFE2D439DA4DE5A4779D59FAA7D49FEC692FC
+              53C625F3DC83BAA181F2197E992BB3AB86116EE914CF099DAA18D8DFA4DC0DEA
+              79E97E5F497E003ED11E4A5D847166FF7E83AFBF455D91E4A7AB874A647EAC5E
+              D86B7D5A867ABC8E0196279909EAFA92FC7DA639E29C85FA4452E6A03A92536E
+              5B4E66637AF7BC7A3227B3AED3FC42A71B307A7E97135D5D81F7010B815F8710
+              5E4C32F3808B81BF007380EB886EFA2F4208273ACDB1675017A817F49A47D7A1
+              DEAC7E2F0D8943EA03BE16BCBE66A02E34AEED65A8B95FE8143AE907D4C2A7A8
+              3DF77CB29B447A02F5C93ACBE293BDE6D75134E8FE3D1906DD1E02F5BA7F86D7
+              EE3068D0FD7B320CDAE608195DD68B817E602E300F7803B03D84B0515D04EC6A
+              B2BAC52184DDEA4781B7123756FF060E10374C7B4308A3EDE05DD9CF5627016F
+              0196016F032E01160103C0A4922259A4F7DD159AB906D80D2C01EE29C93FA10E
+              130DFA1CF014D18BFC5B55CFB12903A8CB80EB810F002B802915DAC87A599578
+              7F265B6B8E9A4434CE92C42BC351F571E061E0772184A72AB45960A033D5AFA9
+              CF34316EEB617DAA6F9EE561AF220E1BF706182346E3C10EF52E756655E53FAD
+              BE34CEC6338CA8FDA9DEB54DC87F21C9F6AB47DAC4E1A07A53B3CA2F6953A379
+              DC9FABFF6775E41ECCC9DDDF660EA72CF131CAE68021E027C0E72B759BFA58A3
+              FE2184B01EF8327082B862E4B107B82D29FF39604D1BDB87A8D350D3D2EAB5EA
+              6F1D1BA0180F8EA85734D1EE15B6AFEB9F5437A9EFAFA2F82C736128A3FB7A87
+              BA593D364E42078DA1F285EAECC2B550FD5292190F8E19B9DEAE2ECCE9D1A7CE
+              2AD77AAC0156ABCF1AF7EC530A79D3D595EA9DC63DFC4EEBC7FC3A8DE346AE0F
+              244E2BD5E905CE53D435496E7551DFB2396036D1B9D9007C57FD15705B08E168
+              08610478245DA72D4B748216018B818B885EE05C62786B4EBA9F44FC1BDC68FF
+              711238449C270E022FA5EB20D11BDC4B748076017B6A7984C650DC7780D54927
+              80D7356380D7E7EE67036B81AFA64AEF05468127889ED73F13818CD0C30D94CB
+              C8F501330AAF0FB7E2DEAA1389C65F062C07FA4208B7130DBDB6203EBBF0DCD0
+              0000C74308D93FBAEB8037E5F3D4E7809DC0F3C08BC00BB9747F08E140B181A4
+              E87FEAAB1661FC63FC46607E2EED0716107BEA25C0E45C911DA98D57D4138C75
+              CF9B32C060E1394FB4689CC9C09BD3554B813521849FAB5F04EE000EA7ACA340
+              66D8F380A9E97E06F0AD10C20FD59B8943B10AF21C5F06F241D7C1A270990196
+              169EF7C0E96E3BA722193873EA633EF16B3583FE42D92A98A34E0C219C2472CF
+              1BA0A85BE98454F496B22DEC20AD1DA91949E9F915CA4C4B692B0698C419276B
+              7721EFAC0F30C600EA7CCE9E9CB24A96B44006CE2831ADAED458644BD99116DB
+              CC14FD47E1FD0CD3BE2443B107BCA3A4B26C4B79698B6432255AE901AD1AE0B2
+              94966D87AFCA3F140DB0A2A4C09F537A758B64C66380564F8D651F726B49DEBB
+              F20F4503BCB3F0BC2F84B037DD8FD70055864066AC91BA52B5713540086198B3
+              CF29941B20794ECB0BC29B535E3FD1D9A88A51A2F706710D6F1699ECFE544755
+              2C56B33A8ACED955E65CFC7C0FB896B81EE7B129A51F6A81048C0D5E0E562837
+              00A71DA6175A6C3BE3BCA9F07E1AF10F3530D600AB4A2A793AA51F6E91C430C4
+              F01A255E581DCCF14C186BA8C5B66F48E95F4BF23E96DD4C005003F09112C1ED
+              EAA38C0D3C56C1504A075B283B50A8A32AAE4FDCB797E4AD4A3A9F766CB29DD3
+              95C44922732426502D9C5DC4704A07EA4A956390F8F5861BC8D5C274CEE6BE07
+              781CD846D4F9D53E80B4D9F9269CEE0D2B80BB281F16553094D2C116CA666586
+              EAC8348B8DC037802D4D1FC75783FA15C71705DA613CFCF4580B651F4D65EB9D
+              346D8463461D6AFE016BF86B4CBD12B81B784F7A359CAE63C4A1B29CDE1CBB87
+              B8446E23064926273E0344BD1E01EE09216CAB5DBC0D502F50D759BFA7BCECD8
+              13628D3092CAD4FBB2EB4C3F50FE27A02E55EF33C6DEFEAE3EA4DE64DC606543
+              EA32F56EF54089520752DEA5A62EABCE4F753C94EA7C56FD91DAECB6BA213A7E
+              4CAE0CEA0C62DC3FDB7B6C013684100ED72E758EC338A1DDABD65C12D58124B3
+              BE8BD4BA03753875F5E3C630F6C7D5CBD375A3FAA06742ECADAEFD95D1952160
+              8CDC1EA5F9D56214989AC25A1D45B7CE08F5536DA9ECA3DAEEB16574CB001775
+              A94C6574CB000BBA54A632BA35075CC8D81F2ACDE0991042ABB180FFA359B4BD
+              07A83FA07343CB10C2ADEDACB01306180526B6BBDE84532184B6D6DD895DDC7D
+              74B007B4BBC2FF022E8A55C02CAB24220000000049454E44AE426082}
+            FileName = 'C:\Users\Matheus.Brito\Downloads\toalha-de-mesa.png'
+          end>
+        Name = 'mesa'
       end>
     Destination = <
       item
@@ -2970,15 +3097,16 @@ object frmMenuPrincipal: TfrmMenuPrincipal
             SourceRect.Right = 64.000000000000000000
             SourceRect.Bottom = 64.000000000000000000
           end>
+      end
+      item
+        Layers = <
+          item
+            Name = 'mesa'
+            SourceRect.Right = 64.000000000000000000
+            SourceRect.Bottom = 64.000000000000000000
+          end>
       end>
     Left = 209
     Top = 106
-  end
-  object Timer1: TTimer
-    Enabled = False
-    Interval = 5000
-    OnTimer = Timer1Timer
-    Left = 209
-    Top = 226
   end
 end

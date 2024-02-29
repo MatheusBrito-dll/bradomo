@@ -21,7 +21,8 @@ uses
   unMenuPrincipal in '_base\unMenuPrincipal.pas' {frmMenuPrincipal},
   uApi in '_api\uApi.pas',
   unGlobal in '_base\unGlobal.pas',
-  unMD5 in '_criptografia\unMD5.pas';
+  unMD5 in '_criptografia\unMD5.pas',
+  fmMesaReservada in '_frames\fmMesaReservada.pas' {frameMesaReservada: TFrame};
 
 {$R *.res}
 begin
