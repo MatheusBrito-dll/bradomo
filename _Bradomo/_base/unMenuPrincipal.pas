@@ -6,7 +6,8 @@ uses
   System.SysUtils, System.Types, System.UITypes, System.Classes, System.Variants,
   FMX.Types, FMX.Controls, FMX.Forms, FMX.Graphics, FMX.Dialogs,
   FMX.Controls.Presentation, FMX.Edit, FMX.WebBrowser, FMX.StdCtrls, FMX.Layouts,
-  FMX.ImgList, System.ImageList, FMX.Objects, FMX.Ani;
+  FMX.ImgList, System.ImageList, FMX.Objects, FMX.Ani,
+  unControleDeMesa;
 
 type
   TfrmMenuPrincipal = class(TForm)
@@ -81,7 +82,6 @@ type
     recAHome: TRectangle;
     Image3: TImage;
     Image4: TImage;
-    StatusBar1: TStatusBar;
     Label11: TLabel;
     Label12: TLabel;
     FloatAnimation10: TFloatAnimation;
@@ -121,8 +121,10 @@ type
     procedure Timer1Timer(Sender: TObject);
     procedure btnMesasMouseEnter(Sender: TObject);
     procedure btnMesasMouseLeave(Sender: TObject);
+    procedure btnMesasClick(Sender: TObject);
 
   private
+    frmControleDeMesa: TfrmControleDeMesa;
     { Private declarations }
   public
     { Public declarations }
@@ -133,9 +135,30 @@ var
 
 implementation
 
+
 {$R *.fmx}
 {$R *.NmXhdpiPh.fmx ANDROID}
 {$R *.Surface.fmx MSWINDOWS}
+
+
+procedure TfrmMenuPrincipal.btnMesasClick(Sender: TObject);
+begin
+  if NOT Assigned(frmControleDeMesa) then
+  begin
+    frmControleDeMesa := TfrmControleDeMesa.Create(nil);
+    frmControleDeMesa.recPrincipal.Parent := recPainelVisu;
+
+    frmControleDeMesa.recGerenciarMesas.Width   := 0;
+    frmControleDeMesa.recReservaAndVendas.Width := 0;
+
+    frmControleDeMesa.FloatAnimation1.Start;
+    //A animação dos outros botões vai ficar no onfinish no proprio form criado
+  end else
+  begin
+    frmControleDeMesa.recPrincipal.Parent := nil;
+    FreeAndNil(frmControleDeMesa);
+  end;
+end;
 
 //ENFEITES BORTÕES--------------------------------------------------------------
 {

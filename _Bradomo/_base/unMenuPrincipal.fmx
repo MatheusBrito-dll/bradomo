@@ -13,7 +13,7 @@ object frmMenuPrincipal: TfrmMenuPrincipal
   object LayoutMenu: TLayout
     Align = Client
     Size.Width = 1196.000000000000000000
-    Size.Height = 594.000000000000000000
+    Size.Height = 616.000000000000000000
     Size.PlatformDefault = False
     TabOrder = 0
     object recAppBar: TRectangle
@@ -500,7 +500,7 @@ object frmMenuPrincipal: TfrmMenuPrincipal
       Align = MostLeft
       Fill.Color = xFF00678D
       Size.Width = 185.000000000000000000
-      Size.Height = 594.000000000000000000
+      Size.Height = 616.000000000000000000
       Size.PlatformDefault = False
       Stroke.Kind = None
       object recLogo: TRectangle
@@ -748,12 +748,12 @@ object frmMenuPrincipal: TfrmMenuPrincipal
         Align = Left
         Position.Y = 238.000000000000000000
         Size.Width = 185.000000000000000000
-        Size.Height = 356.000000000000000000
+        Size.Height = 378.000000000000000000
         Size.PlatformDefault = False
         TabOrder = 0
         ShowScrollBars = False
         Viewport.Width = 185.000000000000000000
-        Viewport.Height = 356.000000000000000000
+        Viewport.Height = 378.000000000000000000
         object btnEntradas: TRectangle
           Align = Top
           Fill.Color = xFF017CA9
@@ -1177,6 +1177,7 @@ object frmMenuPrincipal: TfrmMenuPrincipal
           Stroke.Kind = None
           XRadius = 6.000000000000000000
           YRadius = 6.000000000000000000
+          OnClick = btnMesasClick
           OnMouseEnter = btnMesasMouseEnter
           OnMouseLeave = btnMesasMouseLeave
           object Label13: TLabel
@@ -1761,7 +1762,7 @@ object frmMenuPrincipal: TfrmMenuPrincipal
       Align = Client
       Fill.Color = xFFEFEFEF
       Size.Width = 1011.000000000000000000
-      Size.Height = 552.000000000000000000
+      Size.Height = 574.000000000000000000
       Size.PlatformDefault = False
       Stroke.Kind = None
     end
@@ -2274,14 +2275,6 @@ object frmMenuPrincipal: TfrmMenuPrincipal
       end>
     Left = 208
     Top = 168
-  end
-  object StatusBar1: TStatusBar
-    Position.Y = 594.000000000000000000
-    ShowSizeGrip = True
-    Size.Width = 1196.000000000000000000
-    Size.Height = 22.000000000000000000
-    Size.PlatformDefault = False
-    TabOrder = 4
   end
   object Timer1: TTimer
     Enabled = False

@@ -4,7 +4,7 @@ inherited frmMenuPrincipal_Surface: TfrmMenuPrincipal_Surface
   DesignerMasterStyle = 3
   inherited LayoutMenu: TLayout
     Size.Width = 1080.000000000000000000
-    Size.Height = 1898.000000000000000000
+    Size.Height = 1920.000000000000000000
     inherited recAppBar: TRectangle
       Size.Width = 895.000000000000000000
       inherited Image2: TImage
@@ -19,14 +19,14 @@ inherited frmMenuPrincipal_Surface: TfrmMenuPrincipal_Surface
       end
     end
     inherited recSideBar: TRectangle
-      Size.Height = 1898.000000000000000000
+      Size.Height = 1920.000000000000000000
       inherited recLogo: TRectangle
         inherited lblLogo: TLabel
           Margins.Bottom = 10.000000000000000000
         end
       end
       inherited VertScrollBox1: TVertScrollBox
-        Size.Height = 1660.000000000000000000
+        Size.Height = 1682.000000000000000000
         Viewport.Width = 50.000000000000000000
         Viewport.Height = 50.000000000000000000
         inherited btnEntradas: TRectangle
@@ -94,7 +94,7 @@ inherited frmMenuPrincipal_Surface: TfrmMenuPrincipal_Surface
     end
     inherited recPainelVisu: TRectangle
       Size.Width = 895.000000000000000000
-      Size.Height = 1856.000000000000000000
+      Size.Height = 1878.000000000000000000
     end
     inherited MenuAnamation: TRectangle
       inherited recDButton: TRectangle
@@ -118,9 +118,5 @@ inherited frmMenuPrincipal_Surface: TfrmMenuPrincipal_Surface
         end
       end
     end
-  end
-  inherited StatusBar1: TStatusBar
-    Position.Y = 1898.000000000000000000
-    Size.Width = 1080.000000000000000000
   end
 end

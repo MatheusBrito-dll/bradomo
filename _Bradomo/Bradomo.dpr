@@ -22,7 +22,10 @@ uses
   uApi in '_api\uApi.pas',
   unGlobal in '_base\unGlobal.pas',
   unMD5 in '_criptografia\unMD5.pas',
-  fmMesaReservada in '_frames\fmMesaReservada.pas' {frameMesaReservada: TFrame};
+  fmMesaReservada in '_frames\fmMesaReservada.pas' {frameMesaReservada: TFrame},
+  unControleDeMesa in '_base\unControleDeMesa.pas' {frmControleDeMesa},
+  unGerenciarMesas in '_base\unGerenciarMesas.pas' {fmrGerenciarMesas},
+  unDMMySql in '_dms\unDMMySql.pas' {dmServerMySQL: TDataModule};
 
 {$R *.res}
 begin

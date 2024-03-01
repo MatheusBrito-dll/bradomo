@@ -1,0 +1,183 @@
+unit unGlobal;
+
+interface
+
+uses
+   System.SysUtils, System.Classes, Data.DB,
+   Vcl.Forms, System.IniFiles, Vcl.Dialogs,
+   Datasnap.DBClient, Vcl.DBCtrls, Vcl.DBGrids,
+   Vcl.Controls, Vcl.StdCtrls, IdTCPClient,
+   FireDAC.Comp.Client, Winapi.Windows,
+   Vcl.Graphics, System.UITypes, Winapi.ActiveX,
+   IdIcmpClient, System.Math;
+
+  function GuidCreate: string;
+  function BrdTime(Data: Boolean = False; Upd: Boolean = False; Server: Boolean = False): string;
+
+var
+
+  ipApi : String = 'localhost:3000';
+
+
+implementation
+
+
+uses
+  System.StrUtils, Soap.SOAPHTTPClient, IdBaseComponent, IdComponent, IdUDPBase,
+  IdUDPClient, IdSNTP, IdSSLOpenSSL, IdSMTP, IdMessage, IdText, IdAttachmentFile,
+  IdExplicitTLSClientServerBase, IdIOHandler,
+  IdIOHandlerSocket, IdIOHandlerStack, IdSSL,
+  unDMMySql;
+
+
+function GuidCreate: string;
+var
+  ID : TGUID;
+  Gui: string;
+begin
+  Result := '';
+  if CoCreateGuid(ID) = S_OK then
+    Gui := GUIDToString(ID);
+    Gui := copy(Gui, 2, length(Gui)-2);
+    Result := Gui;
+end;
+
+
+function BrdTime(Data: Boolean = False; Upd: Boolean = False; Server: Boolean = False): string;
+var
+  DataBD: TDateTime;
+  DataAtual: string;
+  H: integer;
+begin
+  try
+    if (Server) then
+    begin
+      dmServerMySQL.fdcMySQLServer.Connected := True;
+
+      if (ModoDebug) then
+        GrvConsole('SAVTime Server=True');
+      dmServerMySQL.qryDATAHORA.Active := True;
+      DataBD := dmServerMySQL.qryDATAHORADATA_HORA.AsDateTime;
+      dmServerMySQL.qryDATAHORA.Active := False;
+    end else
+    begin
+      dmMySQL.fdcMySQL.Connected := True;
+
+      if (ModoDebug) then
+        GrvConsole('SAVTime Server=False');
+      dmMySQL.qryDATAHORA.Active := True;
+      DataBD := dmMySQL.qryDATAHORADATA_HORA.AsDateTime;
+      dmMySQL.qryDATAHORA.Active := False;
+    end;
+
+    DataAtual := '';
+
+    if (Upd) and (Data) then
+    begin
+      if (ModoDebug) then
+        GrvConsole('SAVTime Upd=True Data=True');
+      DataAtual:= FormatDateTime('YYYY-MM-DD HH:MM:SS', DataBD)
+    end else
+    begin
+      if (ModoDebug) then
+        GrvConsole('SAVTime Upd=False');
+      if (Data) then
+        DataAtual:= DateTimeToStr(DataBD)
+      else
+        DataAtual:= TimeToStr(DataBD);
+    end;
+
+    Result := Trim(DataAtual);
+  except on e:exception do
+    begin
+      {$IFDEF SAVLOJA}
+      TGrvExcept.Create('unGlobal', 'SAVTime', e.Message, '', False);
+      {$ENDIF}
+
+      if (Upd) and (Data) then
+        DataAtual:= FormatDateTime('YYYY-MM-DD HH:MM:SS', Now())
+      else if (Data) then
+        DataAtual:= DateTimeToStr(Now())
+      else
+        DataAtual:= TimeToStr(Now());
+
+      Result := Trim(DataAtual);
+    end;
+  end;
+end;
+
+
+procedure GenBeforePost(cds : TFDQuery; TableName : String; PrimaryKey : TField;
+    Connection : TFDConnection; Incrementa: Boolean = False; GerGuid: Boolean = False; ServPend: Boolean = False; ExibeMsg: Boolean = True);
+var
+  msg : string;
+  i : integer;
+  Qry : TFDQuery;
+begin
+  try
+    if PrimaryKey.DataSet.State = dsInsert then
+    begin
+      //--Incrementa
+      if Incrementa then
+      begin
+        Qry := TFDQuery.Create(nil);
+        try
+          Qry.Connection := Connection;
+          Qry.SQL.Add('select max('+PrimaryKey.FieldName+') from '+TableName);
+          Qry.Open;
+          if Qry.Fields[0].IsNull then
+            PrimaryKey.AsInteger := 1
+          else PrimaryKey.AsInteger := Qry.Fields[0].AsInteger+1;
+        finally
+          FreeAndNil(Qry);
+        end;
+      end else if GerGuid then
+      begin
+        PrimaryKey.AsString := GuidCreate;
+      end;
+      //
+      cds.FieldByName('GENCADMON').AsString := SAVTime(True, False, False);
+      cds.FieldByName('GENCADUS').AsString  := copy(NomeUsuario,1, 30);
+    end;
+    if PrimaryKey.DataSet.State = dsEdit then
+    begin
+      cds.FieldByName('GENALTMON').AsString := SAVTime(True, False, False);
+      cds.FieldByName('GENALTUS').AsString  := copy(NomeUsuario,1,30);
+    end;
+
+    //Caso tenha atualização da base via SERVIDOR
+    if ServPend = True then
+    begin
+      cds.FieldByName('SERVPEND').AsString  := 'X';
+      cds.FieldByName('SERVLOG').AsString  := '';
+    end;
+
+    msg := 'Campo(s) com preenchimento obrigatório:' + #13;
+    //--Monta mensagem de campos obrigatórios
+    for i := 0 to cds.FieldCount - 1 do
+      if cds.Fields[i].Required then
+        if (cds.Fields[i].IsNull) Or (cds.Fields[i].AsString = '') then
+        begin
+          msg := msg + '   -' + cds.Fields[i].DisplayLabel + '.' + #13 +#10;
+        end;
+    //-- Checa Inserção
+    if not (msg = 'Campo(s) com preenchimento obrigatório:' + #13) and (ExibeMsg) then
+    begin
+      {$IFDEF SAVLOJA}
+      GenMensagem('Genesys',msg,mtAlerta,[mbOK],mbOK);
+      {$ELSE}
+      GrvConsole(msg);
+      {$ENDIF}
+      Abort;
+    end;
+  except on e:exception do
+    {$IFDEF SAVLOJA}
+    TGrvExcept.Create('unGlobal', 'GenBeforePost', e.ClassName + ' - ' + e.Message, TableName, False);
+    {$ELSE}
+    GrvConsole('GenBeforePost' + e.ClassName + ' - ' + e.Message);
+    {$ENDIF}
+  end;
+end;
+
+end.
+

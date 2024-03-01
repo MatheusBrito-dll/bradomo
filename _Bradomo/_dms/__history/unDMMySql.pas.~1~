@@ -1,0 +1,25 @@
+unit unDMMySql;
+
+interface
+
+uses
+  System.SysUtils, System.Classes;
+
+type
+  TdmServerMySQL = class(TDataModule)
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  dmServerMySQL: TdmServerMySQL;
+
+implementation
+
+{%CLASSGROUP 'FMX.Controls.TControl'}
+
+{$R *.dfm}
+
+end.

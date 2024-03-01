@@ -196,6 +196,8 @@
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1_Win64)'!=''">
         <AppDPIAwarenessMode>PerMonitorV2</AppDPIAwarenessMode>
+        <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
+        <VerInfo_Locale>1033</VerInfo_Locale>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2)'!=''">
         <DCC_LocalDebugSymbols>false</DCC_LocalDebugSymbols>
@@ -226,6 +228,19 @@
             <Form>frameMesaReservada</Form>
             <FormType>fmx</FormType>
             <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="_base\unControleDeMesa.pas">
+            <Form>frmControleDeMesa</Form>
+            <FormType>fmx</FormType>
+        </DCCReference>
+        <DCCReference Include="_base\unGerenciarMesas.pas">
+            <Form>fmrGerenciarMesas</Form>
+            <FormType>fmx</FormType>
+        </DCCReference>
+        <DCCReference Include="_dms\unDMMySql.pas">
+            <Form>dmServerMySQL</Form>
+            <FormType>dfm</FormType>
+            <DesignClass>TDataModule</DesignClass>
         </DCCReference>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
