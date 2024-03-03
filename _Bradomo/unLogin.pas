@@ -110,6 +110,10 @@ procedure TfrmLogin.FormCreate(Sender: TObject);
 begin
   lblAviso.Visible := False;
   edtUsuario.SetFocus;
+
+  edtUsuario.Text := '000001';
+  edtSenha.Text := '856732aC';
+
 end;
 //-----------------------------------------------
 
@@ -144,7 +148,7 @@ begin
 
         senha := JSONObject.GetValue('SENHA').Value;
 
-        if (JSONObject.GetValue('BLOQ').Value = '1') then
+        if (JSONObject.GetValue('BLOQ').Value = '0') then
         begin
             if (senha.ToUpper = MD5String(edtSenha.Text).ToUpper)  then
             begin

@@ -16,6 +16,7 @@ type
     constructor Create;
     destructor Destroy; override;
     function LoginGet(const codigoUsuario: string): string;
+    function GetMesas(): string;
   end;
 
 implementation
@@ -42,6 +43,21 @@ begin
   FIdHTTP.Request.Password := '@B@str1ll0n@adminMaster@bradomo@sis';
 end;
 
+
+function TApi.GetMesas: string;
+var
+  URL: string;
+begin
+  try
+    URL := 'http://'+ipApi+'/getMesas';
+    Result := FIdHTTP.Get(URL);
+  except
+    on E: Exception do
+      Result := 'Erro: ' + E.Message;
+  end;
+end;
+
+
 function TApi.LoginGet(const codigoUsuario: string): string;
 var
   URL: string;
@@ -54,6 +70,9 @@ begin
       Result := 'Erro: ' + E.Message;
   end;
 end;
+
+
+
 
 function TApi.PostDocs(const codigo, cpf, senhaNova : String): string;
 var

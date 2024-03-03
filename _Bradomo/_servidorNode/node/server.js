@@ -6,10 +6,10 @@ const app = express();
 const port = 3000;
 
 const connection = mysql.createConnection({
-  host: '172.16.3.180',
-  user: 'castrillon',
-  password: 'castri123',
-  database: 'brd_master',
+  host: 'localhost',
+  user: 'root',
+  password: '',
+  database: 'brd',
   port: 3306
 });
 
@@ -97,6 +97,24 @@ app.get('/getLogin', authenticate, (req, res) => {
     
   });
 });
+
+
+app.get('/getMesas', authenticate, (req, res) => {
+
+  const sql = `SELECT * FROM rs_mesa`;  
+  connection.query(sql, (err, results) => {
+    if (err) {
+      console.error('Erro ao executar a consulta!! -> ', err);
+      res.status(500).send('Erro interno do servidor!!');
+      return;
+    }
+    console.log('200 - Get Mesa OK');
+    res.json(results);
+  });
+});
+
+
+
 
 app.listen(port, () => {
   console.log(`Servidor rodando em http://localhost:${port}`);

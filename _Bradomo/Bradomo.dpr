@@ -25,7 +25,8 @@ uses
   fmMesaReservada in '_frames\fmMesaReservada.pas' {frameMesaReservada: TFrame},
   unControleDeMesa in '_base\unControleDeMesa.pas' {frmControleDeMesa},
   unGerenciarMesas in '_base\unGerenciarMesas.pas' {fmrGerenciarMesas},
-  unDMMySql in '_dms\unDMMySql.pas' {dmServerMySQL: TDataModule};
+  unDMMySql in '_dms\unDMMySql.pas' {dmServerMySQL: TDataModule},
+  fmControledeMesas in '_frames\fmControledeMesas.pas' {FrameControleDeMesa: TFrame};
 
 {$R *.res}
 begin

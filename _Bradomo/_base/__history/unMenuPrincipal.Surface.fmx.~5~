@@ -1,0 +1,122 @@
+inherited frmMenuPrincipal_Surface: TfrmMenuPrincipal_Surface
+  ClientHeight = 1920
+  ClientWidth = 1080
+  DesignerMasterStyle = 3
+  inherited LayoutMenu: TLayout
+    Size.Width = 1080.000000000000000000
+    Size.Height = 1920.000000000000000000
+    inherited recAppBar: TRectangle
+      Size.Width = 895.000000000000000000
+      inherited Image2: TImage
+        Position.X = 717.000000000000000000
+      end
+      inherited Label1: TLabel
+        Position.X = 757.000000000000000000
+        TextSettings.Font.StyleExt = {00060000000000000004000000}
+      end
+      inherited btnMenuPequeno: TRectangle
+        Position.X = 870.000000000000000000
+      end
+    end
+    inherited recSideBar: TRectangle
+      Size.Height = 1920.000000000000000000
+      inherited recLogo: TRectangle
+        inherited lblLogo: TLabel
+          Margins.Bottom = 10.000000000000000000
+        end
+      end
+      inherited VertScrollBox1: TVertScrollBox
+        Size.Height = 1682.000000000000000000
+        Viewport.Width = 50.000000000000000000
+        Viewport.Height = 50.000000000000000000
+        inherited btnEntradas: TRectangle
+          inherited Label3: TLabel
+            TextSettings.Font.StyleExt = {00060000000000000004000000}
+          end
+        end
+        inherited btnSaidas: TRectangle
+          inherited Label9: TLabel
+            TextSettings.Font.StyleExt = {00060000000000000004000000}
+          end
+        end
+        inherited btnDescontos: TRectangle
+          inherited Label8: TLabel
+            TextSettings.Font.StyleExt = {00060000000000000004000000}
+          end
+        end
+        inherited btnClientes: TRectangle
+          inherited Label7: TLabel
+            TextSettings.Font.StyleExt = {00060000000000000004000000}
+          end
+        end
+        inherited btnFornecedores: TRectangle
+          inherited Label6: TLabel
+            TextSettings.Font.StyleExt = {00060000000000000004000000}
+          end
+        end
+        inherited btnDevolucao: TRectangle
+          inherited Label5: TLabel
+            TextSettings.Font.StyleExt = {00060000000000000004000000}
+          end
+        end
+        inherited btnEstoque: TRectangle
+          inherited Label4: TLabel
+            TextSettings.Font.StyleExt = {00060000000000000004000000}
+          end
+        end
+        inherited btnRelatorios: TRectangle
+          inherited Label2: TLabel
+            TextSettings.Font.StyleExt = {00060000000000000004000000}
+          end
+        end
+        inherited btnFaturamento: TRectangle
+          inherited Label10: TLabel
+            TextSettings.Font.StyleExt = {00060000000000000004000000}
+          end
+        end
+        inherited btnMesas: TRectangle
+          inherited Label13: TLabel
+            TextSettings.Font.StyleExt = {00060000000000000004000000}
+          end
+        end
+      end
+      inherited recAVenda: TRectangle
+        inherited Label11: TLabel
+          TextSettings.Font.StyleExt = {00070000000000000004000000}
+        end
+      end
+      inherited recAHome: TRectangle
+        Fill.Kind = None
+        inherited Label12: TLabel
+          TextSettings.Font.StyleExt = {00070000000000000004000000}
+        end
+      end
+    end
+    inherited recPainelVisu: TRectangle
+      Size.Width = 895.000000000000000000
+      Size.Height = 1878.000000000000000000
+    end
+    inherited MenuAnamation: TRectangle
+      inherited recDButton: TRectangle
+        inherited btnAjuda: TSpeedButton
+          TextSettings.Font.StyleExt = {00070000000000000004000000}
+        end
+      end
+      inherited recABtutton: TRectangle
+        inherited btnConfiguracao: TSpeedButton
+          TextSettings.Font.StyleExt = {00070000000000000004000000}
+        end
+      end
+      inherited recCButton: TRectangle
+        inherited btnAssinatura: TSpeedButton
+          TextSettings.Font.StyleExt = {00070000000000000004000000}
+        end
+      end
+      inherited recBButton: TRectangle
+        inherited btnPrivacidade: TSpeedButton
+          TextSettings.Font.StyleExt = {00070000000000000004000000}
+        end
+      end
+    end
+  end
+end

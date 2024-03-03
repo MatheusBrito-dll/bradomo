@@ -148,9 +148,13 @@ begin
     frmControleDeMesa := TfrmControleDeMesa.Create(nil);
     frmControleDeMesa.recPrincipal.Parent := recPainelVisu;
 
+    frmControleDeMesa.continua := True;
+
     frmControleDeMesa.recGerenciarMesas.Width   := 0;
     frmControleDeMesa.recReservaAndVendas.Width := 0;
 
+    frmControleDeMesa.FloatAnimation2.Duration := 0.1;
+    frmControleDeMesa.FloatAnimation1.Duration := 0.1;
     frmControleDeMesa.FloatAnimation1.Start;
     //A animação dos outros botões vai ficar no onfinish no proprio form criado
   end else
@@ -186,7 +190,7 @@ begin
   FloatAnimation9 .Duration := 0.5;
   FloatAnimation11 .Duration := 0.5;
 
-  Timer1.Enabled := True;
+  //Timer1.Enabled := True;
 end;
 
 procedure TfrmMenuPrincipal.btnEstoqueMouseEnter(Sender: TObject);
