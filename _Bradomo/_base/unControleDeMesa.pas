@@ -7,7 +7,7 @@ uses
   FMX.Types, FMX.Controls, FMX.Forms, FMX.Graphics, FMX.Dialogs, FMX.Objects,
   FMX.Ani, FMX.Controls.Presentation, FMX.StdCtrls, FMX.Layouts, FMX.ListBox,
   System.JSON,
-  fmControleDeMesas, uApi;
+  fmControleDeMesas, uApi, unGLobal;
 
 type
   TfrmControleDeMesa = class(TForm)
@@ -34,9 +34,14 @@ type
     procedure recGerenciarMesasClick(Sender: TObject);
     procedure FloatAnimation2Finish(Sender: TObject);
     procedure TerminateThreadMesa(Sender: TObject);
+    procedure TerminateThreadMesaAlt(Sender: TObject);
     procedure LimparScrollBox(ScrollBox: TVertScrollBox);
+    procedure GetMesas;
   private
       DadosMesa : String;
+      DadosMesaInsert : String;
+    procedure ClickMore2(Sender: TObject);
+
     { Private declarations }
   public
     continua : Boolean;
@@ -76,6 +81,13 @@ begin
 end;
 
 procedure TfrmControleDeMesa.recGerenciarMesasClick(Sender: TObject);
+begin
+
+  GetMesas();
+
+end;
+
+procedure TfrmControleDeMesa.GetMesas;
 var
   ThreadMesa : TTHread;
   Api        : TApi;
@@ -89,6 +101,62 @@ begin
 
   ThreadMesa.OnTerminate := TerminateThreadMesa;
   ThreadMesa.Start;
+end;
+
+
+procedure TfrmControleDeMesa.ClickMore2(Sender: TObject);
+var
+  frame : TFrameControleDeMesa;
+  btn   : TSpeedButton;
+  rec   : TRectangle;
+
+  Api : TApi;
+  ThreadMesa : TTHread;
+
+begin
+  //PEGANDO O FRAME CLICADO
+  btn   := Sender as TSpeedButton;
+  rec := btn.Parent as TRectangle;
+  rec := rec.Parent as TRectangle;
+  rec := rec.Parent as TRectangle;
+  //PEGANDO O FRAME CLICADO
+
+
+  Frame := rec.Parent as TFrameControleDeMesa;
+
+  if Frame.btnSalvarEditar.Text = 'Salvar' then
+  begin
+    ThreadMesa := TThread.CreateAnonymousThread(procedure
+    begin
+      Api := TApi.Create();
+      DadosMesaInsert := Api.PostAltMesas(Frame.idMesa, CodUsuario,
+                                    Frame.CheckDefeito.IsChecked.ToInteger ,
+                                    Frame.CheckAtivo.IsChecked.ToInteger,
+                                    Frame.SpinCapacidade.Value.ToString.ToInteger);
+    end);
+
+    ThreadMesa.OnTerminate := TerminateThreadMesaAlt;
+    ThreadMesa.Start;
+  end;
+
+  Frame.CheckAtivo.Enabled     := NOT   Frame.CheckAtivo.Enabled;
+  Frame.CheckDefeito.Enabled   := NOT   Frame.CheckDefeito.Enabled;
+
+  Frame.btnExcluir.Enabled     := NOT   Frame.btnExcluir.Enabled;
+  Frame.btnCancelar.Enabled    := NOT   Frame.btnCancelar.Enabled;
+
+  Frame.lblCapacidade.Enabled  := NOT   Frame.lblCapacidade.Enabled;
+  Frame.SpinCapacidade.Enabled := NOT   Frame.SpinCapacidade.Enabled;
+
+  if (Frame.btnSalvarEditar.Text = 'Editar') then
+  begin
+    Frame.btnSalvarEditar.Text := 'Salvar';
+  end else
+  begin
+    Frame.btnSalvarEditar.Text := 'Editar';
+    GetMesas();
+  end;
+
 end;
 
 procedure TfrmControleDeMesa.TerminateThreadMesa(Sender: TObject);
@@ -114,6 +182,7 @@ begin
       JSONObject := JSONArray[i] as TJSONObject;
 
       frame := TFrameControleDeMesa.Create(nil);
+      frame.btnSalvarEditar.OnClick := ClickMore2;
 
        if JSONObject.GetValue('STATUS').Value = '0' then
       begin
@@ -160,7 +229,7 @@ begin
         Frame.CheckDefeito.FontColor    := $ff510F0F;
       end;
 
-
+      frame.idMesa                 := JSONObject.GetValue('ID_MESA').Value;
       frame.lblNumeroMesa.Text     := JSONObject.GetValue('NUMERO').Value;
       frame.SpinCapacidade.Value   := JSONObject.GetValue('CAPACIDADE').Value.ToInteger;
       frame.CheckAtivo.IsChecked   := JSONObject.GetValue('ATIVO').Value.ToBoolean();
@@ -176,6 +245,25 @@ begin
   end;
 end;
 
+
+
+procedure TfrmControleDeMesa.TerminateThreadMesaAlt(Sender: TObject);
+var
+  Status        : String;
+  //item          : TListBoxItem;
+  frame         : TFrameControleDeMesa;
+  JSONValue     : TJSONValue;
+  JSONObject    : TJSONObject;
+  JSONArray     : TJSONArray;
+begin
+  if (Pos('Erro', DadosMesa) > 0) then
+  begin
+      ShowMessage(DadosMesaInsert);
+  end else
+  begin
+    ShowMessage(DadosMesaInsert);
+  end;
+end;
 
 
 procedure TfrmControleDeMesa.FloatAnimation1Finish(Sender: TObject);

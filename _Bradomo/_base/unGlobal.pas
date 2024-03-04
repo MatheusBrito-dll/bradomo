@@ -18,6 +18,7 @@ var
 
   ipApi : String = 'localhost:3000';
   nomeUsuario : String;
+  codUsuario : String;
 
 
 implementation

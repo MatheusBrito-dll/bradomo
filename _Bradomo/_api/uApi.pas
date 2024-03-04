@@ -11,12 +11,14 @@ type
   private
     FIdHTTP: TIdHTTP;
     procedure ConfigurarHTTP;
-    function PostDocs(const codigo, cpf, senhaNova: String): string;
   public
     constructor Create;
     destructor Destroy; override;
     function LoginGet(const codigoUsuario: string): string;
     function GetMesas(): string;
+        function PostAltMesas(const id, usuario: String; const defeito, ativo,
+      capacidade: integer): string;
+
   end;
 
 implementation
@@ -71,22 +73,50 @@ begin
   end;
 end;
 
-
-
-
-function TApi.PostDocs(const codigo, cpf, senhaNova : String): string;
+function TApi.PostAltMesas(const id, usuario : String; const defeito, ativo, capacidade : integer): string;
 var
-  requestBody: TStringStream;
+  HTTP: TIdHTTP;
+  SSL: TIdSSLIOHandlerSocketOpenSSL;
+  Body: TStringStream;
+  Response: string;
+  JSONObj: TJSONObject;
+  JSONPair: TJSONPair;
 begin
+  HTTP := TIdHTTP.Create(nil);
+  //SSL := TIdSSLIOHandlerSocketOpenSSL.Create(nil);
+  Body := TStringStream.Create;
+
   try
+    // Configuração do objeto TIdHTTP
+    //HTTP.IOHandler := SSL;
+    HTTP.HandleRedirects := True;
+    HTTP.Request.ContentType := 'application/json';
+    HTTP.Request.BasicAuthentication := True;
+    HTTP.Request.Username := 'adminMaster@bradomo@sis';
+    HTTP.Request.Password := '@B@str1ll0n@adminMaster@bradomo@sis';
 
-    FIdHTTP.Request.ContentType := 'application/json';
-    //http://localhost:3000/atualizaSenha?codigoUsuario=000001&userCpf=04568305101&senhaNova=7ACE6328F06E0E4FD9E10DB7EC2CDA29
-    Result := FIdHTTP.Post('http://'+ipApi+'/atualizaSenha?codigoUsuario='+ '' +'&userCpf='+ '' +'&senhaNova=' + '', requestBody);
+    // Criando o objeto JSON e adicionando os pares de valores
+    JSONObj := TJSONObject.Create;
+    JSONObj.AddPair('id', id);
+    JSONObj.AddPair('defeito', defeito);
+    JSONObj.AddPair('ativo', ativo);
+    JSONObj.AddPair('usuario', usuario);
+    JSONObj.AddPair('capacidade', capacidade);
 
-  except
-    on E: Exception do
-      Result := 'Erro: ' + E.Message;
+    // Convertendo o objeto JSON para uma string e escrevendo no stream
+    Body.WriteString(JSONObj.ToString);
+
+    // Fazendo a requisição POST
+    Response := HTTP.Post('http://'+ipApi+'/PostAltMesas', Body);
+
+    // Exibindo a resposta
+    Result := Response;
+
+  finally
+    HTTP.Free;
+    SSL.Free;
+    Body.Free;
+    JSONObj.Free;
   end;
 end;
 

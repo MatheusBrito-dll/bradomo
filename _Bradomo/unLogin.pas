@@ -40,7 +40,7 @@ uses
   unMenuPrincipal, FMX.Layouts,
   uApi,
   System.JSON,
-  unmd5;
+  unmd5, unGlobal;
 
 type
   TfrmLogin = class(TForm)
@@ -152,6 +152,9 @@ begin
         begin
             if (senha.ToUpper = MD5String(edtSenha.Text).ToUpper)  then
             begin
+
+              CodUsuario := JSONObject.GetValue('CODIGO_USUARIO').Value;
+
               recDireitaLogin.Free;
               picImageLogo.Free;
 

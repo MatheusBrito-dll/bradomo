@@ -3,13 +3,14 @@ const mysql = require('mysql');
 const basicAuth = require('basic-auth');
 
 const app = express();
+app.use(express.json());
 const port = 3000;
 
 const connection = mysql.createConnection({
-  host: 'localhost',
-  user: 'root',
-  password: '',
-  database: 'brd',
+  host: '172.16.3.180',
+  user: 'castrillon',
+  password: 'castri123',
+  database: 'brd_master',
   port: 3306
 });
 
@@ -18,7 +19,7 @@ connection.connect(err => {
     console.error('Erro ao conectar ao banco de dados!! -> ', err);
     return;
   }
-  console.log('Conectado ao banco de dados MySQL...');
+  console.log('!Conexão com DB Completa!');
 });
 
 // Middleware para autenticação básica
@@ -75,8 +76,6 @@ app.post('/atualizaSenha', authenticate, (req, res) => {
   });
 });
 
-
-
 app.get('/getLogin', authenticate, (req, res) => {
   const codigoUsuario = req.query.codigoUsuario;
 
@@ -93,14 +92,11 @@ app.get('/getLogin', authenticate, (req, res) => {
       return;
     }
     console.log('200 - Login OK');
-    res.json(results);
-    
+    res.json(results); 
   });
 });
 
-
 app.get('/getMesas', authenticate, (req, res) => {
-
   const sql = `SELECT * FROM rs_mesa ORDER BY NUMERO`;  
   connection.query(sql, (err, results) => {
     if (err) {
@@ -113,39 +109,53 @@ app.get('/getMesas', authenticate, (req, res) => {
   });
 });
 
+app.post('/PostAltMesas', authenticate, (req, res) => {
+  const { id, defeito, ativo, capacidade, usuario } = req.body;
+
+  console.log(req.body);
+
+  if (id === undefined || defeito === undefined || ativo === undefined || usuario === undefined || capacidade === undefined) {
+    return res.status(400).send('Informações insuficientes!');
+  }
+  
+
+  const updateMesaSQL = 'UPDATE rs_mesa SET CAPACIDADE = ?, DEFEITO = ?, ATIVO = ?, USR_ALT = ?, DT_ALT = now() WHERE ID_MESA = ?';
+
+  connection.query(updateMesaSQL, [capacidade, defeito, ativo, usuario, id], (err, updateResults) => {
+    if (err) {
+      console.error('Erro ao executar a atualização da mesa:', err);
+      return res.status(500).send('Erro interno do servidor!');
+    }
+
+    if (updateResults.changedRows === 0) {
+      return res.status(404).send('Mesa não encontrada.');
+    }
+
+    console.log('200 - Atualização de mesa OK.');
+    res.json(updateResults);
+  });
+});
+
 
 
 
 app.listen(port, () => {
+  console.log();
+  console.log(`⢕⢕⢕⢕⢕⢕⢕⢕⢕⢕⢕⢕⢕⢕⢕⢕⢕⢕⢕⢕⢕⢕⠕⠕⠕⠕⢕⢕
+⢕⢕⢕⢕⢕⠕⠕⢕⢕⢕⢕⢕⢕⢕⢕⢕⢕⠕⠁⣁⣠⣤⣤⣤⣶⣦⡄⢑
+⢕⢕⢕⠅⢁⣴⣤⠀⣀⠁⠑⠑⠁⢁⣀⣀⣀⣀⣘⢻⣿⣿⣿⣿⣿⡟⢁⢔
+⢕⢕⠕⠀⣿⡁⠄⠀⣹⣿⣿⣿⡿⢋⣥⠤⠙⣿⣿⣿⣿⣿⡿⠿⡟⠀⢔⢕
+⢕⠕⠁⣴⣦⣤⣴⣾⣿⣿⣿⣿⣇⠻⣇⠐⠀⣼⣿⣿⣿⣿⣿⣄⠀⠐⢕⢕
+⠅⢀⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⣶⣶⣿⣿⣿⣿⣿⣿⣿⣿⣷⡄⠐⢕
+⠀⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡄⠐
+⢄⠈⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡆
+⢕⢔⠀⠈⠛⠿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
+⢕⢕⢄⠈⠳⣶⣶⣶⣤⣤⣤⣤⣭⡍⢭⡍⢨⣯⡛⢿⣿⣿⣿⣿⣿⣿⣿⣿
+⢕⢕⢕⢕⠀⠈⠛⠿⢿⣿⣿⣿⣿⣿⣦⣤⣿⣿⣿⣿⣦⣈⠛⢿⢿⣿⣿⣿
+⢕⢕⢕⠁⢠⣾⣶⣾⣭⣖⣛⣿⠿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⡆⢸⣿⣿⣿
+⢕⢕⠅⢀⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⠟⠈⢿⣿⣿⡇
+⢕⠕⠀⠼⠟⢉⣉⡙⠻⠿⢿⣿⣿⣿⣿⣿⡿⢿⣛⣭⡴⠶⠶⠂⠀⠿⠿⠇`)
+  console.log();
   console.log(`Servidor rodando em http://localhost:${port}`);
-  console.log("                    .,,uod8B8bou,,.")
-  console.log("            ..,uod8BBBBBBBBBBBBBBBBRPFT?l!i:.")
-  console.log("       ,=m8BBBBBBBBBBBBBBBRPFT?!||||||||||||||")
-  console.log("       !...:!TVBBBRPFT||||||||||!!^^'''   ||||")
-  console.log("       !.......:!?|||||!!^^'''            ||||")
-  console.log("       !.........||||                     ||||")
-  console.log("       !.........||||  ##b r a d o m o    ||||")
-  console.log("       !.........||||  ##o n l i n e      ||||")
-  console.log("       !.........||||  ##n o d e . j s    ||||")
-  console.log("       !.........||||                     ||||")
-  console.log("       !.........||||                     ||||")
-  console.log("       `.........||||                    ,||||")
-  console.log("        .;.......||||               _.-!!|||||")
-  console.log(" .,uodWBBBBb.....||||       _.-!!|||||||||!:'")
-  console.log("!YBBBBBBBBBBBBBBb..!|||:..-!!|||||||!iof68BBBBBb....")
-  console.log("!..YBBBBBBBBBBBBBBb!!||||||||!iof68BBBBBBRPFT?!::   `.")
-  console.log("!....YBBBBBBBBBBBBBBbaaitf68BBBBBBRPFT?!:::::::::     `.")
-  console.log("!......YBBBBBBBBBBBBBBBBBBBRPFT?!::::::;:!^''`;:::       `.")
-  console.log("!........YBBBBBBBBBBRPFT?!::::::::::^''...::::::;         iBBbo.")
-  console.log("`..........YBRPFT?!::::::::::::::::::::::::;iof68bo.      WBBBBbo.")
-  console.log("`..........:::::::::::::::::::::::;iof688888888888b.     `YBBBP^'")
-  console.log("`........::::::::::::::::;iof688888888888888888888b.     `")
-  console.log("`......:::::::::;iof688888888888888888888888888888b.")
-  console.log("`....:::;iof688888888888888888888888888888888899fT!")
-  console.log("`..::!8888888888888888888888888888888899fT|!^'''")
-  console.log("`' !!988888888888888888888888899fT|!^'''")
-  console.log("`!!8888888888888888899fT|!^'''")
-  console.log("`!988888888899fT|!^''")
-  console.log("`!9899fT|!^")
-  console.log("`!^")
 });
+
