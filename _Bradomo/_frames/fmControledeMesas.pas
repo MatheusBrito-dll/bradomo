@@ -13,7 +13,7 @@ type
     ListaMesas: TImageList;
     Rectangle1: TRectangle;
     Glyph1: TGlyph;
-    Rectangle2: TRectangle;
+    RecFundo: TRectangle;
     btnCancelar: TSpeedButton;
     ListaIcons: TImageList;
     CheckAtivo: TCheckBox;

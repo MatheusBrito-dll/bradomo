@@ -190,7 +190,7 @@ begin
   FloatAnimation9 .Duration := 0.5;
   FloatAnimation11 .Duration := 0.5;
 
-  //Timer1.Enabled := True;
+  Timer1.Enabled := True;
 end;
 
 procedure TfrmMenuPrincipal.btnEstoqueMouseEnter(Sender: TObject);

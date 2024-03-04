@@ -101,7 +101,7 @@ app.get('/getLogin', authenticate, (req, res) => {
 
 app.get('/getMesas', authenticate, (req, res) => {
 
-  const sql = `SELECT * FROM rs_mesa`;  
+  const sql = `SELECT * FROM rs_mesa ORDER BY NUMERO`;  
   connection.query(sql, (err, results) => {
     if (err) {
       console.error('Erro ao executar a consulta!! -> ', err);

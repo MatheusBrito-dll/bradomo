@@ -25,7 +25,7 @@ type
     Label2: TLabel;
     Label3: TLabel;
     Label4: TLabel;
-    ListBox1: TListBox;
+    VertScrollBox1: TVertScrollBox;
     procedure FloatAnimation1Finish(Sender: TObject);
     procedure recGerenciarMesasMouseEnter(Sender: TObject);
     procedure recGerenciarMesasMouseLeave(Sender: TObject);
@@ -34,7 +34,7 @@ type
     procedure recGerenciarMesasClick(Sender: TObject);
     procedure FloatAnimation2Finish(Sender: TObject);
     procedure TerminateThreadMesa(Sender: TObject);
-    procedure FormCreate(Sender: TObject);
+    procedure LimparScrollBox(ScrollBox: TVertScrollBox);
   private
       DadosMesa : String;
     { Private declarations }
@@ -57,9 +57,22 @@ begin
   FloatAnimation2.Duration := 0.2;
 end;
 
-procedure TfrmControleDeMesa.FormCreate(Sender: TObject);
+procedure TfrmControleDeMesa.LimparScrollBox(ScrollBox: TVertScrollBox);
+var
+  i : integer;
 begin
-  ListBox1.DefaultItemStyles.ItemStyle := 'listboxitem';
+  try
+    VertScrollBox1.BeginUpdate;
+    for i := ScrollBox.Content.ChildrenCount - 1 downto 0 do
+    begin
+      if ScrollBox.Content.Children[i] is TFrame then
+      begin
+        TFrame(ScrollBox.Content.Children[i]).DisposeOf;
+      end;
+    end;
+  finally
+    VertScrollBox1.EndUpdate;
+  end;
 end;
 
 procedure TfrmControleDeMesa.recGerenciarMesasClick(Sender: TObject);
@@ -78,11 +91,10 @@ begin
   ThreadMesa.Start;
 end;
 
-
 procedure TfrmControleDeMesa.TerminateThreadMesa(Sender: TObject);
 var
   Status        : String;
-  item          : TListBoxItem;
+  //item          : TListBoxItem;
   frame         : TFrameControleDeMesa;
   JSONValue     : TJSONValue;
   JSONObject    : TJSONObject;
@@ -95,42 +107,72 @@ begin
   begin
     JSONValue  := TJSONObject.ParseJSONValue(DadosMesa);
     JSONArray  := JSONValue as TJSONArray;
+    LimparScrollBox(VertScrollBox1);
+    VertScrollBox1.BeginUpdate;
+    for var i := 0 to JSONArray.Count - 1 do
+    begin
+      JSONObject := JSONArray[i] as TJSONObject;
 
-    ListBox1.Clear;
-    ListBox1.BeginUpdate;
-      for var i := 0 to JSONArray.Count - 1 do
+      frame := TFrameControleDeMesa.Create(nil);
+
+       if JSONObject.GetValue('STATUS').Value = '0' then
       begin
-        JSONObject := JSONArray[i] as TJSONObject;
+        Status := 'Disponível';
+      end else if JSONObject.GetValue('STATUS').Value = '1' then
+      begin
+        Status := 'Reservada';
+        Frame.Glyph1.ImageIndex := 1;
 
-        if JSONObject.GetValue('STATUS').Value = '0' then
-          Status := 'Disponível'
-        else if JSONObject.GetValue('STATUS').Value = '1' then
-          Status := 'Reservada'
-        else if JSONObject.GetValue('STATUS').Value = '2' then
-          Status := 'Ocupada'
-        else
-          Status := 'Inativa';
+        Frame.lblNumeroMesa.FontColor   := $ff440A4D;
+        Frame.recFundo.Fill.Color       := $FFDBADE2;
+        Frame.btnCancelar.FontColor     := $ff440A4D;
+        Frame.btnExcluir.FontColor      := $ff440A4D;
+        Frame.btnSalvarEditar.FontColor := $ff440A4D;
+        Frame.lblCapacidade.FontColor   := $ff440A4D;
+        Frame.CheckAtivo.FontColor      := $ff440A4D;
+        Frame.CheckDefeito.FontColor    := $ff440A4D;
 
-        item            := TListBoxItem.Create(nil);
-        item.Text       := JSONObject.GetValue('NUMERO').Value + ' ' + Status;
-        item.Height     := 100;
-        item.Selectable := false;
+      end else if JSONObject.GetValue('STATUS').Value = '2' then
+      begin
+        Status := 'Ocupada';
+        Frame.Glyph1.ImageIndex := 2;
 
-        //Cria o Frame com o visual
-        frame           := TFrameControleDeMesa.Create(item);
+        Frame.lblNumeroMesa.FontColor   := $FF00678D;
+        Frame.recFundo.Fill.Color       := $FFA9D1E0;
+        Frame.btnCancelar.FontColor     := $FF00678D;
+        Frame.btnExcluir.FontColor      := $FF00678D;
+        Frame.btnSalvarEditar.FontColor := $FF00678D;
+        Frame.lblCapacidade.FontColor   := $FF00678D;
+        Frame.CheckAtivo.FontColor      := $FF00678D;
+        Frame.CheckDefeito.FontColor    := $FF00678D;
+      end else
+      begin
+        Status := 'Inativa';
+        Frame.Glyph1.ImageIndex := 3;
 
-        frame.lblNumeroMesa.Text     := JSONObject.GetValue('NUMERO').Value;
-        frame.SpinCapacidade.Value   := JSONObject.GetValue('CAPACIDADE').Value.ToInteger;
-        frame.CheckAtivo.IsChecked   := JSONObject.GetValue('ATIVO').Value.ToBoolean();
-        frame.CheckDefeito.IsChecked := JSONObject.GetValue('DEFEITO').Value.ToBoolean();
-
-        frame.Parent    := item;
-        frame.Align     := TAlignLayout.Client;
-
-        ListBox1.AddObject(item);
+        Frame.lblNumeroMesa.FontColor   := $ff510F0F;
+        Frame.recFundo.Fill.Color       := $FFEBBEBE;
+        Frame.btnCancelar.FontColor     := $ff510F0F;
+        Frame.btnExcluir.FontColor      := $ff510F0F;
+        Frame.btnSalvarEditar.FontColor := $ff510F0F;
+        Frame.lblCapacidade.FontColor   := $ff510F0F;
+        Frame.CheckAtivo.FontColor      := $ff510F0F;
+        Frame.CheckDefeito.FontColor    := $ff510F0F;
       end;
-    ListBox1.EndUpdate;
 
+
+      frame.lblNumeroMesa.Text     := JSONObject.GetValue('NUMERO').Value;
+      frame.SpinCapacidade.Value   := JSONObject.GetValue('CAPACIDADE').Value.ToInteger;
+      frame.CheckAtivo.IsChecked   := JSONObject.GetValue('ATIVO').Value.ToBoolean();
+      frame.CheckDefeito.IsChecked := JSONObject.GetValue('DEFEITO').Value.ToBoolean();
+
+      frame.Height := 100;
+      frame.Position.Y := 999999999;
+      frame.Align     := TAlignLayout.top;
+
+      VertScrollBox1.AddObject(frame);
+    end;
+    VertScrollBox1.EndUpdate;
   end;
 end;
 
@@ -146,7 +188,7 @@ begin
   continua := False;
   recGerenciarMesas.Fill.Color := TAlphaColor($FF004964);
   FloatAnimation1.StartValue := 360;
-  FloatAnimation1.StopValue := 350;
+  FloatAnimation1.StopValue := 370;
   FloatAnimation1.Inverse := False;
   FloatAnimation1.Start;
 end;
@@ -162,7 +204,7 @@ procedure TfrmControleDeMesa.recReservaAndVendasMouseEnter(Sender: TObject);
 begin
   recReservaAndVendas.Fill.Color := TAlphaColor($FF004964);
   FloatAnimation2.StartValue := 360;
-  FloatAnimation2.StopValue := 350;
+  FloatAnimation2.StopValue := 370;
   FloatAnimation2.Inverse := False;
   FloatAnimation2.Start;
 end;
