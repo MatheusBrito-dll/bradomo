@@ -17,7 +17,6 @@ uses
   System.Actions,
   FMX.ActnList,
   FMX.Layouts,
-  unLogin in 'unLogin.pas' {frmLogin},
   unMenuPrincipal in '_base\unMenuPrincipal.pas' {frmMenuPrincipal},
   uApi in '_api\uApi.pas',
   unGlobal in '_base\unGlobal.pas',
@@ -26,7 +25,9 @@ uses
   unControleDeMesa in '_base\unControleDeMesa.pas' {frmControleDeMesa},
   unGerenciarMesas in '_base\unGerenciarMesas.pas' {fmrGerenciarMesas},
   unDMMySql in '_dms\unDMMySql.pas' {dmServerMySQL: TDataModule},
-  fmControledeMesas in '_frames\fmControledeMesas.pas' {FrameControleDeMesa: TFrame};
+  fmControledeMesas in '_frames\fmControledeMesas.pas' {FrameControleDeMesa: TFrame},
+  unLogin in 'unLogin.pas' {frmLogin},
+  fmAnimationLoading in '_frames\fmAnimationLoading.pas' {FrameLoading: TFrame};
 
 {$R *.res}
 begin

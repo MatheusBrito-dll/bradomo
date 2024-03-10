@@ -1,0 +1,47 @@
+object FrameLoading: TFrameLoading
+  Align = Center
+  Size.Width = 250.000000000000000000
+  Size.Height = 250.000000000000000000
+  Size.PlatformDefault = False
+  object Rectangle1: TRectangle
+    Align = Center
+    Fill.Kind = None
+    Size.Width = 100.000000000000000000
+    Size.Height = 100.000000000000000000
+    Size.PlatformDefault = False
+    Stroke.Kind = None
+    object Arc1: TArc
+      Align = Client
+      Size.Width = 100.000000000000000000
+      Size.Height = 100.000000000000000000
+      Size.PlatformDefault = False
+      Stroke.Kind = Gradient
+      Stroke.Gradient.Points = <
+        item
+          Color = xFF10AFD8
+          Offset = 0.000000000000000000
+        end
+        item
+          Color = xFF817878
+          Offset = 1.000000000000000000
+        end>
+      Stroke.Gradient.StartPosition.X = 0.500000000000000000
+      Stroke.Gradient.StartPosition.Y = 1.000000000000000000
+      Stroke.Gradient.StopPosition.X = 0.499999970197677600
+      Stroke.Gradient.StopPosition.Y = 0.000000000000000000
+      Stroke.Thickness = 20.000000000000000000
+      Stroke.Cap = Round
+      Stroke.Dash = Dash
+      EndAngle = 360.000000000000000000
+      object FloatAnimation1: TFloatAnimation
+        AnimationType = InOut
+        Duration = 0.100000001490116100
+        Interpolation = Circular
+        Loop = True
+        PropertyName = 'RotationAngle'
+        StartValue = 0.000000000000000000
+        StopValue = 360.000000000000000000
+      end
+    end
+  end
+end

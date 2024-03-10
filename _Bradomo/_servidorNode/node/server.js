@@ -7,12 +7,24 @@ app.use(express.json());
 const port = 3000;
 
 const connection = mysql.createConnection({
+  host: 'localhost',
+  user: 'root',
+  password: '',
+  database: 'brd',
+  port: 3306
+});
+
+/**
+
+const connection = mysql.createConnection({
   host: '172.16.3.180',
   user: 'castrillon',
   password: 'castri123',
   database: 'brd_master',
   port: 3306
 });
+
+ */
 
 connection.connect(err => {
   if (err) {
@@ -97,16 +109,23 @@ app.get('/getLogin', authenticate, (req, res) => {
 });
 
 app.get('/getMesas', authenticate, (req, res) => {
-  const sql = `SELECT * FROM rs_mesa ORDER BY NUMERO`;  
-  connection.query(sql, (err, results) => {
-    if (err) {
-      console.error('Erro ao executar a consulta!! -> ', err);
-      res.status(500).send('Erro interno do servidor!!');
-      return;
-    }
-    console.log('200 - Get Mesa OK');
-    res.json(results);
-  });
+
+  //setTimeout(function() {
+    // Seu código aqui
+    const sql = `SELECT * FROM rs_mesa ORDER BY NUMERO`;  
+    connection.query(sql, (err, results) => {
+      if (err) {
+        console.error('Erro ao executar a consulta!! -> ', err);
+        res.status(500).send('Erro interno do servidor!!');
+        return;
+      }
+      console.log('200 - Get Mesa OK');
+      res.json(results);
+    });
+
+  //}, 5000);
+
+  
 });
 
 app.post('/PostAltMesas', authenticate, (req, res) => {

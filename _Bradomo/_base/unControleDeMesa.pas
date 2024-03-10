@@ -7,7 +7,7 @@ uses
   FMX.Types, FMX.Controls, FMX.Forms, FMX.Graphics, FMX.Dialogs, FMX.Objects,
   FMX.Ani, FMX.Controls.Presentation, FMX.StdCtrls, FMX.Layouts, FMX.ListBox,
   System.JSON,
-  fmControleDeMesas, uApi, unGLobal;
+  fmControleDeMesas, uApi, unGLobal, fmAnimationLoading;
 
 type
   TfrmControleDeMesa = class(TForm)
@@ -40,6 +40,7 @@ type
   private
       DadosMesa : String;
       DadosMesaInsert : String;
+      frameLoading : TFrameLoading;
     procedure ClickMore2(Sender: TObject);
 
     { Private declarations }
@@ -91,10 +92,29 @@ procedure TfrmControleDeMesa.GetMesas;
 var
   ThreadMesa : TTHread;
   Api        : TApi;
+  //Nvl1       : TRecTangle;
+  //Nvl2       : TLayout;
+  //Nvl3       : TLayout;
+  //Nvl4       : TForm;
 begin
+
+  //Nvl1 := recPrincipal.Parent as TRecTangle;
+  //Nvl2 := Nvl1.Parent         as TLayout;
+  //Nvl3 := Nvl2.Parent         as TLayout;
+  //Nvl4 := Nvl3.Parent         as TForm;
+
+  LimparScrollBox(VertScrollBox1);
+
+  frameLoading := TFrameLoading.Create(nil);
+
+  frameLoading.Rectangle1.Parent := recPrincipal;
+  frameLoading.Rectangle1.Width := 100;
+  frameLoading.Rectangle1.Height := 100;
+  frameLoading.FloatAnimation1.Start;
 
   ThreadMesa := TThread.CreateAnonymousThread(procedure
   begin
+    Sleep(1000);
     Api := TApi.Create();
     DadosMesa := Api.GetMesas();
   end);
@@ -168,6 +188,9 @@ var
   JSONObject    : TJSONObject;
   JSONArray     : TJSONArray;
 begin
+  if Assigned(frameLoading) then
+    frameLoading.Free;
+
   if (Pos('Erro', DadosMesa) > 0) then
   begin
       ShowMessage(DadosMesa);
@@ -175,7 +198,6 @@ begin
   begin
     JSONValue  := TJSONObject.ParseJSONValue(DadosMesa);
     JSONArray  := JSONValue as TJSONArray;
-    LimparScrollBox(VertScrollBox1);
     VertScrollBox1.BeginUpdate;
     for var i := 0 to JSONArray.Count - 1 do
     begin
@@ -243,6 +265,7 @@ begin
     end;
     VertScrollBox1.EndUpdate;
   end;
+
 end;
 
 
@@ -305,3 +328,4 @@ begin
 end;
 
 end.
+

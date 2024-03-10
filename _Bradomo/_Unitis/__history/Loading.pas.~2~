@@ -1,0 +1,106 @@
+unit Loading;
+
+interface
+
+uses
+  System.SysUtils, System.UITypes, FMX.Types, FMX.Controls, FMX.StdCtrls,
+  FMX.Objects, FMX.Effects, FMX.Layouts, FMX.Forms, FMX.Graphics, FMX.Ani,
+  FMX.VirtualKeyboard, FMX.Platform;
+
+type
+  TLoading = class
+  private
+    class var
+      Fundo: TRectangle;
+      Arco: TArc;
+      Mensagem: TLabel;
+      Animacao: TFloatAnimation;
+  public
+    class procedure Show(const Rectangle: TRectangle; const msg: string);
+    class procedure Hide;
+  end;
+
+implementation
+
+{ TLoading }
+
+class procedure TLoading.Hide;
+begin
+  if Assigned(Fundo) then
+  begin
+    try
+      Fundo.DisposeOf;
+      Arco.DisposeOf;
+      Mensagem.DisposeOf;
+      Animacao.DisposeOf;
+    except
+    end;
+  end;
+end;
+
+class procedure TLoading.Show(const Rectangle: TRectangle; const msg: string);
+begin
+  if Assigned(Rectangle) then
+  begin
+    // Panel de fundo opaco...
+    Fundo := TRectangle.Create(Rectangle.Parent);
+    Fundo.Parent := Rectangle.Parent;
+    Fundo.Opacity := 0;
+    Fundo.Align := TAlignLayout.Contents;
+    Fundo.Fill.Color := TAlphaColorRec.Black;
+    Fundo.Fill.Kind := TBrushKind.Solid;
+    Fundo.Stroke.Kind := TBrushKind.None;
+    Fundo.Visible := True;
+
+    // Arco da animacao...
+    Arco := TArc.Create(Rectangle.Parent);
+    Arco.Parent := Rectangle.Parent;
+    Arco.Visible := True;
+    Arco.Align := TAlignLayout.Center;
+    Arco.Margins.Bottom := 55;
+    Arco.Width := 25;
+    Arco.Height := 25;
+    Arco.EndAngle := 280;
+    Arco.Stroke.Color := $FFFEFFFF;
+    Arco.Stroke.Thickness := 2;
+    Arco.Position.X := trunc((Rectangle.Width - Arco.Width) / 2);
+    Arco.Position.Y := Rectangle.Position.Y;
+
+    // Animacao...
+    Animacao := TFloatAnimation.Create(Rectangle.Parent);
+    Animacao.Parent := Arco;
+    Animacao.StartValue := 0;
+    Animacao.StopValue := 360;
+    Animacao.Duration := 0.8;
+    Animacao.Loop := True;
+    Animacao.PropertyName := 'RotationAngle';
+    Animacao.AnimationType := TAnimationType.InOut;
+    Animacao.Interpolation := TInterpolationType.Linear;
+    Animacao.Start;
+
+    // Label do texto...
+    Mensagem := TLabel.Create(Rectangle.Parent);
+    Mensagem.Parent := Rectangle.Parent;
+    Mensagem.Align := TAlignLayout.Center;
+    Mensagem.Margins.Top := 60;
+    Mensagem.Font.Size := 13;
+    Mensagem.Height := 70;
+    Mensagem.Width := Rectangle.Width - 100;
+    Mensagem.FontColor := $FFFEFFFF;
+    Mensagem.TextSettings.HorzAlign := TTextAlign.Center;
+    Mensagem.TextSettings.VertAlign := TTextAlign.Leading;
+    Mensagem.StyledSettings := [TStyledSetting.Family, TStyledSetting.Style];
+    Mensagem.Text := msg;
+    Mensagem.VertTextAlign := TTextAlign.Leading;
+    Mensagem.Trimming := TTextTrimming.None;
+    Mensagem.TabStop := False;
+    Mensagem.SetFocus;
+
+    // Exibe os controles...
+    Fundo.AnimateFloat('Opacity', 0.7);
+    Rectangle.BringToFront;
+  end;
+end;
+
+end.
+
