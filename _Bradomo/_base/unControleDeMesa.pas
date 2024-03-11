@@ -7,7 +7,7 @@ uses
   FMX.Types, FMX.Controls, FMX.Forms, FMX.Graphics, FMX.Dialogs, FMX.Objects,
   FMX.Ani, FMX.Controls.Presentation, FMX.StdCtrls, FMX.Layouts, FMX.ListBox,
   System.JSON,
-  fmControleDeMesas, uApi, unGLobal, fmAnimationLoading;
+  fmControleDeMesas, uApi, unGLobal, fmAnimationLoading, fmMensagem;
 
 type
   TfrmControleDeMesa = class(TForm)
@@ -37,10 +37,12 @@ type
     procedure TerminateThreadMesaAlt(Sender: TObject);
     procedure LimparScrollBox(ScrollBox: TVertScrollBox);
     procedure GetMesas;
+    procedure FormCreate(Sender: TObject);
   private
       DadosMesa : String;
       DadosMesaInsert : String;
       frameLoading : TFrameLoading;
+      frameMensage : TFrameMensagem;
     procedure ClickMore2(Sender: TObject);
 
     { Private declarations }
@@ -61,6 +63,19 @@ procedure TfrmControleDeMesa.FloatAnimation2Finish(Sender: TObject);
 begin
   FloatAnimation1.Duration := 0.2;
   FloatAnimation2.Duration := 0.2;
+end;
+
+procedure TfrmControleDeMesa.FormCreate(Sender: TObject);
+begin
+  recGerenciarMesas.Width   := 0;
+  recReservaAndVendas.Width := 0;
+
+  FloatAnimation2.Duration := 0.1;
+  FloatAnimation1.Duration := 0.1;
+  FloatAnimation1.Start;
+
+  Continua := True;
+
 end;
 
 procedure TfrmControleDeMesa.LimparScrollBox(ScrollBox: TVertScrollBox);
@@ -114,7 +129,7 @@ begin
 
   ThreadMesa := TThread.CreateAnonymousThread(procedure
   begin
-    Sleep(1000);
+    Sleep(500);
     Api := TApi.Create();
     DadosMesa := Api.GetMesas();
   end);
@@ -127,6 +142,8 @@ end;
 procedure TfrmControleDeMesa.ClickMore2(Sender: TObject);
 var
   frame : TFrameControleDeMesa;
+  frameMensagem : TFrameMensagem;
+
   btn   : TSpeedButton;
   rec   : TRectangle;
 
@@ -143,40 +160,48 @@ begin
 
 
   Frame := rec.Parent as TFrameControleDeMesa;
-
-  if Frame.btnSalvarEditar.Text = 'Salvar' then
+  if frame.status = 0 then
   begin
-    ThreadMesa := TThread.CreateAnonymousThread(procedure
+    if Frame.btnSalvarEditar.Text = 'Salvar' then
     begin
-      Api := TApi.Create();
-      DadosMesaInsert := Api.PostAltMesas(Frame.idMesa, CodUsuario,
-                                    Frame.CheckDefeito.IsChecked.ToInteger ,
-                                    Frame.CheckAtivo.IsChecked.ToInteger,
-                                    Frame.SpinCapacidade.Value.ToString.ToInteger);
-    end);
+      ThreadMesa := TThread.CreateAnonymousThread(procedure
+      begin
+        Api := TApi.Create();
+        DadosMesaInsert := Api.PostAltMesas(Frame.idMesa, CodUsuario,
+                                      Frame.CheckDefeito.IsChecked.ToInteger ,
+                                      Frame.CheckAtivo.IsChecked.ToInteger,
+                                      Frame.SpinCapacidade.Value.ToString.ToInteger);
+      end);
 
-    ThreadMesa.OnTerminate := TerminateThreadMesaAlt;
-    ThreadMesa.Start;
-  end;
+      ThreadMesa.OnTerminate := TerminateThreadMesaAlt;
+      ThreadMesa.Start;
+    end;
 
-  Frame.CheckAtivo.Enabled     := NOT   Frame.CheckAtivo.Enabled;
-  Frame.CheckDefeito.Enabled   := NOT   Frame.CheckDefeito.Enabled;
+    Frame.CheckAtivo.Enabled     := NOT   Frame.CheckAtivo.Enabled;
+    Frame.CheckDefeito.Enabled   := NOT   Frame.CheckDefeito.Enabled;
 
-  Frame.btnExcluir.Enabled     := NOT   Frame.btnExcluir.Enabled;
-  Frame.btnCancelar.Enabled    := NOT   Frame.btnCancelar.Enabled;
+    Frame.btnExcluir.Enabled     := NOT   Frame.btnExcluir.Enabled;
+    Frame.btnCancelar.Enabled    := NOT   Frame.btnCancelar.Enabled;
 
-  Frame.lblCapacidade.Enabled  := NOT   Frame.lblCapacidade.Enabled;
-  Frame.SpinCapacidade.Enabled := NOT   Frame.SpinCapacidade.Enabled;
+    Frame.lblCapacidade.Enabled  := NOT   Frame.lblCapacidade.Enabled;
+    Frame.SpinCapacidade.Enabled := NOT   Frame.SpinCapacidade.Enabled;
 
-  if (Frame.btnSalvarEditar.Text = 'Editar') then
-  begin
-    Frame.btnSalvarEditar.Text := 'Salvar';
+    if (Frame.btnSalvarEditar.Text = 'Editar') then
+    begin
+      Frame.btnSalvarEditar.Text := 'Salvar';
+    end else
+    begin
+      Frame.btnSalvarEditar.Text := 'Editar';
+      GetMesas();
+    end;
   end else
   begin
-    Frame.btnSalvarEditar.Text := 'Editar';
-    GetMesas();
+    frameMensagem := TFrameMensagem.Create(nil);
+    frameMensagem.recPrincipal.Parent := recPrincipal;
+    frameMensagem.lblAviso.Text       := 'Só é possível alterar mesas com Status = Disponível!';
+    frameMensagem.recPrincipal.Width  := 500;
+    frameMensagem.recPrincipal.Height := 125;
   end;
-
 end;
 
 procedure TfrmControleDeMesa.TerminateThreadMesa(Sender: TObject);
@@ -206,7 +231,7 @@ begin
       frame := TFrameControleDeMesa.Create(nil);
       frame.btnSalvarEditar.OnClick := ClickMore2;
 
-       if JSONObject.GetValue('STATUS').Value = '0' then
+      if JSONObject.GetValue('STATUS').Value = '0' then
       begin
         Status := 'Disponível';
       end else if JSONObject.GetValue('STATUS').Value = '1' then
@@ -251,6 +276,7 @@ begin
         Frame.CheckDefeito.FontColor    := $ff510F0F;
       end;
 
+      frame.status                 := JSONObject.GetValue('STATUS').Value.ToInteger();
       frame.idMesa                 := JSONObject.GetValue('ID_MESA').Value;
       frame.lblNumeroMesa.Text     := JSONObject.GetValue('NUMERO').Value;
       frame.SpinCapacidade.Value   := JSONObject.GetValue('CAPACIDADE').Value.ToInteger;
@@ -281,10 +307,10 @@ var
 begin
   if (Pos('Erro', DadosMesa) > 0) then
   begin
-      ShowMessage(DadosMesaInsert);
+      //ShowMessage(DadosMesaInsert);
   end else
   begin
-    ShowMessage(DadosMesaInsert);
+    //ShowMessage(DadosMesaInsert);
   end;
 end;
 

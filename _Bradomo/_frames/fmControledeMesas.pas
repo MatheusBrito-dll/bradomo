@@ -33,6 +33,7 @@ type
     { Private declarations }
   public
     idMesa, DadosMesa : String;
+    status : Integer;
     procedure TerminateThreadMesa(Sender: TObject);
     { Public declarations }
   end;
@@ -46,7 +47,7 @@ var
   Api : TApi;
   ThreadMesa : TTHread;
 begin
-
+  {
   if btnSalvarEditar.Text = 'Salvar' then
   begin
     ThreadMesa := TThread.CreateAnonymousThread(procedure
@@ -68,7 +69,7 @@ begin
   btnCancelar.Enabled    := NOT btnCancelar.Enabled;
 
   lblCapacidade.Enabled  := NOT lblCapacidade.Enabled;
-  SpinCapacidade.Enabled := NOT SpinCapacidade.Enabled;
+  SpinCapacidade.Enabled := NOT SpinCapacidade.Enabled;}
 end;
 
 procedure TFrameControleDeMesa.TerminateThreadMesa(Sender: TObject);
@@ -82,10 +83,10 @@ var
 begin
   if (Pos('Erro', DadosMesa) > 0) then
   begin
-      ShowMessage(DadosMesa);
+    //
   end else
   begin
-    ShowMessage(DadosMesa);
+    //
   end;
 end;
 

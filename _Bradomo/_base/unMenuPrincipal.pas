@@ -122,6 +122,7 @@ type
     procedure btnMesasMouseEnter(Sender: TObject);
     procedure btnMesasMouseLeave(Sender: TObject);
     procedure btnMesasClick(Sender: TObject);
+    procedure recAHomeClick(Sender: TObject);
 
   private
     frmControleDeMesa: TfrmControleDeMesa;
@@ -143,25 +144,17 @@ implementation
 
 procedure TfrmMenuPrincipal.btnMesasClick(Sender: TObject);
 begin
-  if NOT Assigned(frmControleDeMesa) then
-  begin
-    frmControleDeMesa := TfrmControleDeMesa.Create(nil);
-    frmControleDeMesa.recPrincipal.Parent := recPainelVisu;
 
-    frmControleDeMesa.continua := True;
-
-    frmControleDeMesa.recGerenciarMesas.Width   := 0;
-    frmControleDeMesa.recReservaAndVendas.Width := 0;
-
-    frmControleDeMesa.FloatAnimation2.Duration := 0.1;
-    frmControleDeMesa.FloatAnimation1.Duration := 0.1;
-    frmControleDeMesa.FloatAnimation1.Start;
-    //A animação dos outros botões vai ficar no onfinish no proprio form criado
-  end else
-  begin
-    frmControleDeMesa.recPrincipal.Parent := nil;
+  try
     FreeAndNil(frmControleDeMesa);
+  except
+    // Ignora erros
   end;
+
+ frmControleDeMesa := TfrmControleDeMesa.Create(nil);
+ frmControleDeMesa.recPrincipal.Parent := recPainelVisu;
+
+ VertScrollBox1.Visible := false;
 end;
 
 //ENFEITES BORTÕES--------------------------------------------------------------
@@ -333,6 +326,44 @@ begin
   FloatAnimation11.Inverse := True;
   FloatAnimation11.Start;
 end;
+
+procedure TfrmMenuPrincipal.recAHomeClick(Sender: TObject);
+var
+  i: Integer;
+begin
+  VertScrollBox1.Visible := True;
+
+  // Verifica se há controles filhos em recPainelVisu
+  if recPainelVisu.ControlsCount > 0 then
+  begin
+    // Loop reverso para garantir que os controles sejam removidos corretamente
+    for i := recPainelVisu.ControlsCount - 1 downto 0 do
+    begin
+      // Verifica se o controle atual é um TRectangle
+      if recPainelVisu.Controls[i] is TRectangle then
+      begin
+        // Define o parent do TRectangle como nil para remover a referência ao formulário
+        TRectangle(recPainelVisu.Controls[i]).Parent := nil;
+      end;
+    end;
+  end;
+
+  // Destroi os formulários que eram pais dos TRectangles
+  for i := 0 to Screen.FormCount - 1 do
+  begin
+    // Verifica se o formulário é uma instância de TForm
+    if Screen.Forms[i] is TForm then
+    begin
+      // Verifica se o parent do formulário é recPainelVisu
+      if (Screen.Forms[i].Parent = recPainelVisu) then
+      begin
+        // Destrói o formulário
+        Screen.Forms[i].Free;
+      end;
+    end;
+  end;
+end;
+
 
 procedure TfrmMenuPrincipal.recAHomeMouseEnter(Sender: TObject);
 begin

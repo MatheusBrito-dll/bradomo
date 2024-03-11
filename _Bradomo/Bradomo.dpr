@@ -27,7 +27,8 @@ uses
   unDMMySql in '_dms\unDMMySql.pas' {dmServerMySQL: TDataModule},
   fmControledeMesas in '_frames\fmControledeMesas.pas' {FrameControleDeMesa: TFrame},
   unLogin in 'unLogin.pas' {frmLogin},
-  fmAnimationLoading in '_frames\fmAnimationLoading.pas' {FrameLoading: TFrame};
+  fmAnimationLoading in '_frames\fmAnimationLoading.pas' {FrameLoading: TFrame},
+  fmMensagem in '_frames\fmMensagem.pas' {FrameMensagem: TFrame};
 
 {$R *.res}
 begin
