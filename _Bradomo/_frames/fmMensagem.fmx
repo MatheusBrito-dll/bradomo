@@ -19,7 +19,7 @@ object FrameMensagem: TFrameMensagem
       Stroke.Kind = None
       object Rectangle1: TRectangle
         Align = Top
-        Fill.Color = xFFF3905B
+        Fill.Color = xFF5BAAF3
         HitTest = False
         Size.Width = 500.000000000000000000
         Size.Height = 33.000000000000000000
@@ -45,10 +45,10 @@ object FrameMensagem: TFrameMensagem
         Size.Width = 500.000000000000000000
         Size.Height = 92.000000000000000000
         Size.PlatformDefault = False
-        Stroke.Color = xFFF3905B
+        Stroke.Color = xFF5BAAF3
         object Rectangle3: TRectangle
           Align = Bottom
-          Fill.Color = xFFF3905B
+          Fill.Color = xFF5BAAF3
           Margins.Left = 200.000000000000000000
           Margins.Right = 200.000000000000000000
           Margins.Bottom = 5.000000000000000000

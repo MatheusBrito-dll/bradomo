@@ -28,7 +28,8 @@ uses
   fmControledeMesas in '_frames\fmControledeMesas.pas' {FrameControleDeMesa: TFrame},
   unLogin in 'unLogin.pas' {frmLogin},
   fmAnimationLoading in '_frames\fmAnimationLoading.pas' {FrameLoading: TFrame},
-  fmMensagem in '_frames\fmMensagem.pas' {FrameMensagem: TFrame};
+  fmMensagem in '_frames\fmMensagem.pas' {FrameMensagem: TFrame},
+  unCadastroDeMesa in '_base\unCadastroDeMesa.pas' {frmCadastroDeMesa};
 
 {$R *.res}
 begin

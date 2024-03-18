@@ -3,6 +3,7 @@ const mysql = require('mysql');
 const basicAuth = require('basic-auth');
 
 const app = express();
+const { v4: uuidv4 } = require('uuid');
 app.use(express.json());
 const port = 3000;
 
@@ -11,7 +12,8 @@ const connection = mysql.createConnection({
   user: 'root',
   password: '',
   database: 'brd',
-  port: 3306
+  port: 3306,
+  charset : 'utf8mb4' // Definindo a codificação como UTF-8
 });
 
 /**
@@ -21,7 +23,8 @@ const connection = mysql.createConnection({
   user: 'castrillon',
   password: 'castri123',
   database: 'brd_master',
-  port: 3306
+  port: 3306,
+  charset : 'utf8mb4' // Definindo a codificação como UTF-8
 });
 
  */
@@ -45,6 +48,26 @@ const authenticate = (req, res, next) => {
 
   next(); // Continuar para a próxima rota
 };
+
+app.listen(port, () => {
+  console.log();
+  console.log(`⢕⢕⢕⢕⢕⢕⢕⢕⢕⢕⢕⢕⢕⢕⢕⢕⢕⢕⢕⢕⢕⢕⠕⠕⠕⠕⢕⢕
+⢕⢕⢕⢕⢕⠕⠕⢕⢕⢕⢕⢕⢕⢕⢕⢕⢕⠕⠁⣁⣠⣤⣤⣤⣶⣦⡄⢑
+⢕⢕⢕⠅⢁⣴⣤⠀⣀⠁⠑⠑⠁⢁⣀⣀⣀⣀⣘⢻⣿⣿⣿⣿⣿⡟⢁⢔
+⢕⢕⠕⠀⣿⡁⠄⠀⣹⣿⣿⣿⡿⢋⣥⠤⠙⣿⣿⣿⣿⣿⡿⠿⡟⠀⢔⢕
+⢕⠕⠁⣴⣦⣤⣴⣾⣿⣿⣿⣿⣇⠻⣇⠐⠀⣼⣿⣿⣿⣿⣿⣄⠀⠐⢕⢕
+⠅⢀⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⣶⣶⣿⣿⣿⣿⣿⣿⣿⣿⣷⡄⠐⢕
+⠀⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡄⠐
+⢄⠈⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡆
+⢕⢔⠀⠈⠛⠿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
+⢕⢕⢄⠈⠳⣶⣶⣶⣤⣤⣤⣤⣭⡍⢭⡍⢨⣯⡛⢿⣿⣿⣿⣿⣿⣿⣿⣿
+⢕⢕⢕⢕⠀⠈⠛⠿⢿⣿⣿⣿⣿⣿⣦⣤⣿⣿⣿⣿⣦⣈⠛⢿⢿⣿⣿⣿
+⢕⢕⢕⠁⢠⣾⣶⣾⣭⣖⣛⣿⠿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⡆⢸⣿⣿⣿
+⢕⢕⠅⢀⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⠟⠈⢿⣿⣿⡇
+⢕⠕⠀⠼⠟⢉⣉⡙⠻⠿⢿⣿⣿⣿⣿⣿⡿⢿⣛⣭⡴⠶⠶⠂⠀⠿⠿⠇`)
+  console.log();
+  console.log(`Servidor rodando em http://localhost:${port}`);
+});
 
 app.post('/atualizaSenha', authenticate, (req, res) => {
   const codigoUsuario = req.query.codigoUsuario;
@@ -163,25 +186,51 @@ app.post('/PostAltMesas', authenticate, (req, res) => {
   });
 });
 
+app.post('/CadMesas', authenticate, (req, res) => {
+  const novaMesa = req.body;
+  
+  // Gera um novo ID para a mesa e converte para maiúsculas
+  const novoId = uuidv4().toUpperCase();
 
+  // Verifica se o número da mesa já existe
+  connection.query('SELECT COUNT(*) AS count FROM rs_mesa WHERE NUMERO = ?', [novaMesa.NUMERO], (error, results, fields) => {
+      if (error) {
+          console.error('Erro ao verificar número da mesa:', error);
+          res.status(500).send('Erro ao verificar número da mesa');
+          return;
+      }
 
-app.listen(port, () => {
-  console.log();
-  console.log(`⢕⢕⢕⢕⢕⢕⢕⢕⢕⢕⢕⢕⢕⢕⢕⢕⢕⢕⢕⢕⢕⢕⠕⠕⠕⠕⢕⢕
-⢕⢕⢕⢕⢕⠕⠕⢕⢕⢕⢕⢕⢕⢕⢕⢕⢕⠕⠁⣁⣠⣤⣤⣤⣶⣦⡄⢑
-⢕⢕⢕⠅⢁⣴⣤⠀⣀⠁⠑⠑⠁⢁⣀⣀⣀⣀⣘⢻⣿⣿⣿⣿⣿⡟⢁⢔
-⢕⢕⠕⠀⣿⡁⠄⠀⣹⣿⣿⣿⡿⢋⣥⠤⠙⣿⣿⣿⣿⣿⡿⠿⡟⠀⢔⢕
-⢕⠕⠁⣴⣦⣤⣴⣾⣿⣿⣿⣿⣇⠻⣇⠐⠀⣼⣿⣿⣿⣿⣿⣄⠀⠐⢕⢕
-⠅⢀⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⣶⣶⣿⣿⣿⣿⣿⣿⣿⣿⣷⡄⠐⢕
-⠀⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡄⠐
-⢄⠈⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡆
-⢕⢔⠀⠈⠛⠿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
-⢕⢕⢄⠈⠳⣶⣶⣶⣤⣤⣤⣤⣭⡍⢭⡍⢨⣯⡛⢿⣿⣿⣿⣿⣿⣿⣿⣿
-⢕⢕⢕⢕⠀⠈⠛⠿⢿⣿⣿⣿⣿⣿⣦⣤⣿⣿⣿⣿⣦⣈⠛⢿⢿⣿⣿⣿
-⢕⢕⢕⠁⢠⣾⣶⣾⣭⣖⣛⣿⠿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⡆⢸⣿⣿⣿
-⢕⢕⠅⢀⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⠟⠈⢿⣿⣿⡇
-⢕⠕⠀⠼⠟⢉⣉⡙⠻⠿⢿⣿⣿⣿⣿⣿⡿⢿⣛⣭⡴⠶⠶⠂⠀⠿⠿⠇`)
-  console.log();
-  console.log(`Servidor rodando em http://localhost:${port}`);
+      // Se o número da mesa já existe, retorna uma mensagem de erro
+      if (results[0].count > 0) {
+          res.status(400).json({ error: 'O número da mesa já está cadastrado.' });
+          return;
+      }
+
+      // Atribui o mesmo usuário tanto para USR_CAD quanto para USR_ALT
+      novaMesa.USR_CAD = req.body.USUARIO;
+      novaMesa.USR_ALT = req.body.USUARIO;
+
+      // Insere os dados da nova mesa no banco de dados
+      connection.query('INSERT INTO rs_mesa (ID_MESA, NUMERO, CAPACIDADE, STATUS, LOCAL, DEFEITO, ATIVO, USR_ALT, USR_CAD, PEND, LOG) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', 
+          [novoId, novaMesa.NUMERO, novaMesa.CAPACIDADE, novaMesa.STATUS || 0, novaMesa.LOCAL, novaMesa.DEFEITO || 0, novaMesa.ATIVO ? 1 : 0, novaMesa.USR_ALT, novaMesa.USR_CAD, 0, "CADASTRADA"], 
+          (error, results, fields) => {
+              if (error) {
+                  console.error('Erro ao cadastrar nova mesa:', error);
+                  res.status(500).send('Erro ao cadastrar nova mesa');
+                  return;
+              }
+              console.log('Nova mesa cadastrada com sucesso:', novoId);
+              res.status(201).send('Mesa cadastrada com sucesso');
+          });
+  });
 });
+
+
+
+
+// Função para gerar um ID único para a mesa
+function generateUniqueId() {
+  // Gera um ID com base no timestamp atual e um número aleatório
+  return `${Date.now().toString(36)}${Math.random().toString(36).substr(2, 9)}`;
+}
 

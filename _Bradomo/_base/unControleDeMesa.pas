@@ -7,8 +7,8 @@ uses
   FMX.Types, FMX.Controls, FMX.Forms, FMX.Graphics, FMX.Dialogs, FMX.Objects,
   FMX.Ani, FMX.Controls.Presentation, FMX.StdCtrls, FMX.Layouts, FMX.ListBox,
   System.JSON,
-  fmControleDeMesas, uApi, unGLobal, fmAnimationLoading, fmMensagem;
-
+  fmControleDeMesas, uApi, unGLobal, fmAnimationLoading, fmMensagem,
+  unCadastroDeMesa;
 type
   TfrmControleDeMesa = class(TForm)
     recPrincipal: TRectangle;
@@ -26,6 +26,11 @@ type
     Label3: TLabel;
     Label4: TLabel;
     VertScrollBox1: TVertScrollBox;
+    recAdicionarMesa: TRectangle;
+    Image3: TImage;
+    FloatAnimation3: TFloatAnimation;
+    Label5: TLabel;
+    Label6: TLabel;
     procedure FloatAnimation1Finish(Sender: TObject);
     procedure recGerenciarMesasMouseEnter(Sender: TObject);
     procedure recGerenciarMesasMouseLeave(Sender: TObject);
@@ -38,11 +43,19 @@ type
     procedure LimparScrollBox(ScrollBox: TVertScrollBox);
     procedure GetMesas;
     procedure FormCreate(Sender: TObject);
+    procedure recAdicionarMesaMouseEnter(Sender: TObject);
+    procedure recAdicionarMesaMouseLeave(Sender: TObject);
+    procedure FloatAnimation3Finish(Sender: TObject);
+    procedure recAdicionarMesaClick(Sender: TObject);
   private
+
       DadosMesa : String;
       DadosMesaInsert : String;
+
       frameLoading : TFrameLoading;
       frameMensage : TFrameMensagem;
+      frmCadastroDeMesa : TfrmCadastroDeMesa;
+
     procedure ClickMore2(Sender: TObject);
 
     { Private declarations }
@@ -58,24 +71,39 @@ implementation
 
 {$R *.fmx}
 
-
-procedure TfrmControleDeMesa.FloatAnimation2Finish(Sender: TObject);
-begin
-  FloatAnimation1.Duration := 0.2;
-  FloatAnimation2.Duration := 0.2;
-end;
-
 procedure TfrmControleDeMesa.FormCreate(Sender: TObject);
 begin
   recGerenciarMesas.Width   := 0;
   recReservaAndVendas.Width := 0;
+  recAdicionarMesa.Width    := 0;
 
-  FloatAnimation2.Duration := 0.1;
   FloatAnimation1.Duration := 0.1;
+  FloatAnimation2.Duration := 0.1;
+  FloatAnimation3.Duration := 0.1;
   FloatAnimation1.Start;
 
   Continua := True;
 
+end;
+
+procedure TfrmControleDeMesa.FloatAnimation1Finish(Sender: TObject);
+begin
+    if (continua) or (recReservaAndVendas.Width = 0) then
+      FloatAnimation2.Start;
+end;
+
+procedure TfrmControleDeMesa.FloatAnimation2Finish(Sender: TObject);
+begin
+
+   if (continua) or (recAdicionarMesa.Width = 0) then
+    FloatAnimation3.Start;
+end;
+
+procedure TfrmControleDeMesa.FloatAnimation3Finish(Sender: TObject);
+begin
+  FloatAnimation1.Duration := 0.2;
+  FloatAnimation2.Duration := 0.2;
+  FloatAnimation3.Duration := 0.2;
 end;
 
 procedure TfrmControleDeMesa.LimparScrollBox(ScrollBox: TVertScrollBox);
@@ -94,6 +122,29 @@ begin
   finally
     VertScrollBox1.EndUpdate;
   end;
+end;
+
+procedure TfrmControleDeMesa.recAdicionarMesaClick(Sender: TObject);
+begin
+  LimparScrollBox(VertScrollBox1);
+  frmCadastroDeMesa := TfrmCadastroDeMesa.Create(nil);
+  frmCadastroDeMesa.recPrincipal.Parent := recPrincipal;
+end;
+
+procedure TfrmControleDeMesa.recAdicionarMesaMouseEnter(Sender: TObject);
+begin
+  recAdicionarMesa.Fill.Color := TAlphaColor($FF004964);
+  FloatAnimation3.StartValue := 360;
+  FloatAnimation3.StopValue := 370;
+  FloatAnimation3.Inverse := False;
+  FloatAnimation3.Start;
+end;
+
+procedure TfrmControleDeMesa.recAdicionarMesaMouseLeave(Sender: TObject);
+begin
+  recAdicionarMesa.Fill.Color := TAlphaColor($FF017CA9);
+  FloatAnimation3.Inverse := True;
+  FloatAnimation3.Start;
 end;
 
 procedure TfrmControleDeMesa.recGerenciarMesasClick(Sender: TObject);
@@ -160,7 +211,7 @@ begin
 
 
   Frame := rec.Parent as TFrameControleDeMesa;
-  if frame.status = 0 then
+  if (frame.status = 0) or (frame.status = 3) then
   begin
     if Frame.btnSalvarEditar.Text = 'Salvar' then
     begin
@@ -198,7 +249,7 @@ begin
   begin
     frameMensagem := TFrameMensagem.Create(nil);
     frameMensagem.recPrincipal.Parent := recPrincipal;
-    frameMensagem.lblAviso.Text       := 'Só é possível alterar mesas com Status = Disponível!';
+    frameMensagem.lblAviso.Text       := 'Só é possível alterar mesas com Status = Disponível ou Defeito';
     frameMensagem.recPrincipal.Width  := 500;
     frameMensagem.recPrincipal.Height := 125;
   end;
@@ -283,6 +334,9 @@ begin
       frame.CheckAtivo.IsChecked   := JSONObject.GetValue('ATIVO').Value.ToBoolean();
       frame.CheckDefeito.IsChecked := JSONObject.GetValue('DEFEITO').Value.ToBoolean();
 
+       if JSONObject.GetValue('DEFEITO').Value.ToBoolean() then
+        frame.Rectangle1.Fill.Color := $FFF3E88D;
+
       frame.Height := 100;
       frame.Position.Y := 999999999;
       frame.Align     := TAlignLayout.top;
@@ -293,7 +347,6 @@ begin
   end;
 
 end;
-
 
 
 procedure TfrmControleDeMesa.TerminateThreadMesaAlt(Sender: TObject);
@@ -312,12 +365,6 @@ begin
   begin
     //ShowMessage(DadosMesaInsert);
   end;
-end;
-
-
-procedure TfrmControleDeMesa.FloatAnimation1Finish(Sender: TObject);
-begin
-    if (continua) or (recReservaAndVendas.Width = 0) then FloatAnimation2.Start;
 end;
 
 procedure TfrmControleDeMesa.recGerenciarMesasMouseEnter(Sender: TObject);
