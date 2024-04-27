@@ -56,6 +56,8 @@ begin
                                 SpinNumCapacidade.Value.ToString.ToInteger,
                                 edtLocal.Text);
     end);
+
+    ThreadCadMesa.Start;
   end;
 
 end;

@@ -188,6 +188,8 @@ app.post('/PostAltMesas', authenticate, (req, res) => {
 
 app.post('/CadMesas', authenticate, (req, res) => {
   const novaMesa = req.body;
+
+  console.log(req.body);
   
   // Gera um novo ID para a mesa e converte para maiúsculas
   const novoId = uuidv4().toUpperCase();

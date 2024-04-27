@@ -4,7 +4,10 @@ interface
 
 uses
   IdHTTP, IdAuthentication, IdSSLOpenSSL, SysUtils, IdException,
-  System.JSON, System.Classes, FMX.Dialogs, unGlobal, System.NetEncoding;
+  System.JSON, System.Classes, FMX.Dialogs, unGlobal, System.NetEncoding,
+  REST.Client, REST.Types, REST.Authenticator.Basic;
+
+
 
 type
   TApi = class
@@ -75,53 +78,57 @@ end;
 
 function TApi.CadMesas(const numero, capacidade: integer; local: string): string;
 var
-  HTTP: TIdHTTP;
-  SSL: TIdSSLIOHandlerSocketOpenSSL;
-  Body: TStringStream;
-  Response: string;
+  RESTClient: TRESTClient;
+  RESTRequest: TRESTRequest;
+  RESTResponse: TRESTResponse;
   JSONObj: TJSONObject;
-  JSONPair: TJSONPair;
+  BasicAuth: THTTPBasicAuthenticator;
 begin
-    HTTP := TIdHTTP.Create(nil);
-  //SSL := TIdSSLIOHandlerSocketOpenSSL.Create(nil);
-  Body := TStringStream.Create;
+  RESTClient := TRESTClient.Create(nil);
+  RESTRequest := TRESTRequest.Create(nil);
+  RESTResponse := TRESTResponse.Create(nil);
+  BasicAuth := THTTPBasicAuthenticator.Create(nil);
 
   try
-    // Configuração do objeto TIdHTTP
-    //HTTP.IOHandler := SSL;
-    HTTP.HandleRedirects := True;
-    HTTP.Request.ContentType := 'application/json';
-    HTTP.Request.BasicAuthentication := True;
-    HTTP.Request.Username := 'adminMaster@bradomo@sis';
-    HTTP.Request.Password := '@B@str1ll0n@adminMaster@bradomo@sis';
+    // Configuração do cliente REST
+    RESTClient.BaseURL := 'http://' + ipApi;
+    RESTRequest.Client := RESTClient;
+    RESTRequest.Method := rmPOST;
+    RESTRequest.Resource := '/CadMesas';
+    RESTRequest.AddParameter('application/json', '', TRESTRequestParameterKind.pkREQUESTBODY);
+
+    // Configuração da autenticação básica
+    BasicAuth.Username := 'adminMaster@bradomo@sis';
+    BasicAuth.Password := '@B@str1ll0n@adminMaster@bradomo@sis';
+    RESTClient.Authenticator := BasicAuth;
 
     // Criando o objeto JSON e adicionando os pares de valores
     JSONObj := TJSONObject.Create;
-    JSONObj.AddPair('NUMERO', numero);
-    JSONObj.AddPair('CAPACIDADE', capacidade);
-    JSONObj.AddPair('STATUS', 0 );
+    JSONObj.AddPair('NUMERO', TJSONNumber.Create(numero));
+    JSONObj.AddPair('CAPACIDADE', TJSONNumber.Create(capacidade));
+    JSONObj.AddPair('STATUS', TJSONNumber.Create(0));
     JSONObj.AddPair('LOCAL', local);
-    JSONObj.AddPair('DEFEITO', 0);
-    JSONObj.AddPair('ATIVO', 0);
+    JSONObj.AddPair('DEFEITO', TJSONNumber.Create(0));
+    JSONObj.AddPair('ATIVO', TJSONBool.Create(False));
     JSONObj.AddPair('USUARIO', codUsuario);
 
-    // Convertendo o objeto JSON para uma string e escrevendo no stream
-    Body.WriteString(JSONObj.ToString);
+    // Adicionando o objeto JSON ao corpo da requisição
+    RESTRequest.Body.Add(JSONObj.ToString, TRESTContentType.ctAPPLICATION_JSON);
 
-    // Fazendo a requisição POST
-    Response := HTTP.Post('http://'+ipApi+'/CadMesas', Body);
+    // Realizando a requisição
+    RESTRequest.Execute;
 
-    // Exibindo a resposta
-    Result := Response;
+    // Capturando a resposta
+    Result := RESTResponse.Content;
 
   finally
-    HTTP.Free;
-    SSL.Free;
-    Body.Free;
+    RESTClient.Free;
     JSONObj.Free;
   end;
-
 end;
+
+
+
 
 function TApi.PostAltMesas(const id, usuario: string; const defeito, ativo, capacidade: integer): string;
 var
@@ -166,9 +173,6 @@ begin
     JSONObj.Free;
   end;
 end;
-
-
-
 
 end.
 
