@@ -69,3 +69,5 @@ __recovery/
 modules/
 Win32/
 Android/
+_Bradomo/Win64/Debug/Bradomo.exe
+_Bradomo/Win64/Debug/Bradomo.rsm
