@@ -60,9 +60,6 @@
 # Delphi history and backups
 __history/
 __recovery/
-_history
-Win32
-Win64
 *.~*
 
 # Castalia statistics file (since XE7 Castalia is distributed with Delphi)
@@ -70,3 +67,5 @@ Win64
 
 # Boss dependency manager vendor folder https://github.com/HashLoad/boss
 modules/
+Win32/
+Android/
