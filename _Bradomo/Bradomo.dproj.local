@@ -37,10 +37,14 @@
     <Transaction>2024/03/09 22:30:36.000.473,E:\_Bradomo\bradomo\_Bradomo\_frames\fmAnimationLoading.fmx=E:\_Bradomo\bradomo\_Bradomo\Unit1.fmx</Transaction>
     <Transaction>2024/03/09 22:30:36.000.473,E:\_Bradomo\bradomo\_Bradomo\_frames\fmAnimationLoading.pas=E:\_Bradomo\bradomo\_Bradomo\Unit1.pas</Transaction>
     <Transaction>2024/03/10 15:57:51.000.349,=E:\_Bradomo\bradomo\_Bradomo\Unit1.pas</Transaction>
-    <Transaction>2024/03/10 15:58:48.000.011,E:\_Bradomo\bradomo\_Bradomo\Unit1.fmx=E:\_Bradomo\bradomo\_Bradomo\_frames\fmMensagem.fmx</Transaction>
     <Transaction>2024/03/10 15:58:48.000.011,E:\_Bradomo\bradomo\_Bradomo\Unit1.pas=E:\_Bradomo\bradomo\_Bradomo\_frames\fmMensagem.pas</Transaction>
+    <Transaction>2024/03/10 15:58:48.000.011,E:\_Bradomo\bradomo\_Bradomo\Unit1.fmx=E:\_Bradomo\bradomo\_Bradomo\_frames\fmMensagem.fmx</Transaction>
     <Transaction>2024/03/16 17:35:07.000.326,=E:\_Bradomo\bradomo\_Bradomo\Unit1.pas</Transaction>
-    <Transaction>2024/03/16 17:35:49.000.316,E:\_Bradomo\bradomo\_Bradomo\Unit1.pas=E:\_Bradomo\bradomo\_Bradomo\_base\unCadastroDeMesa.pas</Transaction>
     <Transaction>2024/03/16 17:35:49.000.316,E:\_Bradomo\bradomo\_Bradomo\Unit1.fmx=E:\_Bradomo\bradomo\_Bradomo\_base\unCadastroDeMesa.fmx</Transaction>
+    <Transaction>2024/03/16 17:35:49.000.316,E:\_Bradomo\bradomo\_Bradomo\Unit1.pas=E:\_Bradomo\bradomo\_Bradomo\_base\unCadastroDeMesa.pas</Transaction>
+    <Transaction>2024/03/23 21:18:21.000.167,=E:\_Bradomo\bradomo\_Bradomo\Unit1.pas</Transaction>
   </Transactions>
+	<ActiveMobileDevice>
+		<NoProfile Android="" Android64=""/>
+	</ActiveMobileDevice>
 </BorlandProject>

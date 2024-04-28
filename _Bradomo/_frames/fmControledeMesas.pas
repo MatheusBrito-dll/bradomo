@@ -81,6 +81,7 @@ var
   JSONObject    : TJSONObject;
   JSONArray     : TJSONArray;
 begin
+{
   if (Pos('Erro', DadosMesa) > 0) then
   begin
     //
@@ -88,7 +89,7 @@ begin
   begin
     //
   end;
+  }
 end;
-
 
 end.

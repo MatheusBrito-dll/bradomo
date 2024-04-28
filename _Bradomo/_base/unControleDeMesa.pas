@@ -360,10 +360,10 @@ var
 begin
   if (Pos('Erro', DadosMesa) > 0) then
   begin
-      //ShowMessage(DadosMesaInsert);
+    ShowMessage(DadosMesaInsert);
   end else
   begin
-    //ShowMessage(DadosMesaInsert);
+    ShowMessage(DadosMesaInsert);
   end;
 end;
 

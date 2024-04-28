@@ -17,7 +17,7 @@ object FrameMensagem: TFrameMensagem
       Size.Height = 125.000000000000000000
       Size.PlatformDefault = False
       Stroke.Kind = None
-      object Rectangle1: TRectangle
+      object recTitulo: TRectangle
         Align = Top
         Fill.Color = xFF5BAAF3
         HitTest = False
@@ -25,7 +25,7 @@ object FrameMensagem: TFrameMensagem
         Size.Height = 33.000000000000000000
         Size.PlatformDefault = False
         Stroke.Kind = None
-        object Label1: TLabel
+        object lblTitulo: TLabel
           Align = Client
           StyledSettings = [Family, Size]
           Size.Width = 500.000000000000000000
@@ -38,7 +38,7 @@ object FrameMensagem: TFrameMensagem
           TabOrder = 0
         end
       end
-      object Rectangle2: TRectangle
+      object recBordaCorpo: TRectangle
         Align = Client
         Fill.Color = claWhite
         HitTest = False
@@ -46,7 +46,7 @@ object FrameMensagem: TFrameMensagem
         Size.Height = 92.000000000000000000
         Size.PlatformDefault = False
         Stroke.Color = xFF5BAAF3
-        object Rectangle3: TRectangle
+        object recOk: TRectangle
           Align = Bottom
           Fill.Color = xFF5BAAF3
           Margins.Left = 200.000000000000000000
@@ -60,7 +60,7 @@ object FrameMensagem: TFrameMensagem
           Stroke.Kind = None
           XRadius = 8.000000000000000000
           YRadius = 8.000000000000000000
-          OnClick = Rectangle3Click
+          OnClick = recOkClick
           object Label3: TLabel
             Align = Client
             StyledSettings = [Family, Size]

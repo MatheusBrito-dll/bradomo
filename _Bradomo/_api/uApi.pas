@@ -102,6 +102,10 @@ begin
     BasicAuth.Password := '@B@str1ll0n@adminMaster@bradomo@sis';
     RESTClient.Authenticator := BasicAuth;
 
+    // Associa os componentes
+    RESTRequest.Client := RESTClient;
+    RESTRequest.Response := RESTResponse;
+
     // Criando o objeto JSON e adicionando os pares de valores
     JSONObj := TJSONObject.Create;
     JSONObj.AddPair('NUMERO', TJSONNumber.Create(numero));
@@ -116,19 +120,19 @@ begin
     RESTRequest.Body.Add(JSONObj.ToString, TRESTContentType.ctAPPLICATION_JSON);
 
     // Realizando a requisição
-    RESTRequest.Execute;
-
-    // Capturando a resposta
-    Result := RESTResponse.Content;
+    try
+       RESTRequest.Execute;
+    except
+      // Capturando a resposta
+      Result := RESTResponse.Content;
+    end;
 
   finally
+    Result := RESTResponse.Content;
     RESTClient.Free;
     JSONObj.Free;
   end;
 end;
-
-
-
 
 function TApi.PostAltMesas(const id, usuario: string; const defeito, ativo, capacidade: integer): string;
 var

@@ -11,14 +11,14 @@ uses
 type
   TFrameMensagem = class(TFrame)
     recPrincipal2: TRectangle;
-    Rectangle1: TRectangle;
-    Rectangle2: TRectangle;
-    Label1: TLabel;
-    Rectangle3: TRectangle;
+    recTitulo: TRectangle;
+    recBordaCorpo: TRectangle;
+    lblTitulo: TLabel;
+    recOk: TRectangle;
     lblAviso: TLabel;
     Label3: TLabel;
     recPrincipal: TRectangle;
-    procedure Rectangle3Click(Sender: TObject);
+    procedure recOkClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -29,7 +29,7 @@ implementation
 
 {$R *.fmx}
 
-procedure TFrameMensagem.Rectangle3Click(Sender: TObject);
+procedure TFrameMensagem.recOkClick(Sender: TObject);
 begin
   FreeAndNil(self);
 end;

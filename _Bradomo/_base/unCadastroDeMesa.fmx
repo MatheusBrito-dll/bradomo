@@ -41,6 +41,7 @@ object frmCadastroDeMesa: TfrmCadastroDeMesa
       StyleLookup = 'SpinBox1Style1'
       TabOrder = 4
       Cursor = crIBeam
+      Max = 1000.000000000000000000
       Position.X = 160.000000000000000000
       Position.Y = 52.000000000000000000
       Size.Width = 145.000000000000000000

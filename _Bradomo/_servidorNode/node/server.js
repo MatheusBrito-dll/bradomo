@@ -197,14 +197,14 @@ app.post('/CadMesas', authenticate, (req, res) => {
   // Verifica se o número da mesa já existe
   connection.query('SELECT COUNT(*) AS count FROM rs_mesa WHERE NUMERO = ?', [novaMesa.NUMERO], (error, results, fields) => {
       if (error) {
-          console.error('Erro ao verificar número da mesa:', error);
-          res.status(500).send('Erro ao verificar número da mesa');
+          console.error('Ops! Erro ao verificar número da mesa:', error);
+          res.status(500).send('Ops! Erro ao verificar número da mesa');
           return;
       }
 
       // Se o número da mesa já existe, retorna uma mensagem de erro
       if (results[0].count > 0) {
-          res.status(400).json({ error: 'O número da mesa já está cadastrado.' });
+          res.status(400).json({ error: 'Ops! O número da mesa já está cadastrado.' });
           return;
       }
 
@@ -217,8 +217,8 @@ app.post('/CadMesas', authenticate, (req, res) => {
           [novoId, novaMesa.NUMERO, novaMesa.CAPACIDADE, novaMesa.STATUS || 0, novaMesa.LOCAL, novaMesa.DEFEITO || 0, novaMesa.ATIVO ? 1 : 0, novaMesa.USR_ALT, novaMesa.USR_CAD, 0, "CADASTRADA"], 
           (error, results, fields) => {
               if (error) {
-                  console.error('Erro ao cadastrar nova mesa:', error);
-                  res.status(500).send('Erro ao cadastrar nova mesa');
+                  console.error('Ops! Erro ao cadastrar nova mesa:', error);
+                  res.status(500).send('Ops! Erro ao cadastrar nova mesa');
                   return;
               }
               console.log('Nova mesa cadastrada com sucesso:', novoId);
@@ -226,9 +226,6 @@ app.post('/CadMesas', authenticate, (req, res) => {
           });
   });
 });
-
-
-
 
 // Função para gerar um ID único para a mesa
 function generateUniqueId() {
