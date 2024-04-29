@@ -13,7 +13,11 @@ uses
   fmAnimationLoading,
   fmMensagem,
   unCadastroDeMesa,
-  FMX.Edit;
+  FMX.Edit,
+  FMX.ScrollBox,
+  System.UIConsts,
+  FMX.InertialMovement,
+  System.IOUtils, FMX.ComboEdit;
 type
   TfrmControleDeMesa = class(TForm)
     recPrincipal: TRectangle;
@@ -40,6 +44,13 @@ type
     recBuscar: TRectangle;
     edtBusca: TEdit;
     recTopo: TRectangle;
+    imgBuscaExataNao: TImage;
+    lblBuscaExata: TLabel;
+    recBuscaExata: TRectangle;
+    Rectangle2: TRectangle;
+    imgBuscaExataSim: TImage;
+    Image4: TImage;
+    recFiltro: TRectangle;
     procedure FloatAnimation1Finish(Sender: TObject);
     procedure recGerenciarMesasMouseEnter(Sender: TObject);
     procedure recGerenciarMesasMouseLeave(Sender: TObject);
@@ -58,10 +69,15 @@ type
     procedure recAdicionarMesaClick(Sender: TObject);
     procedure edtBuscaKeyDown(Sender: TObject; var Key: Word; var KeyChar: Char;
       Shift: TShiftState);
+    procedure recBuscaExataClick(Sender: TObject);
+    procedure recFiltroMouseEnter(Sender: TObject);
+    procedure recFiltroMouseLeave(Sender: TObject);
   private
 
       DadosMesa : String;
       DadosMesaInsert : String;
+
+      isBuscaExata : Boolean;
 
       frameLoading : TFrameLoading;
       frameMensage : TFrameMensagem;
@@ -69,6 +85,7 @@ type
 
     procedure ClickMore2(Sender: TObject);
     procedure BuscaMesa(ehBusca: Boolean = False);
+    procedure SoftScroll(AScroll: TFmxObject);
 
     { Private declarations }
   public
@@ -83,6 +100,7 @@ implementation
 
 {$R *.fmx}
 
+
 procedure TfrmControleDeMesa.FormCreate(Sender: TObject);
 begin
   recGerenciarMesas.Width   := 0;
@@ -95,6 +113,10 @@ begin
   FloatAnimation1.Start;
 
   Continua := True;
+
+  SoftScroll(VertScrollBox1);
+
+  isBuscaExata := False;
 
 end;
 
@@ -171,6 +193,35 @@ begin
   recAdicionarMesa.Fill.Color := TAlphaColor($FF017CA9);
   FloatAnimation3.Inverse := True;
   FloatAnimation3.Start;
+end;
+
+procedure TfrmControleDeMesa.recBuscaExataClick(Sender: TObject);
+begin
+
+  If isBuscaExata then
+  begin
+    lblBuscaExata.FontColor  :=  TAlphaColor($FFA4A4A4);
+    imgBuscaExataNao.Visible := True;
+    imgBuscaExataSim.Visible := False;
+    isBuscaExata := False;
+  end else
+  begin
+    lblBuscaExata.FontColor  := TAlphaColor($FF89CF5E);
+    imgBuscaExataNao.Visible := False;
+    imgBuscaExataSim.Visible := True;
+    isBuscaExata := True;
+  end;
+
+end;
+
+procedure TfrmControleDeMesa.recFiltroMouseEnter(Sender: TObject);
+begin
+  recFiltro.Fill.Color := $FF616161;
+end;
+
+procedure TfrmControleDeMesa.recFiltroMouseLeave(Sender: TObject);
+begin
+  recFiltro.Fill.Color := $FFA4A4A4;
 end;
 
 procedure TfrmControleDeMesa.recGerenciarMesasClick(Sender: TObject);
@@ -418,16 +469,31 @@ begin
 
     if ehBusca then
     begin
-      if (Pos(edtBusca.Text, frame.lblNumeroMesa.Text) > 0) then
-        Mostra := True
-      else if (Pos(LowerCase(edtBusca.Text), LowerCase(RemoverAcentos(frame.lblLocal.Text))) > 0) then
-        Mostra := True
-      else
-        Mostra := False;
+      if not isBuscaExata then
+      begin
+        if (Pos(edtBusca.Text, frame.lblNumeroMesa.Text) > 0) or (trim(edtBusca.Text) = '') then
+          Mostra := True
+        else if (Pos(LowerCase(edtBusca.Text), LowerCase(RemoverAcentos(frame.lblLocal.Text))) > 0) then
+          Mostra := True
+        else
+          Mostra := False;
 
-      if Mostra then
-        VertScrollBox1.AddObject(frame);
-   end else
+        if Mostra then
+          VertScrollBox1.AddObject(frame);
+      end else
+      begin
+        if (trim(edtBusca.Text) =  trim(frame.lblNumeroMesa.Text)) or (trim(edtBusca.Text) = '') then
+          Mostra := True
+        else if (trim(LowerCase('Local: ' + edtBusca.Text)) = trim(LowerCase(RemoverAcentos(frame.lblLocal.Text)))) then
+          Mostra := True
+        else
+          Mostra := False;
+
+        if Mostra then
+          VertScrollBox1.AddObject(frame);
+      end;
+
+    end else
      VertScrollBox1.AddObject(frame);
 
   end;
@@ -486,6 +552,34 @@ begin
   FloatAnimation2.Inverse := True;
   FloatAnimation2.Start;
 end;
+
+procedure TfrmControleDeMesa.SoftScroll(AScroll: TFmxObject);
+var
+  AniCalculations: TAniCalculations;
+begin
+  AniCalculations := TAniCalculations.Create(nil);
+  try
+    AniCalculations.Animation := True;
+    AniCalculations.BoundsAnimation := True;
+    AniCalculations.Averaging := True;
+    AniCalculations.DecelerationRate := 0.5;
+    AniCalculations.Elasticity := 50;
+
+    if AScroll is TVertScrollBox then
+    begin
+      TVertScrollBox(AScroll).AniCalculations.Assign(AniCalculations);
+      TVertScrollBox(AScroll).ShowScrollBars := True; // Torna as barras de rolagem visíveis
+    end
+    else if AScroll is THorzScrollBox then
+    begin
+      THorzScrollBox(AScroll).AniCalculations.Assign(AniCalculations);
+      THorzScrollBox(AScroll).ShowScrollBars := True; // Torna as barras de rolagem visíveis
+    end;
+  finally
+    AniCalculations.DisposeOf;
+  end;
+end;
+
 
 end.
 
