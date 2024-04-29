@@ -7,8 +7,13 @@ uses
   FMX.Types, FMX.Controls, FMX.Forms, FMX.Graphics, FMX.Dialogs, FMX.Objects,
   FMX.Ani, FMX.Controls.Presentation, FMX.StdCtrls, FMX.Layouts, FMX.ListBox,
   System.JSON,
-  fmControleDeMesas, uApi, unGLobal, fmAnimationLoading, fmMensagem,
-  unCadastroDeMesa;
+  fmControleDeMesas,
+  uApi,
+  unGLobal,
+  fmAnimationLoading,
+  fmMensagem,
+  unCadastroDeMesa,
+  FMX.Edit;
 type
   TfrmControleDeMesa = class(TForm)
     recPrincipal: TRectangle;
@@ -31,6 +36,10 @@ type
     FloatAnimation3: TFloatAnimation;
     Label5: TLabel;
     Label6: TLabel;
+    imgBusca: TImage;
+    recBuscar: TRectangle;
+    edtBusca: TEdit;
+    recTopo: TRectangle;
     procedure FloatAnimation1Finish(Sender: TObject);
     procedure recGerenciarMesasMouseEnter(Sender: TObject);
     procedure recGerenciarMesasMouseLeave(Sender: TObject);
@@ -47,6 +56,8 @@ type
     procedure recAdicionarMesaMouseLeave(Sender: TObject);
     procedure FloatAnimation3Finish(Sender: TObject);
     procedure recAdicionarMesaClick(Sender: TObject);
+    procedure edtBuscaKeyDown(Sender: TObject; var Key: Word; var KeyChar: Char;
+      Shift: TShiftState);
   private
 
       DadosMesa : String;
@@ -57,6 +68,7 @@ type
       frmCadastroDeMesa : TfrmCadastroDeMesa;
 
     procedure ClickMore2(Sender: TObject);
+    procedure BuscaMesa(ehBusca: Boolean = False);
 
     { Private declarations }
   public
@@ -84,6 +96,17 @@ begin
 
   Continua := True;
 
+end;
+
+procedure TfrmControleDeMesa.edtBuscaKeyDown(Sender: TObject; var Key: Word;
+  var KeyChar: Char; Shift: TShiftState);
+begin
+  if Key = 13 then
+  begin
+      Case VertScrollBox1.Tag of
+        0 : BuscaMesa(True);
+    end;
+  end;
 end;
 
 procedure TfrmControleDeMesa.FloatAnimation1Finish(Sender: TObject);
@@ -126,6 +149,9 @@ end;
 
 procedure TfrmControleDeMesa.recAdicionarMesaClick(Sender: TObject);
 begin
+  VertScrollBox1.Tag := 2;
+  edtBusca.Enabled := False;
+
   LimparScrollBox(VertScrollBox1);
   frmCadastroDeMesa := TfrmCadastroDeMesa.Create(nil);
   frmCadastroDeMesa.recPrincipal.Parent := recPrincipal;
@@ -168,6 +194,7 @@ begin
   //Nvl2 := Nvl1.Parent         as TLayout;
   //Nvl3 := Nvl2.Parent         as TLayout;
   //Nvl4 := Nvl3.Parent         as TForm;
+  VertScrollBox1.Tag := 0;
 
   LimparScrollBox(VertScrollBox1);
 
@@ -188,7 +215,6 @@ begin
   ThreadMesa.OnTerminate := TerminateThreadMesa;
   ThreadMesa.Start;
 end;
-
 
 procedure TfrmControleDeMesa.ClickMore2(Sender: TObject);
 var
@@ -257,96 +283,157 @@ end;
 
 procedure TfrmControleDeMesa.TerminateThreadMesa(Sender: TObject);
 var
-  Status        : String;
-  //item          : TListBoxItem;
-  frame         : TFrameControleDeMesa;
-  JSONValue     : TJSONValue;
-  JSONObject    : TJSONObject;
-  JSONArray     : TJSONArray;
+  frameMensagem : TFrameMensagem;
+  ObjCad        : TJSONObject;
+  Value         : TJSONValue;
 begin
   if Assigned(frameLoading) then
     frameLoading.Free;
 
   if (Pos('Erro', DadosMesa) > 0) then
   begin
-      ShowMessage(DadosMesa);
+    edtBusca.Enabled := False;
+    frameMensagem := TFrameMensagem.Create(nil);
+
+    ObjCad  := TJSONObject.Create();
+    Value   := TJSONValue.Create();
+
+    Value   := TJSONObject.ParseJSONValue(DadosMesa) as TJSONValue;
+    ObjCad  := Value as TJSONObject;
+
+    var msg : String;
+
+    frameMensagem.recBordaCorpo.Stroke.Color := $FFF38F5B;
+    frameMensagem.recOk.Fill.Color           := $FFF38F5B;
+    frameMensagem.recTitulo.Fill.Color       := $FFF38F5B;
+
+    if ObjCad.TryGetValue<string>('error', msg) then
+      frameMensagem.lblAviso.Text := msg
+    else
+      frameMensagem.lblAviso.Text := 'Ops! Erro desconhecido.';
+
+
+    frameMensagem.recPrincipal.Width  := 500;
+    frameMensagem.recPrincipal.Height := 125;
+    frameMensagem.recPrincipal.Parent := recPrincipal;
+
   end else
   begin
-    JSONValue  := TJSONObject.ParseJSONValue(DadosMesa);
-    JSONArray  := JSONValue as TJSONArray;
-    VertScrollBox1.BeginUpdate;
-    for var i := 0 to JSONArray.Count - 1 do
-    begin
-      JSONObject := JSONArray[i] as TJSONObject;
-
-      frame := TFrameControleDeMesa.Create(nil);
-      frame.btnSalvarEditar.OnClick := ClickMore2;
-
-      if JSONObject.GetValue('STATUS').Value = '0' then
-      begin
-        Status := 'Disponível';
-      end else if JSONObject.GetValue('STATUS').Value = '1' then
-      begin
-        Status := 'Reservada';
-        Frame.Glyph1.ImageIndex := 1;
-
-        Frame.lblNumeroMesa.FontColor   := $ff440A4D;
-        Frame.recFundo.Fill.Color       := $FFDBADE2;
-        Frame.btnCancelar.FontColor     := $ff440A4D;
-        Frame.btnExcluir.FontColor      := $ff440A4D;
-        Frame.btnSalvarEditar.FontColor := $ff440A4D;
-        Frame.lblCapacidade.FontColor   := $ff440A4D;
-        Frame.CheckAtivo.FontColor      := $ff440A4D;
-        Frame.CheckDefeito.FontColor    := $ff440A4D;
-
-      end else if JSONObject.GetValue('STATUS').Value = '2' then
-      begin
-        Status := 'Ocupada';
-        Frame.Glyph1.ImageIndex := 2;
-
-        Frame.lblNumeroMesa.FontColor   := $FF00678D;
-        Frame.recFundo.Fill.Color       := $FFA9D1E0;
-        Frame.btnCancelar.FontColor     := $FF00678D;
-        Frame.btnExcluir.FontColor      := $FF00678D;
-        Frame.btnSalvarEditar.FontColor := $FF00678D;
-        Frame.lblCapacidade.FontColor   := $FF00678D;
-        Frame.CheckAtivo.FontColor      := $FF00678D;
-        Frame.CheckDefeito.FontColor    := $FF00678D;
-      end else
-      begin
-        Status := 'Inativa';
-        Frame.Glyph1.ImageIndex := 3;
-
-        Frame.lblNumeroMesa.FontColor   := $ff510F0F;
-        Frame.recFundo.Fill.Color       := $FFEBBEBE;
-        Frame.btnCancelar.FontColor     := $ff510F0F;
-        Frame.btnExcluir.FontColor      := $ff510F0F;
-        Frame.btnSalvarEditar.FontColor := $ff510F0F;
-        Frame.lblCapacidade.FontColor   := $ff510F0F;
-        Frame.CheckAtivo.FontColor      := $ff510F0F;
-        Frame.CheckDefeito.FontColor    := $ff510F0F;
-      end;
-
-      frame.status                 := JSONObject.GetValue('STATUS').Value.ToInteger();
-      frame.idMesa                 := JSONObject.GetValue('ID_MESA').Value;
-      frame.lblNumeroMesa.Text     := JSONObject.GetValue('NUMERO').Value;
-      frame.SpinCapacidade.Value   := JSONObject.GetValue('CAPACIDADE').Value.ToInteger;
-      frame.CheckAtivo.IsChecked   := JSONObject.GetValue('ATIVO').Value.ToBoolean();
-      frame.CheckDefeito.IsChecked := JSONObject.GetValue('DEFEITO').Value.ToBoolean();
-
-       if JSONObject.GetValue('DEFEITO').Value.ToBoolean() then
-        frame.Rectangle1.Fill.Color := $FFF3E88D;
-
-      frame.Height := 100;
-      frame.Position.Y := 999999999;
-      frame.Align     := TAlignLayout.top;
-
-      VertScrollBox1.AddObject(frame);
+    try
+      BuscaMesa(false);
+    finally
+      edtBusca.Enabled := True;
     end;
-    VertScrollBox1.EndUpdate;
   end;
-
 end;
+
+
+procedure TfrmControleDeMesa.BuscaMesa(ehBusca: Boolean);
+var
+  Status        : String;
+  frame         : TFrameControleDeMesa;
+  JSONValue     : TJSONValue;
+  JSONObject    : TJSONObject;
+  JSONArray     : TJSONArray;
+  Mostra        : Boolean;
+begin
+  JSONValue  := TJSONObject.ParseJSONValue(DadosMesa);
+  JSONArray  := JSONValue as TJSONArray;
+
+  if ehBusca then LimparScrollBox(VertScrollBox1);
+
+  VertScrollBox1.BeginUpdate;
+  for var i := 0 to JSONArray.Count - 1 do
+  begin
+    JSONObject := JSONArray[i] as TJSONObject;
+
+    frame := TFrameControleDeMesa.Create(nil);
+    frame.btnSalvarEditar.OnClick := ClickMore2;
+
+    if JSONObject.GetValue('STATUS').Value = '0' then
+    begin
+      Status := 'Disponível';
+    end else if JSONObject.GetValue('STATUS').Value = '1' then
+    begin
+      Status := 'Reservada';
+      Frame.Glyph1.ImageIndex := 1;
+
+      Frame.lblNumeroMesa.FontColor   := $ff440A4D;
+      Frame.recFundo.Fill.Color       := $FFDBADE2;
+      Frame.btnCancelar.FontColor     := $ff440A4D;
+      Frame.btnExcluir.FontColor      := $ff440A4D;
+      Frame.btnSalvarEditar.FontColor := $ff440A4D;
+      Frame.lblCapacidade.FontColor   := $ff440A4D;
+      Frame.CheckAtivo.FontColor      := $ff440A4D;
+      Frame.CheckDefeito.FontColor    := $ff440A4D;
+      Frame.lblLocal.FontColor        := $ff440A4D;
+
+    end else if JSONObject.GetValue('STATUS').Value = '2' then
+    begin
+      Status := 'Ocupada';
+      Frame.Glyph1.ImageIndex := 2;
+
+      Frame.lblNumeroMesa.FontColor   := $FF00678D;
+      Frame.recFundo.Fill.Color       := $FFA9D1E0;
+      Frame.btnCancelar.FontColor     := $FF00678D;
+      Frame.btnExcluir.FontColor      := $FF00678D;
+      Frame.btnSalvarEditar.FontColor := $FF00678D;
+      Frame.lblCapacidade.FontColor   := $FF00678D;
+      Frame.CheckAtivo.FontColor      := $FF00678D;
+      Frame.CheckDefeito.FontColor    := $FF00678D;
+      Frame.lblLocal.FontColor        := $FF00678D;
+    end else
+    begin
+      Status := 'Inativa';
+      Frame.Glyph1.ImageIndex := 3;
+
+      Frame.lblNumeroMesa.FontColor   := $ff510F0F;
+      Frame.recFundo.Fill.Color       := $FFEBBEBE;
+      Frame.btnCancelar.FontColor     := $ff510F0F;
+      Frame.btnExcluir.FontColor      := $ff510F0F;
+      Frame.btnSalvarEditar.FontColor := $ff510F0F;
+      Frame.lblCapacidade.FontColor   := $ff510F0F;
+      Frame.CheckAtivo.FontColor      := $ff510F0F;
+      Frame.CheckDefeito.FontColor    := $ff510F0F;
+      Frame.lblLocal.FontColor   := $ff510F0F;
+    end;
+
+    frame.status                 := JSONObject.GetValue('STATUS').Value.ToInteger();
+    frame.idMesa                 := JSONObject.GetValue('ID_MESA').Value;
+    frame.lblNumeroMesa.Text     := JSONObject.GetValue('NUMERO').Value;
+    frame.SpinCapacidade.Value   := JSONObject.GetValue('CAPACIDADE').Value.ToInteger;
+    frame.CheckAtivo.IsChecked   := JSONObject.GetValue('ATIVO').Value.ToBoolean();
+    frame.CheckDefeito.IsChecked := JSONObject.GetValue('DEFEITO').Value.ToBoolean();
+    frame.lblLocal.Text          := 'Local: ' + JSONObject.GetValue('LOCAL').Value;
+
+     if JSONObject.GetValue('DEFEITO').Value.ToBoolean() then
+      frame.Rectangle1.Fill.Color := $FFF3E88D;
+
+    frame.Height := 110;
+    frame.Position.Y := 999999999;
+    frame.Align     := TAlignLayout.top;
+
+    frame.TextoControle := JSONObject.GetValue('NUMERO').Value;
+    frame.Visible := true;
+
+    if ehBusca then
+    begin
+      if (Pos(edtBusca.Text, frame.lblNumeroMesa.Text) > 0) then
+        Mostra := True
+      else if (Pos(LowerCase(edtBusca.Text), LowerCase(RemoverAcentos(frame.lblLocal.Text))) > 0) then
+        Mostra := True
+      else
+        Mostra := False;
+
+      if Mostra then
+        VertScrollBox1.AddObject(frame);
+   end else
+     VertScrollBox1.AddObject(frame);
+
+  end;
+  VertScrollBox1.EndUpdate;
+end;
+
 
 
 procedure TfrmControleDeMesa.TerminateThreadMesaAlt(Sender: TObject);

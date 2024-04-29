@@ -16,9 +16,6 @@ Coordinates=506,352,100,36
 [FloatAnimation7]
 Coordinates=561,56,108,36
 
-[edtBusca]
-Coordinates=73,146,68,58
-
 [Label4]
 Coordinates=206,10,53,58
 
@@ -63,9 +60,6 @@ Coordinates=707,111,107,36
 
 [Label8]
 Coordinates=143,10,53,58
-
-[imgBusca]
-Coordinates=218,146,71,58
 
 [Label1]
 Coordinates=372,10,53,58
@@ -236,5 +230,5 @@ Coordinates=471,570,72,36
 Coordinates=369,146,60,58
 
 []
-Coordinates=372,570,91,36
+Coordinates=218,146,71,58
 

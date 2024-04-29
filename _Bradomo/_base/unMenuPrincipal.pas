@@ -15,9 +15,7 @@ type
     recAppBar: TRectangle;
     recSideBar: TRectangle;
     recPainelVisu: TRectangle;
-    imgBusca: TImage;
     recBuscar: TRectangle;
-    edtBusca: TEdit;
     Image2: TImage;
     Label1: TLabel;
     imgS: TImageList;

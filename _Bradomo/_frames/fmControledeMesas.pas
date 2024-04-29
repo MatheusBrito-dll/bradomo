@@ -28,12 +28,18 @@ type
     Rectangle6: TRectangle;
     lblCapacidade: TLabel;
     SpinCapacidade: TSpinBox;
+    lblLocal: TLabel;
+    Rectangle2: TRectangle;
     procedure btnSalvarEditarClick(Sender: TObject);
   private
+    FTextoControle: string;
     { Private declarations }
   public
+
     idMesa, DadosMesa : String;
     status : Integer;
+
+    property TextoControle: string read FTextoControle write FTextoControle;
     procedure TerminateThreadMesa(Sender: TObject);
     { Public declarations }
   end;
