@@ -123,6 +123,7 @@ type
     procedure recAHomeClick(Sender: TObject);
 
   private
+
     frmControleDeMesa: TfrmControleDeMesa;
     { Private declarations }
   public

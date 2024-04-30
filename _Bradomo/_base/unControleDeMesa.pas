@@ -51,6 +51,9 @@ type
     imgBuscaExataSim: TImage;
     Image4: TImage;
     recFiltro: TRectangle;
+    recFiltroPrincial: TRectangle;
+    ListBox1: TListBox;
+    AnimationFiltro: TFloatAnimation;
     procedure FloatAnimation1Finish(Sender: TObject);
     procedure recGerenciarMesasMouseEnter(Sender: TObject);
     procedure recGerenciarMesasMouseLeave(Sender: TObject);
@@ -72,20 +75,25 @@ type
     procedure recBuscaExataClick(Sender: TObject);
     procedure recFiltroMouseEnter(Sender: TObject);
     procedure recFiltroMouseLeave(Sender: TObject);
+    procedure recFiltroClick(Sender: TObject);
+    procedure ListBox1Click(Sender: TObject);
+    procedure ListBox1KeyDown(Sender: TObject; var Key: Word; var KeyChar: Char;
+      Shift: TShiftState);
   private
 
-      DadosMesa : String;
-      DadosMesaInsert : String;
+      DadosMesa         : String;
+      DadosMesaInsert   : String;
 
-      isBuscaExata : Boolean;
+      isBuscaExata      : Boolean;
 
-      frameLoading : TFrameLoading;
-      frameMensage : TFrameMensagem;
+      frameLoading      : TFrameLoading;
+      frameMensage      : TFrameMensagem;
       frmCadastroDeMesa : TfrmCadastroDeMesa;
 
     procedure ClickMore2(Sender: TObject);
     procedure BuscaMesa(ehBusca: Boolean = False);
     procedure SoftScroll(AScroll: TFmxObject);
+    procedure CarregaFiltroMesa;
 
     { Private declarations }
   public
@@ -102,7 +110,11 @@ implementation
 
 
 procedure TfrmControleDeMesa.FormCreate(Sender: TObject);
+var
+  largura : double;
+
 begin
+
   recGerenciarMesas.Width   := 0;
   recReservaAndVendas.Width := 0;
   recAdicionarMesa.Width    := 0;
@@ -127,7 +139,7 @@ begin
   begin
       Case VertScrollBox1.Tag of
         0 : BuscaMesa(True);
-    end;
+      end;
   end;
 end;
 
@@ -169,8 +181,40 @@ begin
   end;
 end;
 
+procedure TfrmControleDeMesa.ListBox1Click(Sender: TObject);
+begin
+  edtBusca.Text := ListBox1.Items[ListBox1.ItemIndex];
+  AnimationFiltro.StartValue := ListBox1.Items.Count * 20;;
+  AnimationFiltro.StopValue  := 0;
+  AnimationFiltro.Start;
+
+  Case VertScrollBox1.Tag of
+   0 : BuscaMesa(True);
+  end;
+end;
+
+procedure TfrmControleDeMesa.ListBox1KeyDown(Sender: TObject; var Key: Word;
+  var KeyChar: Char; Shift: TShiftState);
+begin
+
+  if Key = 13 then
+  begin
+    edtBusca.Text := ListBox1.Items[ListBox1.ItemIndex];
+    AnimationFiltro.StartValue := ListBox1.Items.Count * 20;;
+    AnimationFiltro.StopValue  := 0;
+    AnimationFiltro.Start;
+
+    Case VertScrollBox1.Tag of
+     0 : BuscaMesa(True);
+    end;
+  end;
+end;
+
 procedure TfrmControleDeMesa.recAdicionarMesaClick(Sender: TObject);
 begin
+  if Assigned(frmCadastroDeMesa) then
+    frmCadastroDeMesa.Free;
+
   VertScrollBox1.Tag := 2;
   edtBusca.Enabled := False;
 
@@ -214,6 +258,37 @@ begin
 
 end;
 
+procedure TfrmControleDeMesa.recFiltroClick(Sender: TObject);
+begin
+  Case VertScrollBox1.Tag of
+        0 : begin
+              CarregaFiltroMesa;
+              ListBox1.SetFocus;
+            end;
+  end;
+end;
+
+procedure TfrmControleDeMesa.CarregaFiltroMesa;
+begin
+  BuscaMesa;
+
+  if not (recFiltroPrincial.Height > 0) then
+  begin
+    if ListBox1.Items.Count > 0 then
+    begin
+      AnimationFiltro.StartValue := 0;
+      AnimationFiltro.StopValue  := ListBox1.Items.Count * 20;
+      AnimationFiltro.Start;
+      ListBox1.ItemIndex := 0;
+    end;
+  end else
+  begin
+    AnimationFiltro.StartValue := ListBox1.Items.Count * 20;
+    AnimationFiltro.StopValue  := 0;
+    AnimationFiltro.Start;
+  end;
+end;
+
 procedure TfrmControleDeMesa.recFiltroMouseEnter(Sender: TObject);
 begin
   recFiltro.Fill.Color := $FF616161;
@@ -226,6 +301,9 @@ end;
 
 procedure TfrmControleDeMesa.recGerenciarMesasClick(Sender: TObject);
 begin
+
+  if Assigned(frmCadastroDeMesa) then
+    frmCadastroDeMesa.Free;
 
   GetMesas();
 
@@ -381,17 +459,25 @@ end;
 
 procedure TfrmControleDeMesa.BuscaMesa(ehBusca: Boolean);
 var
-  Status        : String;
-  frame         : TFrameControleDeMesa;
-  JSONValue     : TJSONValue;
-  JSONObject    : TJSONObject;
-  JSONArray     : TJSONArray;
-  Mostra        : Boolean;
+  Status           : String;
+  frame            : TFrameControleDeMesa;
+  JSONValue        : TJSONValue;
+  JSONObject       : TJSONObject;
+  JSONArray        : TJSONArray;
+  Mostra           : Boolean;
+  local            : string;
+  localJaAdicionado: Boolean;
 begin
   JSONValue  := TJSONObject.ParseJSONValue(DadosMesa);
   JSONArray  := JSONValue as TJSONArray;
 
-  if ehBusca then LimparScrollBox(VertScrollBox1);
+  if ehBusca then
+  begin
+    LimparScrollBox(VertScrollBox1);
+  end else
+  begin
+    ListBox1.Clear;
+  end;
 
   VertScrollBox1.BeginUpdate;
   for var i := 0 to JSONArray.Count - 1 do
@@ -457,6 +543,31 @@ begin
     frame.CheckDefeito.IsChecked := JSONObject.GetValue('DEFEITO').Value.ToBoolean();
     frame.lblLocal.Text          := 'Local: ' + JSONObject.GetValue('LOCAL').Value;
 
+    if not ehBusca then
+    begin
+
+      local := JSONObject.GetValue('LOCAL').Value;
+      localJaAdicionado := False;
+
+      // Verifica se o local já foi adicionado na ListBox
+      for var x := 0 to ListBox1.Items.Count - 1 do
+      begin
+        if ListBox1.Items[x] = local then
+        begin
+          localJaAdicionado := True;
+          Break;
+        end;
+      end;
+
+      // Se o local não foi adicionado ainda, adiciona à ListBox
+      if not localJaAdicionado then
+      begin
+        ListBox1.Items.Add(local);
+        ListBox1.ItemHeight := 20;
+      end;
+
+    end;
+
      if JSONObject.GetValue('DEFEITO').Value.ToBoolean() then
       frame.Rectangle1.Fill.Color := $FFF3E88D;
 
@@ -475,6 +586,8 @@ begin
           Mostra := True
         else if (Pos(LowerCase(edtBusca.Text), LowerCase(RemoverAcentos(frame.lblLocal.Text))) > 0) then
           Mostra := True
+        else if (trim(LowerCase('Local: ' + edtBusca.Text)) = trim(LowerCase(frame.lblLocal.Text))) then
+          Mostra := True
         else
           Mostra := False;
 
@@ -485,6 +598,8 @@ begin
         if (trim(edtBusca.Text) =  trim(frame.lblNumeroMesa.Text)) or (trim(edtBusca.Text) = '') then
           Mostra := True
         else if (trim(LowerCase('Local: ' + edtBusca.Text)) = trim(LowerCase(RemoverAcentos(frame.lblLocal.Text)))) then
+          Mostra := True
+        else if (trim(LowerCase('Local: ' + edtBusca.Text)) = trim(LowerCase(frame.lblLocal.Text))) then
           Mostra := True
         else
           Mostra := False;
@@ -499,7 +614,6 @@ begin
   end;
   VertScrollBox1.EndUpdate;
 end;
-
 
 
 procedure TfrmControleDeMesa.TerminateThreadMesaAlt(Sender: TObject);
