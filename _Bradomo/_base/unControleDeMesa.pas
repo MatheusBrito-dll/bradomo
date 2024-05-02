@@ -301,12 +301,8 @@ end;
 
 procedure TfrmControleDeMesa.recGerenciarMesasClick(Sender: TObject);
 begin
-
-  if Assigned(frmCadastroDeMesa) then
-    frmCadastroDeMesa.Free;
-
+  if Assigned(frmCadastroDeMesa) then frmCadastroDeMesa.Free;
   GetMesas();
-
 end;
 
 procedure TfrmControleDeMesa.GetMesas;
@@ -345,6 +341,13 @@ begin
   ThreadMesa.Start;
 end;
 
+
+{
+================================
+EDITAR E SALVAR FRAME MESA CLICK
+================================
+}
+
 procedure TfrmControleDeMesa.ClickMore2(Sender: TObject);
 var
   frame : TFrameControleDeMesa;
@@ -358,12 +361,11 @@ var
 
 begin
   //PEGANDO O FRAME CLICADO
-  btn   := Sender as TSpeedButton;
+  btn := Sender as TSpeedButton;
   rec := btn.Parent as TRectangle;
   rec := rec.Parent as TRectangle;
   rec := rec.Parent as TRectangle;
   //PEGANDO O FRAME CLICADO
-
 
   Frame := rec.Parent as TFrameControleDeMesa;
   if (frame.status = 0) or (frame.status = 3) then
@@ -398,7 +400,6 @@ begin
     end else
     begin
       Frame.btnSalvarEditar.Text := 'Editar';
-      GetMesas();
     end;
   end else
   begin
@@ -410,6 +411,11 @@ begin
   end;
 end;
 
+{
+================================================================================
+                    RETORNO TODAS AS MESAS DO RESTAURANTE
+================================================================================
+}
 procedure TfrmControleDeMesa.TerminateThreadMesa(Sender: TObject);
 var
   frameMensagem : TFrameMensagem;
@@ -421,6 +427,8 @@ begin
 
   if (Pos('Erro', DadosMesa) > 0) then
   begin
+    //Se houve erro na requisição eu verifico aqui, se não eu chamo a procedure
+    //para preencher as verScrollBox com as mesas
     edtBusca.Enabled := False;
     frameMensagem := TFrameMensagem.Create(nil);
 
@@ -456,7 +464,11 @@ begin
   end;
 end;
 
-
+{
+================================================================================
+           ALIMENTA O VERSCROLLBOX DE FATO COM AS MESA SOLICITADAS
+================================================================================
+}
 procedure TfrmControleDeMesa.BuscaMesa(ehBusca: Boolean);
 var
   Status           : String;
@@ -624,13 +636,16 @@ var
   JSONValue     : TJSONValue;
   JSONObject    : TJSONObject;
   JSONArray     : TJSONArray;
+  frameMensagem : TFrameMensagem;
 begin
   if (Pos('Erro', DadosMesa) > 0) then
   begin
-    ShowMessage(DadosMesaInsert);
+   MessageDlg('Erro ao alterar dados!', TMsgDlgType.mtCustom, [TMsgDlgBtn.mbOK], 0);
+   LimparScrollBox(VertScrollBox1);
   end else
   begin
-    ShowMessage(DadosMesaInsert);
+    MessageDlg('Dados alterados com sucesso!', TMsgDlgType.mtInformation, [TMsgDlgBtn.mbOK], 0);
+    GetMesas();
   end;
 end;
 

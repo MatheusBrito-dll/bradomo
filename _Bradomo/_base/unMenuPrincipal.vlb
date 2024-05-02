@@ -109,9 +109,6 @@ Coordinates=861,1,115,36
 [Image3]
 Coordinates=510,10,57,58
 
-[btnAjuda]
-Coordinates=435,10,65,58
-
 [FloatAnimation3]
 Coordinates=861,56,108,36
 
@@ -231,4 +228,7 @@ Coordinates=369,146,60,58
 
 []
 Coordinates=218,146,71,58
+
+[btnSair]
+Coordinates=435,10,65,58
 

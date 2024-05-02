@@ -138,7 +138,7 @@ app.get('/getMesas', authenticate, (req, res) => {
     const sql = `SELECT * FROM rs_mesa ORDER BY NUMERO`;  
     connection.query(sql, (err, results) => {
       if (err) {
-        console.error('Erro ao executar a consulta!! -> ', err);
+        console.error('Ops! Erro ao executar a consulta!! -> ', err);
         res.status(500).send('Erro interno do servidor!!');
         return;
       }

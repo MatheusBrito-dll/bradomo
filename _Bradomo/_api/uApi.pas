@@ -165,11 +165,15 @@ begin
     // Convertendo o objeto JSON para uma string e escrevendo no stream
     Body.WriteString(JSONObj.ToString);
 
-    // Fazendo a requisição POST
-    Response := HTTP.Post('http://' + ipApi + '/PostAltMesas', Body);
 
-    // Exibindo a resposta
-    Result := Response;
+    try
+      // Fazendo a requisição POST
+      Response := HTTP.Post('http://' + ipApi + '/PostAltMesas', Body);
+      Result := Response;
+    except
+      // Capturando a resposta
+      Result := 'Error';
+    end;
 
   finally
     HTTP.Free;

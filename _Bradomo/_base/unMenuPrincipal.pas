@@ -29,7 +29,7 @@ type
     btnConfiguracao: TSpeedButton;
     btnPrivacidade: TSpeedButton;
     btnAssinatura: TSpeedButton;
-    btnAjuda: TSpeedButton;
+    btnSair: TSpeedButton;
     anmConfiguracao: TFloatAnimation;
     anmPrivacidade: TFloatAnimation;
     anmAssinatura: TFloatAnimation;
@@ -121,6 +121,7 @@ type
     procedure btnMesasMouseLeave(Sender: TObject);
     procedure btnMesasClick(Sender: TObject);
     procedure recAHomeClick(Sender: TObject);
+    procedure btnSairClick(Sender: TObject);
 
   private
 
@@ -169,7 +170,7 @@ begin
   btnConfiguracao .Height := 0;
   btnPrivacidade  .Height := 0;
   btnAssinatura   .Height := 0;
-  btnAjuda        .Height := 0;
+  btnSair         .Height := 0;
 
   FloatAnimation1 .Duration := 0.5;
   FloatAnimation2 .Duration := 0.5;
@@ -240,6 +241,11 @@ begin
   btnSaidas.Fill.Color := TAlphaColor($FF017CA9);
   FloatAnimation3.Inverse := True;
   FloatAnimation3.Start;
+end;
+
+procedure TfrmMenuPrincipal.btnSairClick(Sender: TObject);
+begin
+  Application.Terminate;
 end;
 
 procedure TfrmMenuPrincipal.btnDescontosMouseEnter(Sender: TObject);
