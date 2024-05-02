@@ -324,6 +324,7 @@
             <Form>frmCadastroDeMesa</Form>
             <FormType>fmx</FormType>
         </DCCReference>
+        <DCCReference Include="_base\unMin.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

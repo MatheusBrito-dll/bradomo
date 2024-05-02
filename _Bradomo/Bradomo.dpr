@@ -29,7 +29,8 @@ uses
   unLogin in 'unLogin.pas' {frmLogin},
   fmAnimationLoading in '_frames\fmAnimationLoading.pas' {FrameLoading: TFrame},
   fmMensagem in '_frames\fmMensagem.pas' {FrameMensagem: TFrame},
-  unCadastroDeMesa in '_base\unCadastroDeMesa.pas' {frmCadastroDeMesa};
+  unCadastroDeMesa in '_base\unCadastroDeMesa.pas' {frmCadastroDeMesa},
+  unMin in '_base\unMin.pas';
 
 {$R *.res}
 begin
