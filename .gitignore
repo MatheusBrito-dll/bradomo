@@ -60,6 +60,12 @@
 # Delphi history and backups
 __history/
 __recovery/
+Bolsa/
+CorretorDeMovimentos/
+CPIntegra - Copia/
+CPIntegra_Lobo/
+SrvDispo/
+.svn/
 *.~*
 
 # Castalia statistics file (since XE7 Castalia is distributed with Delphi)
@@ -67,48 +73,19 @@ __recovery/
 
 # Boss dependency manager vendor folder https://github.com/HashLoad/boss
 modules/
-Win32/
-Android/
-_Bradomo/Win64/Debug/Bradomo.exe
-_Bradomo/Win64/Debug/Bradomo.rsm
-_Bradomo/Win64/Debug/Bradomo.exe
-_Bradomo/Win64/Debug/Bradomo.exe
-_Bradomo/Win64/Debug/unControleDeMesa.dcu
-_Bradomo/Win64/Debug/Bradomo.rsm
-_Bradomo/Win64/Debug/unMenuPrincipal.dcu
-_Bradomo/Win64/Debug/Bradomo.exe
-_Bradomo/Win64/Debug/Bradomo.rsm
-_Bradomo/Win64/Debug/fmControledeMesas.dcu
-_Bradomo/Win64/Debug/unControleDeMesa.dcu
-_Bradomo/Win64/Debug/unGlobal.dcu
-_Bradomo/Win64/Debug/unLogin.dcu
-_Bradomo/Win64/Debug/unMenuPrincipal.dcu
-_Bradomo/Win64/Debug/Bradomo.exe
-_Bradomo/Win64/Debug/Bradomo.exe
-_Bradomo/Win64/Debug/Bradomo.exe
-_Bradomo/Win64/Debug/Bradomo.exe
-_Bradomo/Win64/Debug/Bradomo.rsm
-_Bradomo/Win64/Debug/fmAnimationLoading.dcu
-_Bradomo/Win64/Debug/fmAnimationLoading.dcu
-_Bradomo/Win64/Debug/fmControledeMesas.dcu
-_Bradomo/Win64/Debug/fmMensagem.dcu
-_Bradomo/Win64/Debug/fmMesaReservada.dcu
-_Bradomo/Win64/Debug/uApi.dcu
-_Bradomo/Win64/Debug/unControleDeMesa.dcu
-_Bradomo/Win64/Debug/unDMMySql.dcu
-_Bradomo/Win64/Debug/unGerenciarMesas.dcu
-_Bradomo/Win64/Debug/unGlobal.dcu
-_Bradomo/Win64/Debug/unLogin.dcu
-_Bradomo/Win64/Debug/unMD5.dcu
-_Bradomo/Win64/Debug/unMenuPrincipal.dcu
-_Bradomo/Bradomo.dproj.local
-_Bradomo/Bradomo.dproj.local
-_Bradomo/Win64/Debug/Bradomo.rsm
-_Bradomo/Win64/Debug/fmControledeMesas.dcu
-_Bradomo/Win64/Debug/Bradomo.rsm
-_Bradomo/Win64/Debug/fmMensagem.dcu
-_Bradomo/Win64/Debug/uApi.dcu
-_Bradomo/Win64/Debug/unControleDeMesa.dcu
-_Bradomo/Win64/Debug/unGlobal.dcu
-_Bradomo/Win64/Debug/unLogin.dcu
-_Bradomo/Win64/Debug/unMenuPrincipal.dcu
+CPIntegra/~$ListaDeErros.xlsx
+CPIntegra/ListaDeErros.xlsx
+CPIntegra/~$ListaDeErros.xlsx
+*.dproj
+*.dpr
+*.dproj
+CPIntegra/CPIntegra.res
+*.skincfg
+CPIntegraMaster.res
+
+
+SavMobile/Win*
+*.dproj
+*.res
+*.dproj
+CPIntegraMaster/CPIntegraMaster.res
