@@ -89,3 +89,10 @@ SavMobile/Win*
 *.res
 *.dproj
 CPIntegraMaster/CPIntegraMaster.res
+_Bradomo/Win64/Debug/unMenuPrincipal.dcu
+/_Bradomo/Win64/Debug
+*.dcu
+*.exe
+*.rsm
+*.identcache
+*.res
