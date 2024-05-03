@@ -1,19 +1,16 @@
-import express       from "express";
-import cors          from "cors";
-import basicAuth     from "basic-auth";
+import express from "express";
+import cors from "cors";
+import basicAuth from "basic-auth";
+import { connectionPool } from "./Config/Con_Db_MySQL_Server.mjs";
 
-import getLogin      from "./Login/getLogin.mjs";
+import getLogin from "./Login/getLogin.mjs";
 import atualizaSenha from "./Login/postAtualizaSenha.mjs";
-import getMesas      from "./Mesas/getMesas.mjs";
-import PostAltMesas  from "./Mesas/postAltMesas.mjs";
-import CadMesa       from "./Mesas/postCadMesa.mjs";
+import getMesas from "./Mesas/getMesas.mjs";
+import PostAltMesas from "./Mesas/postAltMesas.mjs";
+import CadMesa from "./Mesas/postCadMesa.mjs";
 
-import { connectToMySQLServer } from "./Config/Con_Db_MySQL_Server.mjs";
-connectToMySQLServer();
-
-//const basicAuth      = require('basic-auth');
-const app            = express();
-const port           = 3091;
+const app = express();
+const port = 3000;
 
 app.use(express.json());
 app.use(cors());
@@ -28,15 +25,11 @@ const authenticate = (req, res, next) => {
   next();
 };
 
-app.get("/getLogin",       authenticate, getLogin);
-
+app.get("/getLogin", authenticate, getLogin);
 app.post('/atualizaSenha', authenticate, atualizaSenha);
-
-app.get('/getMesas',       authenticate, getMesas);
-
-app.post('/PostAltMesas',  authenticate, PostAltMesas);
-
-app.post('/CadMesas',      authenticate, CadMesa);
+app.get('/getMesas', authenticate, getMesas);
+app.post('/PostAltMesas', authenticate, PostAltMesas);
+app.post('/CadMesas', authenticate, CadMesa);
 
 app.listen(port, () => {
   console.log();
@@ -49,4 +42,4 @@ app.listen(port, () => {
   console.log(`Servidor rodando em http://localhost:${port}`);
 });
 
-export { authenticate };
+export { authenticate, connectionPool };

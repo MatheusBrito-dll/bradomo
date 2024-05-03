@@ -1,7 +1,6 @@
-import { connectToMySQLServer } from "../Config/Con_Db_MySQL_Server.mjs";
+import { connectionPool } from "../Config/Con_Db_MySQL_Server.mjs";
 
 const PostAltMesas = (req, res) => {
-    const connection = connectToMySQLServer();
     const { id, defeito, ativo, capacidade, usuario } = req.body;
   
     let status = 0; // Alteração para utilizar let em vez de const
@@ -21,7 +20,7 @@ const PostAltMesas = (req, res) => {
       status = 3;
     }
   
-    connection.query(updateMesaSQL, [capacidade, defeito, ativo, usuario, status, id], (err, updateResults) => {
+    connectionPool.query(updateMesaSQL, [capacidade, defeito, ativo, usuario, status, id], (err, updateResults) => {
       if (err) {
         console.error('Erro ao executar a atualização da mesa:', err);
         return res.status(500).send('Erro interno do servidor!');

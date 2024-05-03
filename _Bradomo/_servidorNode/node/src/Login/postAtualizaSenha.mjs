@@ -1,7 +1,6 @@
-import { connectToMySQLServer } from "../Config/Con_Db_MySQL_Server.mjs";
+import { connectionPool } from "../Config/Con_Db_MySQL_Server.mjs";
 
 const atualizaSenha = (req, res) => {
-    const connection = connectToMySQLServer();
     const codigoUsuario = req.query.codigoUsuario;
     const userCpf = req.query.userCpf;
     const senhaNova = req.query.senhaNova;
@@ -13,7 +12,7 @@ const atualizaSenha = (req, res) => {
     // Verifica se o usuário existe antes de realizar a atualização
     const checkUserExistsSQL = 'SELECT COUNT(*) AS userCount FROM or_usuario WHERE CODIGO_USUARIO = ? AND CPF = ?';
   
-    connection.query(checkUserExistsSQL, [codigoUsuario, userCpf], (err, results) => {
+    connectionPool.query(checkUserExistsSQL, [codigoUsuario, userCpf], (err, results) => {
       if (err) {
         console.error('Erro ao verificar existência do usuário:', err);
         return res.status(500).send('Erro interno do servidor!');
@@ -28,7 +27,7 @@ const atualizaSenha = (req, res) => {
       // Usando Prepared Statement para a atualização
       const updatePasswordSQL = 'UPDATE or_usuario SET SENHA = ? WHERE CODIGO_USUARIO = ? AND CPF = ?';
   
-      connection.query(updatePasswordSQL, [senhaNova, codigoUsuario, userCpf], (err, updateResults) => {
+      connectionPool.query(updatePasswordSQL, [senhaNova, codigoUsuario, userCpf], (err, updateResults) => {
         if (err) {
           console.error('Erro ao executar a atualização da senha:', err);
           return res.status(500).send('Erro interno do servidor!');
