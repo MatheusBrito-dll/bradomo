@@ -372,7 +372,7 @@ begin
   begin
     if Frame.btnSalvarEditar.Text = 'Salvar' then
     begin
-      ThreadMesa := TThread.CreateAnonymousThread(procedure
+      ThreadMesa:= TThread.CreateAnonymousThread(procedure
       begin
         Api := TApi.Create();
         DadosMesaInsert := Api.PostAltMesas(Frame.idMesa, CodUsuario,
@@ -640,12 +640,14 @@ var
 begin
   if (Pos('Erro', DadosMesa) > 0) then
   begin
-   MessageDlg('Erro ao alterar dados!', TMsgDlgType.mtCustom, [TMsgDlgBtn.mbOK], 0);
+   //MessageDlg('Erro ao alterar dados!', TMsgDlgType.mtCustom, [TMsgDlgBtn.mbOK], 0);
    LimparScrollBox(VertScrollBox1);
+    Application.ProcessMessages;
   end else
   begin
-    MessageDlg('Dados alterados com sucesso!', TMsgDlgType.mtInformation, [TMsgDlgBtn.mbOK], 0);
+    //MessageDlg('Dados alterados com sucesso!', TMsgDlgType.mtInformation, [TMsgDlgBtn.mbOK], 0);
     GetMesas();
+    Application.ProcessMessages;
   end;
 end;
 
